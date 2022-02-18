@@ -1,8 +1,10 @@
 const express = require('express');
 const morgan = require('morgan');
+const path = require('path');
 const nunjucks = require('nunjucks');
 const pageRouter = require('./routes/page');
 const userRouter = require('./routes/user');
+const recruitRouter = require('./routes/recruit');
 const app = express();
 
 app.set('port', process.env.PORT || 8001);
@@ -13,9 +15,11 @@ nunjucks.configure('views', {
 });
 
 app.use(morgan('dev'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', pageRouter);
 app.use('/user', userRouter);
+app.use('/recruit', recruitRouter);
 
 app.use((req, res, next) => {
     const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);

@@ -1,0 +1,150 @@
+{% extends 'common/layout.html' %}
+
+{% block content %}
+<style>
+    .form-group {
+    margin-bottom: 30px;
+}
+</style>
+
+<div class="form-element-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-element-list mg-t-30">
+                    <div class="basic-tb-hd">
+                        <h2>스터디 만들기</h2>
+                        <p>스터디를 만들어 보세요.</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="nk-int-mk sl-dp-mn">
+                                <h2>모집글제목</h2>
+                            </div>
+                            <div class="form-group">
+                                <div class="nk-int-st">
+                                    <input type="text" id="srTitle" class="form-control input-lg" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="nk-int-mk sl-dp-mn">
+                                <h2>스터디명</h2>
+                            </div>
+                            <div class="form-group">
+                                <div class="nk-int-st">
+                                    <input type="text" id="sgName" class="form-control input-lg" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                            <div class="nk-int-mk sl-dp-mn">
+                                <h2>인원</h2>
+                            </div>
+                            <div class="form-group">
+                                <div class="nk-int-st">
+                                    <div class="bootstrap-select fm-cmp-mg">
+                                        <select id="sgCnt" class="selectpicker">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                            <div class="nk-int-mk sl-dp-mn">
+                                <h2>카테고리</h2>
+                            </div>
+                            <div class="form-group">
+                                <div class="nk-int-st">
+                                    <div class="bootstrap-select fm-cmp-mg">
+                                        <select id="sgCategory" class="selectpicker">
+                                            <option value="모각코">모각코</option>
+                                            <option value="알고리즘">알고리즘</option>
+                                            <option value="스터디">스터디</option>
+                                            <option value="CS">CS</option>
+                                            <option value="프로젝트">프로젝트</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                            <div class="nk-int-mk sl-dp-mn sm-res-mg-t-10">
+                                <h2>기술스택</h2>
+                            </div>
+                            <div class="form-group">
+                                <div class="nk-int-st">
+                                    <div class="chosen-select-act fm-cmp-mg">
+                                        <select id="stName" class="chosen" multiple data-placeholder="기술스택">
+                                            <option value="Java">Java</option>
+                                            <option value="JavaScript">JavaScript</option>
+                                            <option value="Python">Python</option>
+                                            <option value="MySQL">MySQL</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="nk-int-mk sl-dp-mn">
+                                <h2>스터디설명</h2>
+                            </div>
+                            <div class="form-group">
+                                <div class="nk-int-st">
+                                    <textarea id="srContent" class="form-control" rows="5" placeholder=""></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-example-int mg-t-15">
+                                <button id="createBtn" class="btn btn-success notika-btn-success">만들기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    // 만들기버튼 클릭시
+    document.getElementById('createBtn').addEventListener('click', (e) => {
+        const srTitle = document.getElementById('srTitle').value;
+        const sgName = document.getElementById('sgName').value;
+        const sgCnt = document.getElementById('sgCnt').value;
+        const sgCategory = document.getElementById('sgCategory').value;
+        const stName = document.getElementById('stName').value;
+        const srContent = document.getElementById('srContent').value;
+        console.log(srTitle, sgName, sgCnt, sgCategory, stName, srContent);
+        // axios.get('/')
+        //     .then((res) => {
+        //         console.log(res);
+        //     })
+        //     .catch((err) => {
+        //         console.error(err);
+        //     });
+    });
+</script>
+{% endblock %}
