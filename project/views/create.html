@@ -131,20 +131,26 @@
 <script>
     // 만들기버튼 클릭시
     document.getElementById('createBtn').addEventListener('click', (e) => {
-        const srTitle = document.getElementById('srTitle').value;
-        const sgName = document.getElementById('sgName').value;
-        const sgCnt = document.getElementById('sgCnt').value;
-        const sgCategory = document.getElementById('sgCategory').value;
-        const stName = document.getElementById('stName').value;
-        const srContent = document.getElementById('srContent').value;
+        const srTitle = document.getElementById('srTitle').value;           // 제목
+        const sgName = document.getElementById('sgName').value;             // 스터디명
+        const sgCnt = document.getElementById('sgCnt').value;               // 인원
+        const sgCategory = document.getElementById('sgCategory').value;     // 카테고리(코드)
+        const stName = document.getElementById('stName').value;             // 기술스택이름(코드)
+        const srContent = document.getElementById('srContent').value;       // 내용
         console.log(srTitle, sgName, sgCnt, sgCategory, stName, srContent);
-        // axios.get('/')
-        //     .then((res) => {
-        //         console.log(res);
-        //     })
-        //     .catch((err) => {
-        //         console.error(err);
-        //     });
+        const study = {
+            srTitle, sgName, sgCnt, sgCategory, stName, srContent
+        };
+        axios.post('/study', {
+            study
+        })
+            .then((res) => {
+                console.log('-----------');
+                console.log(res);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     });
 </script>
 {% endblock %}

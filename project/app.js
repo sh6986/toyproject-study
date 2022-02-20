@@ -1,10 +1,11 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const path = require('path');
 const nunjucks = require('nunjucks');
 const pageRouter = require('./routes/page');
 const userRouter = require('./routes/user');
-const recruitRouter = require('./routes/recruit');
+const studyRouter = require('./routes/study');
 const authRouter = require('./routes/auth');
 const app = express();
 
@@ -17,10 +18,13 @@ nunjucks.configure('views', {
 
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use('/', pageRouter);
 app.use('/user', userRouter);
-app.use('/recruit', recruitRouter);
+app.use('/study', studyRouter);
 app.use('/auth', authRouter);
 
 app.use((req, res, next) => {
