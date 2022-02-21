@@ -13,6 +13,10 @@ router.get('/', (req, res) => {
           LEFT JOIN STUDY_RCRTM AS B
             ON A.SG_ID = B.SG_ID
     `, (err, result) => {
+        if (err) {
+            console.error(err);
+            next(err);
+        }
         console.log(result);
         // res.end();
         res.json(result);
@@ -20,9 +24,51 @@ router.get('/', (req, res) => {
 });
 
 /**
+ * 스터디종류(카테코리) 조회
+ */
+router.get('/category', (req, res) => {
+    // [TODO] del_yn 처리 필요
+    db.query(`
+        SELECT A.cc_name, A.cc_desc FROM COM_CD AS A 
+        LEFT JOIN COM_GRP_CD AS B 
+        ON A.CGC_ID = B.CGC_ID
+        WHERE B.CGC_NAME = 'sg_category'
+    `, (err, result) => {
+        if (err) {
+            console.error(err);
+            next(err);
+        }
+        console.log(result);
+        res.json(result);
+    });
+});
+
+/**
+ * 기술스택 조회
+ */
+router.get('/tech', (req, res) => {
+    db.query(`
+        SELECT A.cc_name, A.cc_desc FROM COM_CD AS A 
+        LEFT JOIN COM_GRP_CD AS B 
+        ON A.CGC_ID = B.CGC_ID
+        WHERE B.CGC_NAME = 'st_name'
+    `, (err, result) => {
+        if (err) {
+            console.error(err);
+            next(err);
+        }
+        console.log(result);
+        res.json(result);
+    });
+});
+
+
+/**
  * 스터디 생성 (동시에 모집글 생성)
  */
 router.post('/', (req, res) => {
+    // [TODO] 동시에 모집글 생성
+    // [TODO] 트랜잭션 처리
     console.log(req.body);
     const study = req.body;
     // 스터디그룹
@@ -37,9 +83,9 @@ router.post('/', (req, res) => {
     // 스터디 기술스택
     db.query(`
         INSERT INTO study.study_tchst
-        (sg_id, st_name, st_del_yn, st_reg_id, st_reg_date, st_udt_id, st_udt_date)
+        (sg_id, st_code, st_del_yn, st_reg_id, st_reg_date, st_udt_id, st_udt_date)
         VALUES(1, ?, 'N', 0, CURRENT_TIMESTAMP, 0, '')
-    `, [study.stName], (err, result) => {
+    `, [study.stCode], (err, result) => {
             
     });
 
@@ -61,8 +107,7 @@ router.post('/', (req, res) => {
             
     });
 
-    // res.json({test: 'aa'});
-    res.redirect('/');
+    res.json({test: 'aa'});
 });
 
 /**

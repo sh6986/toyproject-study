@@ -70,11 +70,6 @@
                                 <div class="nk-int-st">
                                     <div class="bootstrap-select fm-cmp-mg">
                                         <select id="sgCategory" class="selectpicker">
-                                            <option value="모각코">모각코</option>
-                                            <option value="알고리즘">알고리즘</option>
-                                            <option value="스터디">스터디</option>
-                                            <option value="CS">CS</option>
-                                            <option value="프로젝트">프로젝트</option>
                                         </select>
                                     </div>
                                 </div>
@@ -89,11 +84,11 @@
                             <div class="form-group">
                                 <div class="nk-int-st">
                                     <div class="chosen-select-act fm-cmp-mg">
-                                        <select id="stName" class="chosen" multiple data-placeholder="기술스택">
-                                            <option value="Java">Java</option>
-                                            <option value="JavaScript">JavaScript</option>
-                                            <option value="Python">Python</option>
-                                            <option value="MySQL">MySQL</option>
+                                        <select id="stCode" class="chosen" multiple data-placeholder="기술스택">
+                                            <option value="001">Java</option>
+                                            <option value="002">JavaScript</option>
+                                            <option value="003">Python</option>
+                                            <option value="004">MySQL</option>
                                         </select>
                                     </div>
                                 </div>
@@ -128,29 +123,5 @@
 {% endblock %}
 
 {% block script %}
-<script>
-    // 만들기버튼 클릭시
-    document.getElementById('createBtn').addEventListener('click', (e) => {
-        const srTitle = document.getElementById('srTitle').value;           // 제목
-        const sgName = document.getElementById('sgName').value;             // 스터디명
-        const sgCnt = document.getElementById('sgCnt').value;               // 인원
-        const sgCategory = document.getElementById('sgCategory').value;     // 카테고리(코드)
-        const stName = document.getElementById('stName').value;             // 기술스택이름(코드)
-        const srContent = document.getElementById('srContent').value;       // 내용
-        console.log(srTitle, sgName, sgCnt, sgCategory, stName, srContent);
-        const study = {
-            srTitle, sgName, sgCnt, sgCategory, stName, srContent
-        };
-        axios.post('/study', {
-            study
-        })
-            .then((res) => {
-                console.log('-----------');
-                console.log(res);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-    });
-</script>
+<script src="./create.js"></script>
 {% endblock %}
