@@ -6,19 +6,7 @@ const router = express.Router();
  * 메인 페이지
  */
 router.get('/', (req, res) => {
-    db.query(`
-        SELECT * 
-          FROM STUDY_GROUP AS A
-          LEFT JOIN STUDY_RCRTM AS B
-            ON A.SG_ID = B.SG_ID
-    `, (err, result) => {
-        console.log(result);
-        res.render('main', {
-            sr_title: result[0].sr_title
-        });
-    });
-
-    // res.render('main');
+    res.render('main');
 });
 
 /**

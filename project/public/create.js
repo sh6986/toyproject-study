@@ -1,7 +1,7 @@
 /**
  * 스터디종류(카테코리) 조회
  */
-axios.get('/study/category')
+axios.get('/recruit/category')
     .then((res) => {
         const category = res.data;
         let innerHtml = ``;
@@ -22,7 +22,7 @@ axios.get('/study/category')
  * 기술스택 조회
  */
 // [TODO] 생성 안됨..
-axios.get('/study/tech')
+axios.get('/recruit/tech')
     .then((res) => {
         const tech = res.data;
         let innerHtml = ``;
@@ -62,14 +62,14 @@ document.getElementById('createBtn').addEventListener('click', (e) => {
         srTitle, sgName, sgCnt, sgCategory, stCode, srContent
     };
     
-    // axios.post('/study', {
-    //     study
-    // })
-    //     .then((res) => {
-    //         console.log(res);
-    //         location.href = '/';
-    //     })
-    //     .catch((err) => {
-    //         console.error(err);
-    //     });
+    axios.post('/recruit', {
+        study
+    })
+        .then((res) => {
+            console.log(res);
+            location.href = '/';
+        })
+        .catch((err) => {
+            console.error(err);
+        });
 });

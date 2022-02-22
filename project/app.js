@@ -5,7 +5,8 @@ const path = require('path');
 const nunjucks = require('nunjucks');
 const pageRouter = require('./routes/page');
 const userRouter = require('./routes/user');
-const studyRouter = require('./routes/study');
+const recruitRouter = require('./routes/recruit');
+const manageRouter = require('./routes/manage');
 const authRouter = require('./routes/auth');
 const app = express();
 
@@ -24,7 +25,8 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use('/', pageRouter);
 app.use('/user', userRouter);
-app.use('/study', studyRouter);
+app.use('/recruit', recruitRouter);
+app.use('/manage', manageRouter);
 app.use('/auth', authRouter);
 
 app.use((req, res, next) => {
