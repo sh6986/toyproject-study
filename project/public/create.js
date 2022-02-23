@@ -32,9 +32,6 @@ axios.get('/recruit/tech')
                 <option value="${item.cc_name}">${item.cc_desc}</option>
             `
         });
-
-        // console.log(innerHtml);
-        // document.getElementById('stCode').innerHTML = innerHtml;
     })
     .catch((err) => {
         console.error(err);

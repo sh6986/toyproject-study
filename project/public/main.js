@@ -43,6 +43,17 @@ axios.get('/recruit')
                 </div>
             `;
 
+            innerHtml += `
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                    <div class="contact-inner">
+                        <div class="contact-hd widget-ctn-hd">
+                            <h2>${item.SR_TITLE}</h2>
+                            <p>#${item.CC_DESC.join(' #')}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
             if ((index === (study.length - 1)) || (index === 3)) {
                 innerHtml += `
                             </div>
