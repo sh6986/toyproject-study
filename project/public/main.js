@@ -1,7 +1,21 @@
+window.onload = () => {
+    // 화면 초기화
+    initPage();
+
+    // 이벤트 등록
+    setEventListener();
+};
+
+
+
 /**
- * 스터디모집글 조회
+ * 화면 초기화
  */
-axios.get('/recruit')
+function initPage() {
+    /**
+     * 스터디모집글 조회
+     */
+    axios.get('/recruit')
     .then((res) => {
         let study = [];
         let preSgId = 0;
@@ -17,8 +31,6 @@ axios.get('/recruit')
             preSgId = item.SG_ID;
         });
 
-        console.log(study);
-
         // 요소 만들기
         let innerHtml = ``;
 
@@ -33,18 +45,7 @@ axios.get('/recruit')
             }
 
             innerHtml += `
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                    <div class="contact-inner">
-                        <div class="contact-hd widget-ctn-hd">
-                            <h2>${item.SR_TITLE}</h2>
-                            <p>#${item.CC_DESC.join(' #')}</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            innerHtml += `
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 recruitBox">
                     <div class="contact-inner">
                         <div class="contact-hd widget-ctn-hd">
                             <h2>${item.SR_TITLE}</h2>
@@ -62,12 +63,33 @@ axios.get('/recruit')
                 `;
             }
         });
-
-        console.log(innerHtml);
         document.getElementById('studyRecruit').innerHTML = innerHtml;
-
     })
     .catch((err) => {
         console.error(err);
     });
+}
+
+/**
+ * 이벤트 등록
+ */
+function setEventListener() {
+    /**
+     * 스터디모집글 상세보기
+     */
+    //     /**
+    //      * [TODO] recruitBox가 만들어지기 전에 값을 가져온다. 오류해결필요
+    //      */
+    const recruitBox = document.querySelectorAll('.recruitBox');
+    console.log(recruitBox);
+}
+
+
+/**
+ * 스터디모집글 상세보기
+ */
+
+
+
+
     

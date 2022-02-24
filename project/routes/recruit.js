@@ -16,13 +16,13 @@ router.get('/', (req, res) => {
              , B.SR_TITLE
              , B.SR_CONTENT
              , B.SR_VIEWS
-             , C.ST_CODE
+             , D.CC_NAME
              , D.CC_DESC 
           FROM STUDY_GROUP AS A
           LEFT JOIN STUDY_RCRTM AS B 
             ON A.SG_ID = B.SG_ID
           LEFT JOIN STUDY_TCHST AS C 
-            ON A.SG_ID = C.SG_ID 
+            ON A.SG_ID = C.SG_ID AND C.ST_DEL_YN = 'N'
           LEFT JOIN ( SELECT CC_NAME 
                            , CC_DESC 
                         FROM COM_CD
@@ -32,7 +32,6 @@ router.get('/', (req, res) => {
          WHERE A.SG_OPEN_YN = 'Y'
            AND A.SG_DEL_YN = 'N'
            AND B.SR_DEL_YN = 'N'
-           AND C.ST_DEL_YN = 'N'
          ORDER BY A.SG_ID
     `, (err, result) => {
         if (err) {
