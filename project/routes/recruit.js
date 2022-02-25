@@ -3,10 +3,10 @@ const express = require('express');
 const db = require('../lib/db');
 const router = express.Router();
 
-/**
- * 스터디목록 조회
+/** 
+ * 스터디모집글 목록 조회
  */
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
     db.query(`
         SELECT A.SG_ID
              , A.SG_NAME
@@ -23,12 +23,8 @@ router.get('/', (req, res) => {
             ON A.SG_ID = B.SG_ID
           LEFT JOIN STUDY_TCHST AS C 
             ON A.SG_ID = C.SG_ID AND C.ST_DEL_YN = 'N'
-          LEFT JOIN ( SELECT CC_NAME 
-                           , CC_DESC 
-                        FROM COM_CD
-                       WHERE CC_DEL_YN = 'N'
-                         AND CGC_NAME = 'ST_NAME' ) AS D 
-            ON C.ST_CODE = D.CC_NAME
+          LEFT JOIN COM_CD AS D 
+            ON C.ST_CODE = D.CC_NAME AND D.CGC_NAME = 'ST_NAME' AND D.CC_DEL_YN = 'N'
          WHERE A.SG_OPEN_YN = 'Y'
            AND A.SG_DEL_YN = 'N'
            AND B.SR_DEL_YN = 'N'
@@ -43,15 +39,57 @@ router.get('/', (req, res) => {
     });
 });
 
+
 /**
- * 스터디종류(카테코리) 조회
+ * 스터디모집글 상세 조회
  */
-router.get('/category', (req, res) => {
+router.get('/:sgId', (req, res, next) => {
+    const sgId = req.params.sgId;
+    console.log(sgId);
+    db.query(`
+        SELECT A.SG_ID
+             , A.SG_NAME 
+             , A.SG_CATEGORY
+             , A.SG_CNT
+             , A.SG_OPEN_YN
+             , A.SG_REG_ID
+             , A.SG_REG_DATE
+             , B.SR_TITLE
+             , B.SR_CONTENT
+             , B.SR_VIEWS
+             , D.CC_NAME
+             , D.CC_DESC
+          FROM STUDY_GROUP AS A
+          LEFT JOIN STUDY_RCRTM AS B 
+            ON A.SG_ID = B.SG_ID
+          LEFT JOIN STUDY_TCHST AS C
+            ON A.SG_ID = C.SG_ID AND C.ST_DEL_YN = 'N'
+          LEFT JOIN COM_CD AS D 
+            ON C.ST_CODE = D.CC_NAME AND D.CGC_NAME = 'ST_NAME' AND D.CC_DEL_YN = 'N'
+         WHERE A.SG_ID = ?
+           AND A.SG_OPEN_YN = 'Y'
+           AND A.SG_DEL_YN = 'N'
+           AND B.SR_DEL_YN = 'N'
+    `, [sgId], (err, result) => {
+        if (err) {
+            console.error(err);
+            next(err);
+        }
+        console.log(result);
+        res.json(result);
+    });
+});
+
+
+/**
+ * 스터디 생성페이지 - 스터디종류(카테코리) 조회
+ */
+router.get('/category', (req, res, next) => {
     // [TODO] del_yn 처리 필요
     db.query(`
         SELECT A.cc_name, A.cc_desc FROM COM_CD AS A 
         LEFT JOIN COM_GRP_CD AS B 
-        ON A.CGC_ID = B.CGC_ID
+        ON A.CGC_NAME = B.CGC_NAME
         WHERE B.CGC_NAME = 'sg_category'
     `, (err, result) => {
         if (err) {
@@ -64,13 +102,13 @@ router.get('/category', (req, res) => {
 });
 
 /**
- * 기술스택 조회
+ * 스터디 생성페이지 - 기술스택 조회
  */
-router.get('/tech', (req, res) => {
+router.get('/tech', (req, res, next) => {
     db.query(`
         SELECT A.cc_name, A.cc_desc FROM COM_CD AS A 
         LEFT JOIN COM_GRP_CD AS B 
-        ON A.CGC_ID = B.CGC_ID
+        ON A.CGC_NAME = B.CGC_NAME
         WHERE B.CGC_NAME = 'st_name'
     `, (err, result) => {
         if (err) {
@@ -86,7 +124,7 @@ router.get('/tech', (req, res) => {
 /**
  * 스터디 생성 (동시에 모집글 생성)
  */
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
     // [TODO] 동시에 모집글 생성
     // [TODO] 트랜잭션 처리
     console.log('=================');
@@ -144,14 +182,14 @@ router.post('/', (req, res) => {
 /**
  * 스터디 수정
  */
-router.put('/', (req, res) => {
+router.put('/', (req, res, next) => {
 
 });
 
 /**
  * 스터디 폐쇄
  */
-router.delete('/', (req, res) => {
+router.delete('/', (req, res, next) => {
     // 실제론 del_yn 수정
 });
 

@@ -10,6 +10,16 @@ router.get('/', (req, res) => {
 });
 
 /**
+ * 스터디 상세 페이지
+ */
+router.get('/detail/:sgId', (req, res) => {
+    const sgId = req.params.sgId;
+    res.render('detail', {
+        sgId: sgId
+    });
+});
+
+/**
  * 로그인 페이지
  */
 router.get('/login', (req, res) => {
