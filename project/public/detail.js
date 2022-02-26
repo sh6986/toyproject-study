@@ -10,7 +10,6 @@ window.onload = () => {
  * 화면 초기화
  */
 function initPage() {
-    
     const sgId = document.getElementById('recruitDetail').getAttribute('data-sgId');
     
     // 스터디모집글 상세 조회
@@ -52,8 +51,6 @@ function getRecruitDetail(sgId) {
             `;
 
             document.getElementById('studyDetail').innerHTML = innerHtml;
-
-
         })
         .catch(err => {
             console.error(err);
@@ -70,18 +67,15 @@ function getRecruitComment(sgId, srcId) {
 
             // [TODO] 관리자 혹은 댓글작성자한테만 수정, 삭제버튼 뜨게 
             res.data.forEach((item, index, arr) => {
-
                 innerHtml += `
                     <div class="row commentDtl" data-srcId="${item.SRC_ID}">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="nk-int-mk sl-dp-mn">
                                 <div>
                                     <span>${item.USER_NICKNAME} (${item.SRC_REG_DATE})</span>
-                                    <span class="commentModifyBtn">수정</span> | <span class="commentRemoveBtn">삭제</span>
+                                    <span class="commentModifyBtn">수정</span> | <span class="commentRemoveBtn" data-toggle="modal" data-target="#myModalone">삭제</span>
                                 </div>
-
                                 <span>${item.SRC_CONTENT}</span>
-
                                 <div class="commentModifyForm" ${Number(srcId) === item.SRC_ID ? '' : 'style="display:none;"'}>
                                     <textarea class="form-control modifySrcContent" rows="5">${item.SRC_CONTENT}</textarea>
                                     <div class="commentModifyBtnDiv">
@@ -103,13 +97,11 @@ function getRecruitComment(sgId, srcId) {
         });
 }
 
-
 /**
  * 이벤트 등록
  */
 function setEventListener() {
     const sgId = document.getElementById('recruitDetail').getAttribute('data-sgId');
-    const srId = document.getElementById('recruitDetail').getAttribute('data-srId');
     
     /**
      * 댓글달기 버튼 클릭시
@@ -118,7 +110,6 @@ function setEventListener() {
         const srcContent = document.getElementById('srcContent').value;
         const comment = {
             sgId: sgId,
-            srId: srId,
             srcContent: srcContent,
         };
     
@@ -127,13 +118,12 @@ function setEventListener() {
     });
 
     /**
-     * 댓글 수정 | 삭제 버튼 클릭시
+     * 댓글 수정 / 삭제 버튼 클릭시
      */
     document.getElementById('commentList').addEventListener('click', (e) => {
         const targetClassName = e.target.classList;
         const commentDtlElement = e.target.closest('.commentDtl');
         const srcId = commentDtlElement ? commentDtlElement.getAttribute('data-srcId') : '';
-
         const comment = {
             srcId: srcId,
             sgId: sgId,
@@ -159,9 +149,22 @@ function setEventListener() {
         }
 
         // 삭제버튼 클릭시
-        if (targetClassName[0] === 'commentRemoveBtn') {
-            removeRecruitComment(comment);
+        if (targetClassName.contains('commentRemoveBtn')) {
+            document.querySelector('.removeModal').setAttribute('data-srcId', srcId);
         }
+    });
+
+    /**
+     * 삭제확인 모달창 - 확인버튼 클릭시
+     */
+    document.getElementById('removeBtn').addEventListener('click', (e) => {
+        const srcId = document.querySelector('.removeModal').getAttribute('data-srcId');
+        const comment = {
+            srcId: srcId,
+            sgId: sgId,
+        };
+
+        removeRecruitComment(comment);
     });
 };
 
@@ -190,7 +193,6 @@ function modifyRecruitComment(comment) {
             console.error(err);
         });
 }
-
 
 /**
  * 스터디모집글 상세 댓글 삭제

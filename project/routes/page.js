@@ -15,26 +15,9 @@ router.get('/', (req, res) => {
 router.get('/detail/:sgId', (req, res) => {
     const sgId = req.params.sgId;
 
-    db.query(`
-        SELECT B.SR_ID 
-          FROM STUDY_GROUP AS A
-          LEFT JOIN STUDY_RCRTM AS B 
-            ON A.SG_ID = B.SG_ID AND B.SR_DEL_YN = 'N'
-         WHERE A.SG_ID = ?
-           AND A.SG_DEL_YN = 'N'
-    `, [sgId], (err, result) => {
-        if (err) {
-            console.error(err);
-            next(err);
-        }
-
-        res.render('detail', {
-            sgId: sgId,
-            srId: result[0].SR_ID
-        });
+    res.render('detail', {
+        sgId: sgId,
     });
-
-    
 });
 
 /**

@@ -95,9 +95,9 @@ router.get('/detail/:sgId', (req, res, next) => {
           LEFT JOIN USER AS E 
             ON A.SG_REG_ID = E.USER_ID AND E.USER_DEL_YN = 'N' AND E.USER_SCSN_YN = 'N'
           LEFT JOIN STUDY_RCRTM_BKM AS F 
-            ON B.SR_ID = F.SR_ID AND F.SRB_DEL_YN = 'N'
+            ON B.SG_ID = F.SG_ID AND F.SRB_DEL_YN = 'N'
           LEFT JOIN STUDY_RCRTM_BKM AS G
-            ON B.SR_ID = G.SR_ID AND F.SRB_DEL_YN = 'N' AND G.USER_ID = ?
+            ON B.SG_ID = G.SG_ID AND F.SRB_DEL_YN = 'N' AND G.USER_ID = ?
          WHERE A.SG_ID = ?
            AND A.SG_OPEN_YN = 'Y'
            AND A.SG_DEL_YN = 'N'
@@ -134,7 +134,7 @@ router.get('/comment/:sgId', (req, res, next) => {
          FROM STUDY_RCRTM_CMNTS AS A
          LEFT JOIN USER AS B 
            ON A.SRC_REG_ID = B.USER_ID AND B.USER_SCSN_YN = 'N' AND B.USER_DEL_YN = 'N'
-        WHERE A.SR_ID = ? 
+        WHERE A.SG_ID = ? 
           AND A.SRC_DEL_YN = 'N'
         ORDER BY A.SRC_ID
     `, [sgId], (err, result) => {
@@ -156,7 +156,7 @@ router.post('/comment', (req, res, next) => {
 
     db.query(`
         INSERT INTO STUDY_RCRTM_CMNTS (
-               SR_ID
+               SG_ID
              , SRC_CONTENT
              , SRC_DEL_YN 
              , SRC_REG_ID 
@@ -172,7 +172,7 @@ router.post('/comment', (req, res, next) => {
              , ?
              , NOW()
         )
-    `, [comment.srId, comment.srcContent, userId, userId], (err, result) => {
+    `, [comment.sgId, comment.srcContent, userId, userId], (err, result) => {
         if (err) {
             console.error(err);
             next(err);
