@@ -116,15 +116,14 @@ function setEventListener() {
      */
     document.getElementById('createBtn').addEventListener('click', (e) => {
         const srcContent = document.getElementById('srcContent').value;
-
         const comment = {
             sgId: sgId,
             srId: srId,
             srcContent: srcContent,
         };
     
-        // 스터디모집글 상세 댓글 등록
         createRecruitComment(comment);
+        document.getElementById('srcContent').value = '';
     });
 
     /**
@@ -132,8 +131,8 @@ function setEventListener() {
      */
     document.getElementById('commentList').addEventListener('click', (e) => {
         const targetClassName = e.target.classList;
-        const targetElement = e.target.closest('.commentDtl');
-        const srcId = targetElement.getAttribute('data-srcId');
+        const commentDtlElement = e.target.closest('.commentDtl');
+        const srcId = commentDtlElement ? commentDtlElement.getAttribute('data-srcId') : '';
 
         const comment = {
             srcId: srcId,
@@ -148,16 +147,19 @@ function setEventListener() {
 
         // 수정 폼 - 수정버튼 클릭시
         if (targetClassName.contains('modifyBtn')) {
-            comment.srcContent = '댓글수정테스트aaaaa111a';
-            // 스터디모집글 상세 댓글 수정    
+            const modifySrcContent = commentDtlElement.querySelector('.modifySrcContent').value;
+            
+            comment.srcContent = modifySrcContent;
             modifyRecruitComment(comment);
         }
 
         // 수정 폼 - 취소버튼 클릭시
+        if (targetClassName.contains('modifyCancleBtn')) {
+            getRecruitComment(comment.sgId);
+        }
 
         // 삭제버튼 클릭시
         if (targetClassName[0] === 'commentRemoveBtn') {
-            // 스터디모집글 상세 댓글 삭제
             removeRecruitComment(comment);
         }
     });
@@ -169,7 +171,6 @@ function setEventListener() {
 function createRecruitComment(comment) {
     axios.post('/recruit/comment', comment)
             .then(res => {
-                // 스터디모집글 상세 댓글 조회
                 getRecruitComment(comment.sgId);
             })
             .catch(err => {
@@ -183,7 +184,6 @@ function createRecruitComment(comment) {
 function modifyRecruitComment(comment) {
     axios.put('/recruit/comment', comment)
         .then(res => {
-            // 스터디모집글 상세 댓글 조회
             getRecruitComment(comment.sgId);
         })
         .catch(err => {
@@ -198,7 +198,6 @@ function modifyRecruitComment(comment) {
 function removeRecruitComment(comment) {
     axios.delete(`/recruit/comment/${comment.srcId}`)
         .then(res => {
-            // 스터디모집글 상세 댓글 조회
             getRecruitComment(comment.sgId);
         })
         .catch(err => {
