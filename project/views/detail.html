@@ -9,77 +9,36 @@
     .commentBtnDiv {
         margin-bottom: 30px;
     }
+
+    .commentModifyBtn {
+        margin-top: 10px;
+    }
 </style>
 
 <div class="form-element-area">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="sgId" data-sgId="{{sgId}}">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="recruitDetail" data-sgId="{{sgId}}" data-srId="{{srId}}">
                 <div class="form-element-list mg-t-30">
-                    <div class="basic-tb-hd">
-                        <h1>titletest</h1>
-                        <h4>testadmin | 2020-02-25 | 1 | 0 (북마크)</h4>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h2>#node #java #javascript</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h2>스터디 구해요!<br>
-                                    장소는 신림<br>
-                                    자바, 노드 등 백엔드 구해요<br>
-                                    많은 참여 부탁드려요!<br>
-                                    ㅁㅁㅁㅁㅁㅁ<br>
-                                </h2>
-                            </div>
-                        </div>
+                    <div id="studyDetail">
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="nk-int-mk sl-dp-mn">
                                 <h4>댓글</h4>
-                                <textarea id="srContent" class="form-control" rows="5" placeholder=""></textarea>
+                                <textarea id="srcContent" class="form-control" rows="5" placeholder=""></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-example-int mg-t-15 commentBtnDiv">
-                                <button id="createBtn" class="btn btn-success notika-btn-success">댓글달기</button>
+                                <button id="createBtn" class="btn btn-success notika-btn-success waves-effect">댓글달기</button>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h2>홍길동 (2020-02-25 17:46:00)</h2>
-                                <h2>참여합니다.</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h2>홍길동 (2020-02-25 17:46:00)</h2>
-                                <h2>참여합니다.</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h2>홍길동 (2020-02-25 17:46:00)</h2>
-                                <h2>참여합니다.</h2>
-                            </div>
-                        </div>
+                    <div id="commentList">
                     </div>
                 </div>
             </div>

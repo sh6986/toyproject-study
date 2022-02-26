@@ -15,21 +15,8 @@ function initPage() {
      */
     axios.get('/recruit')
         .then(res => {
-            let study = [];
-            let preSgId = 0;
-
-            res.data.forEach((item, index, arr) => {
-                // 처음값이거나 전의 sg_id 와 현재 sg_id 값이 다를때
-                if ((index === 0) || (preSgId !== item.SG_ID)) {
-                    item.CC_DESC = [item.CC_DESC];
-                    study.push(item);
-                } else {    // 이미 있는 json 객체에 ST_CODE 배열에 값 추가
-                    study[study.length - 1].CC_DESC.push(item.CC_DESC);
-                }
-                preSgId = item.SG_ID;
-            });
-
-            // 요소 만들기
+            
+            let study = res.data;
             let innerHtml = ``;
 
             study.forEach((item, index, arr) => {
@@ -47,7 +34,7 @@ function initPage() {
                         <div class="contact-inner">
                             <div class="contact-hd widget-ctn-hd">
                                 <h2>${item.SR_TITLE}</h2>
-                                <p>#${item.CC_DESC.join(' #')}</p>
+                                <p>${item.ST_NAME}</p>
                             </div>
                         </div>
                     </div>
@@ -61,7 +48,7 @@ function initPage() {
                     `;
                 }
             });
-            document.getElementById('studyRecruit').innerHTML = innerHtml;
+            document.getElementById('studyList').innerHTML = innerHtml;
         })
         .catch(err => {
             console.error(err);
@@ -76,7 +63,7 @@ function setEventListener() {
     /**
      * 스터디모집글 상세페이지로 이동
      */
-    document.getElementById('studyRecruit').addEventListener('click', (e) => {
+    document.getElementById('studyList').addEventListener('click', (e) => {
         const sgId = e.target.closest('.recruitBox').getAttribute('data-sgId');
         location.href = `/detail/${sgId}`;
     });
