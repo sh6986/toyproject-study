@@ -173,12 +173,12 @@ function setEventListener() {
  */
 function createRecruitComment(comment) {
     axios.post('/recruit/comment', comment)
-            .then(res => {
-                getRecruitComment(comment.sgId);
-            })
-            .catch(err => {
-                console.error(err);
-            });
+        .then(res => {
+            getRecruitComment(comment.sgId);
+        })
+        .catch(err => {
+            console.error(err);
+        });
 };
 
 /**

@@ -1,75 +1,74 @@
-/**
- * 스터디종류(카테코리) 조회
- */
-axios.get('/recruit/category')
-    .then((res) => {
-        const category = res.data;
-        let innerHtml = ``;
+window.onload = () => {
+    // 화면 초기화
+    initPage();
 
-        category.forEach((item, index, arr) => {
-            innerHtml += `
-                <option value="${item.cc_name}">${item.cc_desc}</option>
-            `;    
-        });
-
-        document.getElementById('sgCategory').innerHTML = innerHtml;
-    })
-    .catch((err) => {
-        console.error(err);
-    });
+    // 이벤트 등록
+    setEventListener();
+};
 
 /**
- * 기술스택 조회
+ * 화면 초기화
  */
-// [TODO] 생성 안됨..
-axios.get('/recruit/tech')
-    .then((res) => {
-        const tech = res.data;
-        let innerHtml = ``;
+function initPage() {
+    /**
+     * 수정페이지일시
+     */
+    // 모집글 제목
+    // document.getElementById('srTitle').value = '수정title';
+    // // 스터디명
+    // document.getElementById('sgName').value = '수정스터디명';
 
-        tech.forEach((item, index, arr) => {
-            innerHtml += `
-                <option value="${item.cc_name}">${item.cc_desc}</option>
-            `
-        });
+    // const sgCnt = document.getElementById('sgCnt').querySelectorAll('option');
 
-        // console.log(innerHtml);
-        // document.getElementById('stCode').innerHTML = innerHtml;
-    })
-    .catch((err) => {
-        console.error(err);
-    })
-
-/**
- * 만들기버튼 클릭시 -> 스터디 생성
- */
-document.getElementById('createBtn').addEventListener('click', (e) => {
-    const srTitle = document.getElementById('srTitle').value;           // 제목
-    const sgName = document.getElementById('sgName').value;             // 스터디명
-    const sgCnt = document.getElementById('sgCnt').value;               // 인원
-    const sgCategory = document.getElementById('sgCategory').value;     // 카테고리(코드)
-    const stCode = [];             // 기술스택이름(코드)
-    const srContent = document.getElementById('srContent').value;       // 내용
-
-    // 기술스택 선택한 값 반복문돌려서 가져오기
-    document.getElementById('stCode').querySelectorAll('option').forEach((item, index, arr) => {
-        if (item.selected) {
-            stCode.push(item.value);
-        }
-    });
-
-    const study = {
-        srTitle, sgName, sgCnt, sgCategory, stCode, srContent
-    };
     
-    axios.post('/recruit', {
-        study
-    })
-        .then((res) => {
+    // 카테고리
+    // document.getElementById('sgCategory').value = '002';
+    // 기술스택
+    // document.getElementById('stCode').value = ['004', '006'];
+    // 스터디설명
+    // document.getElementById('srContent').value = '수정스터디설명';
+}
+
+/**
+ * 이벤트 등록
+ */
+function setEventListener() {
+    /**
+     * 만들기버튼 클릭시 -> 스터디 생성
+     */
+    document.getElementById('createBtn').addEventListener('click', (e) => {
+        const srTitle = document.getElementById('srTitle').value;       // 제목
+        const sgName = document.getElementById('sgName').value;         // 스터디명
+        const sgCnt = document.getElementById('sgCnt').value;           // 인원
+        const sgCategory = document.getElementById('sgCategory').value; // 카테고리 (코드)
+        const stCode = [];
+        const srContent = document.getElementById('srContent').value;  // 내용
+
+        const study = {
+            srTitle, sgName, sgCnt, sgCategory, stCode, srContent
+        };
+
+        // 기술스택 선택한 값 반복문돌려서 가져오기
+        document.getElementById('stCode').querySelectorAll('option').forEach((item, index, arr) => {
+            if (item.selected) {
+                stCode.push(item.value);
+            }
+        });
+
+        createRecruit(study);
+    });
+}
+
+/**
+ * 스터디 / 스터디 모집글 생성
+ */
+function createRecruit(study) {
+    axios.post('/recruit', study)
+        .then(res => {
             console.log(res);
-            location.href = '/';
+            // location.href = '/';
         })
-        .catch((err) => {
+        .catch(err => {
             console.error(err);
         });
-});
+}

@@ -68,8 +68,11 @@
                             </div>
                             <div class="form-group">
                                 <div class="nk-int-st">
-                                    <div class="bootstrap-select fm-cmp-mg">
+                                    <div class="bootstrap-select fm-cmp-mg" id="categorySelectDiv">
                                         <select id="sgCategory" class="selectpicker">
+                                            {% for item in sgCategory %}
+                                            <option value="{{item.CC_NAME}}">{{item.CC_DESC}}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
@@ -85,15 +88,13 @@
                                 <div class="nk-int-st">
                                     <div class="chosen-select-act fm-cmp-mg">
                                         <select id="stCode" class="chosen" multiple data-placeholder="기술스택">
-                                            <option value="001">Java</option>
-                                            <option value="002">JavaScript</option>
-                                            <option value="003">Python</option>
-                                            <option value="004">MySQL</option>
+                                            {% for item in stName %}
+                                            <option value="{{item.CC_NAME}}">{{item.CC_DESC}}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
                     <div class="row">
