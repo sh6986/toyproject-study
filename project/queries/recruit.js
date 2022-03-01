@@ -229,3 +229,9 @@ exports.createStudyTchsh = `
          , ST_UDT_DATE 
     ) VALUES
 `;
+
+exports.modifyStudyRcrmViews = `
+    UPDATE STUDY_RCRTM 
+       SET SR_VIEWS = SR_VIEWS + 1
+     WHERE SG_ID = ?
+`;

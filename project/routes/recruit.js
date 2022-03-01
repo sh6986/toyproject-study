@@ -7,107 +7,98 @@ const router = express.Router();
 /** 
  * 스터디모집글 목록 조회
  */
-router.get('/', (req, res, next) => {
-    db.query(recruitQuery.getRecruit, (err, result) => {
-        if (err) {
-            console.error(err);
-            next(err);
-        }
-        res.json(result);
-    });
+router.get('/', async (req, res, next) => {
+    try {
+        const result = await db.query(recruitQuery.getRecruit);
+        res.json(result[0]);    // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
 });
 
 /**
  * 스터디모집글 상세 조회
  */
-router.get('/detail/:sgId', (req, res, next) => {
+router.get('/detail/:sgId', async (req, res, next) => {
     const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
     const sgId = req.params.sgId;
 
-    // 조회수 증가
-    db.query(`
-        UPDATE STUDY_RCRTM 
-           SET SR_VIEWS = SR_VIEWS + 1
-         WHERE SG_ID = ?
-    `, [sgId], (err, result) => {
-        if (err) {
-            console.error(err);
-            next(err);
-        }
-    });
+    try {
+        // 조회수 증가
+        await db.query(recruitQuery.modifyStudyRcrmViews, [sgId]);
+        
+        // 상세조회
+        const result = await db.query(recruitQuery.getRecruitDetail, [userId, sgId]);
+        res.json(result[0]);    // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
 
-    // 상세조회
-    db.query(
-        recruitQuery.getRecruitDetail, [userId, sgId], (err, result) => {
-        if (err) {
-            console.error(err);
-            next(err);
-        }
-        res.json(result);
-    });
 });
 
 /**
  * 스터디모집글 상세 댓글 조회
  */
-router.get('/comment/:sgId', (req, res, next) => {
+router.get('/comment/:sgId', async (req, res, next) => {
     const sgId = req.params.sgId;
 
-    db.query(recruitQuery.getRecruitComment, [sgId], (err, result) => {
-        if (err) {
-            console.error(err);
-            next(err);
-        }
-        res.json(result);
-    })
+    try {
+        const result = await db.query(recruitQuery.getRecruitComment, [sgId]);
+        res.json(result[0]);   // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고
+    } catch (err) {
+        console.error(err);
+        next(err);
+    } 
 });
 
 /**
  * 스터디모집글 상세 댓글 등록
  */
-router.post('/comment', (req, res, next) => {
+router.post('/comment', async (req, res, next) => {
     const comment = req.body;
     const userId = 1; // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
 
-    db.query(recruitQuery.createRecruitComment, [comment.sgId, comment.srcContent, userId, userId], (err, result) => {
-        if (err) {
-            console.error(err);
-            next(err);
-        }
-        res.json(result);
-    });
+    try {
+        const result = await db.query(recruitQuery.createRecruitComment, [comment.sgId, comment.srcContent, userId, userId]);
+        res.json(result[0]);    // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고
+    } catch (err) {
+        console.error(err);
+        next(err);
+    } 
 });
 
 /**
  * 스터디모집글 상세 댓글 수정
  */
-router.put('/comment', (req, res, next) => {
+router.put('/comment', async (req, res, next) => {
     const comment = req.body;
     const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
 
-    db.query(recruitQuery.modifyRecruitComment, [comment.srcContent, userId, comment.srcId], (err, result) => {
-        if (err) {
-            console.error(err);
-            next(err);
-        }
-        res.json(result);
-    });
+    try {
+        const result = await db.query(recruitQuery.modifyRecruitComment, [comment.srcContent, userId, comment.srcId]);
+        res.json(result[0]);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
 });
 
 /**
  * 스터디모집글 상세 댓글 삭제
  */
-router.delete('/comment/:srcId', (req, res, next) => {
+router.delete('/comment/:srcId', async (req, res, next) => {
     const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
     const srcId = req.params.srcId;
 
-    db.query(recruitQuery.removeRecruitComment, [userId, srcId], (err, result) => {
-        if (err) {
-            console.error(err);
-            next(err);
-        }
-        res.json(result);
-    });
+    try {
+        const result = await db.query(recruitQuery.removeRecruitComment, [userId, srcId]);
+        res.json(result[0]);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
 });
 
 /**
@@ -145,24 +136,19 @@ router.post('/', async (req, res, next) => {
         
         await db.query(recruitQuery.createStudyRcrtm, [sgId, srTitle, srContent, userId, userId]);                  // 스터디모집글
         await db.query(recruitQuery.createStudyMember, [sgId, userId, userId, userId]);                             // 스터디멤버
-        
-        stCode.forEach((item, index) => { 
-            insertValues += `
-                (
-                    ?
-                    , '${item}'
-                    , 'N'
-                    , ?
-                    , NOW()
-                    , ?
-                    , NOW()
-                )
-            `;
-            insertValues += (index === (stCode.length - 1)) ? `` : `, `;
-            paramArr = paramArr.concat([sgId, userId, userId]);             // 스터디 기술스택 생성 쿼리 파라미터 (insertValues가 생기는 개수만큼 파라미터 만들기)
-        });
 
-        await db.query(recruitQuery.createStudyTchsh + insertValues, paramArr);                                     // 스터디 기술스택
+        // 기술스택(stCode)을 하나 이상 선택했을때 -> 아무것도 선택하지 않으면 insert 안함
+        if (stCode.length) {
+            stCode.forEach((item, index) => { 
+                insertValues += `
+                    (?, '${item}', 'N', ?, NOW(), ?, NOW())
+                `;
+                insertValues += (index === (stCode.length - 1)) ? `` : `, `;
+                paramArr = paramArr.concat([sgId, userId, userId]);             // 스터디 기술스택 생성 쿼리 파라미터 (insertValues가 생기는 개수만큼 파라미터 만들기)
+            });
+    
+            await db.query(recruitQuery.createStudyTchsh + insertValues, paramArr);                                     // 스터디 기술스택
+        } 
         // await db.commit();
     } catch (err) {
         console.error(err);
