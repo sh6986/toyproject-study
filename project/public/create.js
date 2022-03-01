@@ -10,53 +10,55 @@ window.onload = () => {
  * 화면 초기화
  */
 function initPage() {
-    /**
-     * 수정페이지일시
-     */
-    // 모집글 제목
-    // document.getElementById('srTitle').value = '수정title';
-    // // 스터디명
-    // document.getElementById('sgName').value = '수정스터디명';
-
-    // const sgCnt = document.getElementById('sgCnt').querySelectorAll('option');
-
     
-    // 카테고리
-    // document.getElementById('sgCategory').value = '002';
-    // 기술스택
-    // document.getElementById('stCode').value = ['004', '006'];
-    // 스터디설명
-    // document.getElementById('srContent').value = '수정스터디설명';
 }
 
 /**
  * 이벤트 등록
  */
 function setEventListener() {
-    /**
-     * 만들기버튼 클릭시 -> 스터디 생성
-     */
-    document.getElementById('createBtn').addEventListener('click', (e) => {
-        const srTitle = document.getElementById('srTitle').value;       // 제목
-        const sgName = document.getElementById('sgName').value;         // 스터디명
-        const sgCnt = document.getElementById('sgCnt').value;           // 인원
-        const sgCategory = document.getElementById('sgCategory').value; // 카테고리 (코드)
-        const stCode = [];
-        const srContent = document.getElementById('srContent').value;  // 내용
+    const mode = document.getElementById('mode').value;
+    let study = {};
 
-        const study = {
-            srTitle, sgName, sgCnt, sgCategory, stCode, srContent
-        };
-
-        // 기술스택 선택한 값 반복문돌려서 가져오기
-        document.getElementById('stCode').querySelectorAll('option').forEach((item, index, arr) => {
-            if (item.selected) {
-                stCode.push(item.value);
-            }
+    if (mode == 'create') {     // 생성일때
+        /**
+         * 만들기버튼 클릭시 -> 스터디 생성
+         */
+        document.getElementById('createBtn').addEventListener('click', (e) => {
+            study = getValue();
+            createRecruit(study);
         });
 
-        createRecruit(study);
+    } else {                    // 수정일때
+        /**
+         * 수정하기버튼 클릭시 -> 스터디 수정
+         */
+        document.getElementById('updateBtn').addEventListener('click', (e) => {
+            study = getValue();
+            study.sgId = document.getElementById('sgId').value;
+            modifyRecruit(study);
+        });
+    }
+}
+
+/**
+ * 각 입력값 가져오기
+ */
+function getValue() {
+    const srTitle = document.getElementById('srTitle').value;       // 제목
+    const sgName = document.getElementById('sgName').value;         // 스터디명
+    const sgCnt = document.getElementById('sgCnt').value;           // 인원
+    const sgCategory = document.getElementById('sgCategory').value; // 카테고리 (코드)
+    const srContent = document.getElementById('srContent').value;   // 내용
+    const stCode = [];                                              // 기술스택
+    document.getElementById('stCode').querySelectorAll('option').forEach((item, index, arr) => {    // 기술스택 선택한 값 반복문돌려서 가져오기
+        if (item.selected) {
+            stCode.push(item.value);
+        }
     });
+    const study = {srTitle, sgName, sgCnt, sgCategory, stCode, srContent};
+
+    return study;
 }
 
 /**
@@ -65,8 +67,22 @@ function setEventListener() {
 function createRecruit(study) {
     axios.post('/recruit', study)
         .then(res => {
-            console.log(res);
-            // location.href = '/';
+            const sgId = res.data.sgId;
+            location.href = `/detail/${sgId}`;
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+/**
+ * 스터디 / 스터디 모집글 수정
+ */
+function modifyRecruit(study) {
+    axios.put('/recruit', study)
+        .then(res => {
+            const sgId = res.data.sgId;
+            location.href = `/detail/${sgId}`;
         })
         .catch(err => {
             console.error(err);

@@ -6,7 +6,7 @@ exports.getRecruit = `
          , TB.SG_CNT
          , TB.SR_TITLE
          , TB.SR_CONTENT
-         , TB.SR_VIEWS, CONCAT('#', GROUP_CONCAT(DISTINCT(TB.CC_DESC)  SEPARATOR ' #')) AS ST_NAME 
+         , TB.SR_VIEWS, CONCAT('#', GROUP_CONCAT(DISTINCT(TB.CC_DESC)  SEPARATOR ' #')) AS ST_NAME_DESC 
     FROM (
         SELECT A.SG_ID
              , A.SG_NAME
@@ -48,7 +48,8 @@ exports.getRecruitDetail = `
          , B.SR_CONTENT
          , B.SR_VIEWS
          , E.USER_NICKNAME
-         , CONCAT('#', GROUP_CONCAT(DISTINCT(D.CC_DESC) SEPARATOR ' #')) AS ST_NAME
+         , GROUP_CONCAT(DISTINCT(D.CC_NAME)) AS ST_NAME
+         , CONCAT('#', GROUP_CONCAT(DISTINCT(D.CC_DESC) SEPARATOR ' #')) AS ST_NAME_DESC
          , COUNT(DISTINCT F.USER_ID) AS SRB_CNT
          , IF(COUNT(DISTINCT G.USER_ID), 'Y', 'N') AS SRB_YN
       FROM STUDY_GROUP AS A
@@ -77,6 +78,13 @@ exports.getRecruitDetail = `
             , B.SR_CONTENT
             , B.SR_VIEWS
             , E.USER_NICKNAME
+`;
+
+// 스터디모집글 조회수 증가
+exports.modifyStudyRcrmViews = `
+    UPDATE STUDY_RCRTM 
+       SET SR_VIEWS = SR_VIEWS + 1
+     WHERE SG_ID = ?
 `;
 
 // 스터디모집글 상세 댓글 조회
@@ -230,8 +238,37 @@ exports.createStudyTchsh = `
     ) VALUES
 `;
 
-exports.modifyStudyRcrmViews = `
+
+
+
+
+
+// 스터디그룹 수정
+exports.modifyStudyGroup = `
+    UPDATE STUDY_GROUP 
+       SET SG_NAME = ?
+         , SG_CATEGORY = ?
+         , SG_CNT = ?
+         , SG_UDT_ID = ?
+         , SG_UDT_DATE = NOW()
+     WHERE SG_ID = ?
+`;
+
+// 스터디모집글 수정
+exports.modifyStudyRcrtm = `
     UPDATE STUDY_RCRTM 
-       SET SR_VIEWS = SR_VIEWS + 1
+       SET SR_TITLE = ?
+         , SR_CONTENT = ?
+         , SR_UDT_ID = ?
+         , SR_UDT_DATE = NOW()
+     WHERE SG_ID = ?
+`;
+
+// 스터디기술스택 수정
+exports.modifyStudyTchst = `
+    UPDATE STUDY_TCHST 
+       SET ST_DEL_YN = 'Y'
+         , ST_UDT_ID = ?
+         , ST_UDT_DATE = NOW()
      WHERE SG_ID = ?
 `;

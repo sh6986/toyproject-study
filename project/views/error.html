@@ -1,1 +1,7 @@
-<h1>에러입니다.</h1>
+{% extends 'common/layout.html' %}
+
+{% block content %}
+<h1>{{message}}</h1>
+<h2>{{error.status}}</h2>
+<pre>{{error.stack}}</pre>
+{% endblock %}

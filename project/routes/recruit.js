@@ -1,6 +1,7 @@
 // 스터디 모집 관련 라우터
 const express = require('express');
-const db = require('../lib/db');
+const pool = require('../lib/db');
+const recruitController = require('../controllers/recruitController');
 const recruitQuery = require('../queries/recruit');
 const router = express.Router();
 
@@ -9,7 +10,7 @@ const router = express.Router();
  */
 router.get('/', async (req, res, next) => {
     try {
-        const result = await db.query(recruitQuery.getRecruit);
+        const result = await pool.query(recruitQuery.getRecruit);
         res.json(result[0]);    // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고
     } catch (err) {
         console.error(err);
@@ -20,23 +21,7 @@ router.get('/', async (req, res, next) => {
 /**
  * 스터디모집글 상세 조회
  */
-router.get('/detail/:sgId', async (req, res, next) => {
-    const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
-    const sgId = req.params.sgId;
-
-    try {
-        // 조회수 증가
-        await db.query(recruitQuery.modifyStudyRcrmViews, [sgId]);
-        
-        // 상세조회
-        const result = await db.query(recruitQuery.getRecruitDetail, [userId, sgId]);
-        res.json(result[0]);    // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고
-    } catch (err) {
-        console.error(err);
-        next(err);
-    }
-
-});
+router.get('/detail/:sgId', recruitController.getDetail);
 
 /**
  * 스터디모집글 상세 댓글 조회
@@ -45,7 +30,7 @@ router.get('/comment/:sgId', async (req, res, next) => {
     const sgId = req.params.sgId;
 
     try {
-        const result = await db.query(recruitQuery.getRecruitComment, [sgId]);
+        const result = await pool.query(recruitQuery.getRecruitComment, [sgId]);
         res.json(result[0]);   // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고
     } catch (err) {
         console.error(err);
@@ -61,7 +46,7 @@ router.post('/comment', async (req, res, next) => {
     const userId = 1; // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
 
     try {
-        const result = await db.query(recruitQuery.createRecruitComment, [comment.sgId, comment.srcContent, userId, userId]);
+        const result = await pool.query(recruitQuery.createRecruitComment, [comment.sgId, comment.srcContent, userId, userId]);
         res.json(result[0]);    // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고
     } catch (err) {
         console.error(err);
@@ -77,7 +62,7 @@ router.put('/comment', async (req, res, next) => {
     const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
 
     try {
-        const result = await db.query(recruitQuery.modifyRecruitComment, [comment.srcContent, userId, comment.srcId]);
+        const result = await pool.query(recruitQuery.modifyRecruitComment, [comment.srcContent, userId, comment.srcId]);
         res.json(result[0]);
     } catch (err) {
         console.error(err);
@@ -93,7 +78,7 @@ router.delete('/comment/:srcId', async (req, res, next) => {
     const srcId = req.params.srcId;
 
     try {
-        const result = await db.query(recruitQuery.removeRecruitComment, [userId, srcId]);
+        const result = await pool.query(recruitQuery.removeRecruitComment, [userId, srcId]);
         res.json(result[0]);
     } catch (err) {
         console.error(err);
@@ -109,7 +94,7 @@ router.get('/comCd/:cgcName', async (req, res, next) => {
 
     try {
         // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고
-        const result = await db.query(recruitQuery.getRecruitComCd, [cgcName]);
+        const result = await pool.query(recruitQuery.getRecruitComCd, [cgcName]);
         res.json(result[0]);
     } catch (err) {
         console.error(err);
@@ -122,13 +107,13 @@ router.get('/comCd/:cgcName', async (req, res, next) => {
  */
  router.post('/', async (req, res, next) => {
     // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고
+    const conn = await pool.getConnection();
     const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
     const {srTitle, sgName, sgCnt, sgCategory, stCode, srContent} = req.body;
     let sgId;
     let insertValues = ``;
     let paramArr = [];
 
-    const conn = await db.getConnection();
     try {
         await conn.beginTransaction();
         const result = await conn.query(recruitQuery.createStudyGroup, [sgName, sgCategory, sgCnt, userId, userId]);  // 스터디그룹
@@ -147,10 +132,12 @@ router.get('/comCd/:cgcName', async (req, res, next) => {
                 paramArr = paramArr.concat([sgId, userId, userId]);             // 스터디 기술스택 생성 쿼리 파라미터 (insertValues가 생기는 개수만큼 파라미터 만들기)
             });
     
-            await conn.query(recruitQuery.createStudyTchsh + insertValues, paramArr);                                   // 스터디 기술스택
+            await conn.query(recruitQuery.createStudyTchsh + insertValues, paramArr);                                 // 스터디 기술스택
         } 
         await conn.commit();
-        res.json({res: 'success'});
+        res.json({
+            sgId
+        });
     } catch (err) {
         console.error(err);
         await conn.rollback();
@@ -163,9 +150,7 @@ router.get('/comCd/:cgcName', async (req, res, next) => {
 /**
  * 스터디 / 스터디모집글 수정
  */
-router.put('/', (req, res, next) => {
-
-});
+router.put('/', recruitController.modifyStudy);
 
 /**
  * 스터디 폐쇄

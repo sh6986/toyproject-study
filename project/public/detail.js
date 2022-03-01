@@ -27,7 +27,7 @@ function getRecruitDetail(sgId) {
 
     axios.get(`/recruit/detail/${sgId}`)
         .then(res => {
-            const study = res.data[0];
+            const study = res.data;
 
             innerHtml = `
                 <div class="basic-tb-hd">
@@ -37,7 +37,7 @@ function getRecruitDetail(sgId) {
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="nk-int-mk sl-dp-mn">
-                            <h2>${study.ST_NAME}</h2>
+                            <h2>${study.ST_NAME_DESC}</h2>
                         </div>
                     </div>
                 </div>
@@ -102,6 +102,14 @@ function getRecruitComment(sgId, srcId) {
  */
 function setEventListener() {
     const sgId = document.getElementById('recruitDetail').getAttribute('data-sgId');
+
+    /**
+     * 글 수정 버튼 클릭시
+     */
+    document.getElementById('modifyBtn').addEventListener('click', (e) => {
+        // 수정페이지로 이동 (생성페이지에 상세 데이터가 담긴)
+        location.href = `/update/${sgId}`;
+    });
     
     /**
      * 댓글달기 버튼 클릭시
@@ -155,7 +163,7 @@ function setEventListener() {
     });
 
     /**
-     * 삭제확인 모달창 - 확인버튼 클릭시
+     * 댓글삭제확인 모달창 - 확인버튼 클릭시
      */
     document.getElementById('removeBtn').addEventListener('click', (e) => {
         const srcId = document.querySelector('.removeModal').getAttribute('data-srcId');

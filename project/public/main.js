@@ -34,7 +34,7 @@ function initPage() {
                         <div class="contact-inner">
                             <div class="contact-hd widget-ctn-hd">
                                 <h2>${item.SR_TITLE}</h2>
-                                <p>${item.ST_NAME}</p>
+                                <p>${item.ST_NAME_DESC}</p>
                             </div>
                         </div>
                     </div>
