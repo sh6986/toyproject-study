@@ -87,71 +87,6 @@ exports.modifyStudyRcrmViews = `
      WHERE SG_ID = ?
 `;
 
-// 스터디모집글 상세 댓글 조회
-exports.getRecruitComment = `
-    SELECT A.SRC_ID
-         , A.SRC_CONTENT
-         , B.USER_NICKNAME
-         , DATE_FORMAT(A.SRC_REG_DATE, '%Y-%m-%d %H:%i:%s') AS SRC_REG_DATE
-      FROM STUDY_RCRTM_CMNTS AS A
-      LEFT JOIN USER AS B 
-        ON A.SRC_REG_ID = B.USER_ID AND B.USER_SCSN_YN = 'N' AND B.USER_DEL_YN = 'N'
-     WHERE A.SG_ID = ? 
-       AND A.SRC_DEL_YN = 'N'
-     ORDER BY A.SRC_ID
-`;
-
-//스터디모집글 상세 댓글 등록
-exports.createRecruitComment = `
-    INSERT INTO STUDY_RCRTM_CMNTS (
-           SG_ID
-         , SRC_CONTENT
-         , SRC_DEL_YN 
-         , SRC_REG_ID 
-         , SRC_REG_DATE 
-         , SRC_UDT_ID 
-         , SRC_UDT_DATE
-    ) VALUES (
-           ?
-         , ?
-         , 'N'
-         , ?
-         , NOW()
-         , ?
-         , NOW()
-    )
-`;
-
-// 스터디모집글 상세 댓글 수정
-exports.modifyRecruitComment = `
-    UPDATE STUDY_RCRTM_CMNTS 
-       SET SRC_CONTENT = ?
-         , SRC_UDT_ID = ?
-         , SRC_UDT_DATE = NOW()
-     WHERE SRC_ID = ?
-`;
-
-// 스터디모집글 상세 댓글 삭제
-exports.removeRecruitComment = `
-    UPDATE STUDY_RCRTM_CMNTS 
-       SET SRC_DEL_YN = 'Y'
-         , SRC_UDT_ID = ?
-         , SRC_UDT_DATE = NOW()
-     WHERE SRC_ID = ?
-`;
-
-// 공통코드 조회
-exports.getRecruitComCd = `
-    SELECT B.CC_NAME
-         , B.CC_DESC 
-      FROM COM_GRP_CD AS A
-      LEFT JOIN COM_CD AS B
-        ON A.CGC_NAME = B.CGC_NAME
-     WHERE A.CGC_NAME = ?
-       AND A.CGC_DEL_YN = 'N'
-       AND B.CC_DEL_YN = 'N'
-`;
-
 // 스터디그룹 생성
 exports.createStudyGroup = `
     INSERT INTO STUDY_GROUP (
@@ -238,11 +173,6 @@ exports.createStudyTchsh = `
     ) VALUES
 `;
 
-
-
-
-
-
 // 스터디그룹 수정
 exports.modifyStudyGroup = `
     UPDATE STUDY_GROUP 
@@ -272,3 +202,78 @@ exports.modifyStudyTchst = `
          , ST_UDT_DATE = NOW()
      WHERE SG_ID = ?
 `;
+
+// 스터디 모집중여부 수정 (모집완료)
+exports.modifyComplete = `
+    UPDATE STUDY_GROUP 
+       SET SG_OPEN_YN ='N'
+         , SG_UDT_ID = ?
+         , SG_UDT_DATE = NOW()
+     WHERE SG_ID = ?
+`;
+
+// 스터디모집글 댓글 조회
+exports.getRecruitComment = `
+    SELECT A.SRC_ID
+         , A.SRC_CONTENT
+         , B.USER_NICKNAME
+         , DATE_FORMAT(A.SRC_REG_DATE, '%Y-%m-%d %H:%i:%s') AS SRC_REG_DATE
+      FROM STUDY_RCRTM_CMNTS AS A
+      LEFT JOIN USER AS B 
+        ON A.SRC_REG_ID = B.USER_ID AND B.USER_SCSN_YN = 'N' AND B.USER_DEL_YN = 'N'
+     WHERE A.SG_ID = ? 
+       AND A.SRC_DEL_YN = 'N'
+     ORDER BY A.SRC_ID
+`;
+
+//스터디모집글 댓글 등록
+exports.createRecruitComment = `
+    INSERT INTO STUDY_RCRTM_CMNTS (
+           SG_ID
+         , SRC_CONTENT
+         , SRC_DEL_YN 
+         , SRC_REG_ID 
+         , SRC_REG_DATE 
+         , SRC_UDT_ID 
+         , SRC_UDT_DATE
+    ) VALUES (
+           ?
+         , ?
+         , 'N'
+         , ?
+         , NOW()
+         , ?
+         , NOW()
+    )
+`;
+
+// 스터디모집글 댓글 수정
+exports.modifyRecruitComment = `
+    UPDATE STUDY_RCRTM_CMNTS 
+       SET SRC_CONTENT = ?
+         , SRC_UDT_ID = ?
+         , SRC_UDT_DATE = NOW()
+     WHERE SRC_ID = ?
+`;
+
+// 스터디모집글 댓글 삭제
+exports.removeRecruitComment = `
+    UPDATE STUDY_RCRTM_CMNTS 
+       SET SRC_DEL_YN = 'Y'
+         , SRC_UDT_ID = ?
+         , SRC_UDT_DATE = NOW()
+     WHERE SRC_ID = ?
+`;
+
+// 공통코드 조회
+exports.getRecruitComCd = `
+    SELECT B.CC_NAME
+         , B.CC_DESC 
+      FROM COM_GRP_CD AS A
+      LEFT JOIN COM_CD AS B
+        ON A.CGC_NAME = B.CGC_NAME
+     WHERE A.CGC_NAME = ?
+       AND A.CGC_DEL_YN = 'N'
+       AND B.CC_DEL_YN = 'N'
+`;
+

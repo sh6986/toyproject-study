@@ -73,7 +73,7 @@ function getRecruitComment(sgId, srcId) {
                             <div class="nk-int-mk sl-dp-mn">
                                 <div>
                                     <span>${item.USER_NICKNAME} (${item.SRC_REG_DATE})</span>
-                                    <span class="commentModifyBtn">수정</span> | <span class="commentRemoveBtn" data-toggle="modal" data-target="#myModalone">삭제</span>
+                                    <span class="commentModifyBtn">수정</span> | <span class="commentRemoveBtn" data-toggle="modal" data-target="#removeCommentModal">삭제</span>
                                 </div>
                                 <span>${item.SRC_CONTENT}</span>
                                 <div class="commentModifyForm" ${Number(srcId) === item.SRC_ID ? '' : 'style="display:none;"'}>
@@ -109,6 +109,13 @@ function setEventListener() {
     document.getElementById('modifyBtn').addEventListener('click', (e) => {
         // 수정페이지로 이동 (생성페이지에 상세 데이터가 담긴)
         location.href = `/update/${sgId}`;
+    });
+
+    /**
+     * 댓글삭제확인 모달창 - 확인버튼 클릭시
+     */
+    document.getElementById('completeOkBtn').addEventListener('click', (e) => {
+        modifyComplete(sgId);
     });
     
     /**
@@ -165,7 +172,7 @@ function setEventListener() {
     /**
      * 댓글삭제확인 모달창 - 확인버튼 클릭시
      */
-    document.getElementById('removeBtn').addEventListener('click', (e) => {
+    document.getElementById('removeCommentOkBtn').addEventListener('click', (e) => {
         const srcId = document.querySelector('.removeModal').getAttribute('data-srcId');
         const comment = {
             srcId: srcId,
@@ -177,7 +184,20 @@ function setEventListener() {
 };
 
 /**
- * 스터디모집글 상세 댓글 등록
+ * 스터디 모집완료
+ */
+function modifyComplete(sgId) {
+    axios.put(`/recruit/complete/${sgId}`)
+        .then(res => {
+            location.href = `/`;
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+/**
+ * 스터디모집글 댓글 등록
  */
 function createRecruitComment(comment) {
     axios.post('/recruit/comment', comment)
@@ -190,7 +210,7 @@ function createRecruitComment(comment) {
 };
 
 /**
- * 스터디모집글 상세 댓글 수정
+ * 스터디모집글 댓글 수정
  */
 function modifyRecruitComment(comment) {
     axios.put('/recruit/comment', comment)
@@ -203,7 +223,7 @@ function modifyRecruitComment(comment) {
 }
 
 /**
- * 스터디모집글 상세 댓글 삭제
+ * 스터디모집글 댓글 삭제
  */
 function removeRecruitComment(comment) {
     axios.delete(`/recruit/comment/${comment.srcId}`)

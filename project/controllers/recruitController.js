@@ -1,6 +1,20 @@
 const recruitService = require('../services/recruitService');
 
 /**
+ * 스터디모집글 목록 조회
+ */
+exports.getList = async (req, res) => {
+    try {
+        const result = await recruitService.getList();
+        return res.json(result);    
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(err);
+        // next(err);
+    }
+};
+
+/**
  * 스터디모집글 상세 조회
  */
 exports.getDetail = async (req, res) => {
@@ -12,8 +26,25 @@ exports.getDetail = async (req, res) => {
         await recruitService.modifyView(sgId);
         // 상세조회
         const result = await recruitService.getDetail(userId, sgId);
+        return res.json(result[0]);    
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(err);
+        // next(err);
+    }
+};
 
-        return res.json(result[0]);    // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고
+/**
+ * 스터디 / 스터디 모집글 생성
+ */
+exports.createStudy = async (req, res) => {
+    const study = req.body;
+    const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
+    study.userId = userId;
+
+    try {
+        const sgId = await recruitService.createStudy(study);
+        return res.json({sgId});
     } catch (err) {
         console.error(err);
         return res.status(500).json(err);
@@ -24,14 +55,13 @@ exports.getDetail = async (req, res) => {
 /**
  * 스터디 / 스터디모집글 수정
  */
-exports.modifyStudy = async (req, res) => {
+ exports.modifyStudy = async (req, res) => {
     const userId = 1;
     const study = req.body;
     study.userId = userId;
 
     try {
         await recruitService.modifyStudyGroup(study);
-
         return res.json({
             sgId: study.sgId
         });
@@ -40,3 +70,105 @@ exports.modifyStudy = async (req, res) => {
         return res.status(500).json(err);
     }
 };
+
+/**
+ * 스터디 모집완료
+ */
+exports.modifyComplete = async (req, res) => {
+    const userId = 1;
+    const sgId = req.params.sgId;
+
+    try {   
+        await recruitService.modifyComplete(userId, sgId);
+        return res.json({});
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(err);
+    }
+};
+
+/**
+ * 스터디모집글 댓글 조회
+ */
+exports.getComment = async (req, res) => {
+    const sgId = req.params.sgId;
+
+    try {
+        const result = await recruitService.getComment(sgId);
+        return res.json(result);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(err);
+        // next(err);
+    }
+};
+
+/**
+ * 스터디모집글 댓글 등록
+ */
+ exports.createComment = async (req, res) => {
+    const comment = req.body;
+    const userId = 1; // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
+    comment.userId = userId;
+
+    try {
+        await recruitService.createComment(comment);
+        return res.json({});   // [TODO] 조회아닌 등록이나 수정시 리턴값 고려해보기
+    } catch (err) {
+        console.error(err);
+        return res.status(5000).json(err);
+        // next(err);
+    }
+};
+
+/**
+ * 스터디모집글 댓글 수정
+ */
+exports.modifyComment = async (req, res) => {
+    const comment = req.body;
+    const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
+    comment.userId = userId;
+
+    try {
+        await recruitService.modifyComment(comment);
+        return res.json({});   // [TODO] 조회아닌 등록이나 수정시 리턴값 고려해보기
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(err);
+        // next(err);
+    }
+};
+
+/**
+ * 스터디모집글 댓글 삭제
+ */
+exports.removeComment = async (req, res) => {
+    const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
+    const srcId = req.params.srcId;
+
+    try {
+        await recruitService.removeComment(userId, srcId);
+        return res.json({});   // [TODO] 조회아닌 등록이나 수정시 리턴값 고려해보기
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(err);
+        // next(err);
+    }
+};
+
+/**
+ * 공통코드 조회
+ */
+exports.getComCd = async (req, res) => {
+    const cgcName = req.params.cgcName;
+
+    try {
+        const result = await recruitService.getComCd(cgcName);
+        return res.json(result);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(err);
+        // next(err);
+    }
+};
+
