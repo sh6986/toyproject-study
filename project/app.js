@@ -3,11 +3,11 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const path = require('path');
 const nunjucks = require('nunjucks');
-const pageRouter = require('./routes/page');
-const userRouter = require('./routes/user');
-const recruitRouter = require('./routes/recruit');
-const manageRouter = require('./routes/manage');
-const authRouter = require('./routes/auth');
+const pageRouter = require('./routes/pageRouter');
+const userRouter = require('./routes/userRouter');
+const recruitRouter = require('./routes/recruitRouter');
+const manageRouter = require('./routes/manageRouter');
+const authRouter = require('./routes/authRouter');
 const app = express();
 
 app.set('port', process.env.PORT || 8001);

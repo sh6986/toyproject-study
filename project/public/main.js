@@ -10,18 +10,33 @@ window.onload = () => {
  * 화면 초기화
  */
 function initPage() {
+    // 스터디모집글 조회
+    getList();
+}
+
+/**
+ * 이벤트 등록
+ */
+function setEventListener() {
     /**
-     * 스터디모집글 조회
+     * 스터디모집글 클릭시 -> 상세페이지로 이동
      */
+    document.getElementById('studyList').addEventListener('click', (e) => {
+        const sgId = e.target.closest('.recruitBox').getAttribute('data-sgId');
+        location.href = `/detail/${sgId}`;
+    });
+}
+
+/**
+* 스터디모집글 조회
+*/
+function getList() {
     axios.get('/recruit')
         .then(res => {
-            
-            let study = res.data;
             let innerHtml = ``;
 
-            study.forEach((item, index, arr) => {
-
-                if ((index === 0) || (index === 4)) {
+            res.data.forEach((item, index, arr) => {
+                if ((index === 0) || ((index % 4) === 0)) {
                     innerHtml += `
                         <div class="contact-info-area mg-t-30">
                             <div class="container">
@@ -40,7 +55,7 @@ function initPage() {
                     </div>
                 `;
 
-                if ((index === (study.length - 1)) || (index === 3)) {
+                if (index === (res.data.length - 1) || ((index !== 0) && (index % 3) === 0)) {
                     innerHtml += `
                                 </div>
                             </div>
@@ -48,25 +63,12 @@ function initPage() {
                     `;
                 }
             });
+            
             document.getElementById('studyList').innerHTML = innerHtml;
         })
         .catch(err => {
             console.error(err);
         });
-}
-
-
-/**
- * 이벤트 등록
- */
-function setEventListener() {
-    /**
-     * 스터디모집글 상세페이지로 이동
-     */
-    document.getElementById('studyList').addEventListener('click', (e) => {
-        const sgId = e.target.closest('.recruitBox').getAttribute('data-sgId');
-        location.href = `/detail/${sgId}`;
-    });
 }
 
 

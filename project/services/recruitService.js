@@ -51,7 +51,6 @@ exports.createStudy = async (study) => {
 
     try {
         await conn.beginTransaction();
-
         const result = await conn.query(recruitQuery.createStudyGroup, [sgName, sgCategory, sgCnt, userId, userId]);  // 스터디그룹
         sgId = result[0].insertId;
         await conn.query(recruitQuery.createStudyRcrtm, [sgId, srTitle, srContent, userId, userId]);                  // 스터디모집글
@@ -68,7 +67,6 @@ exports.createStudy = async (study) => {
     
             await conn.query(recruitQuery.createStudyTchsh + insertValues, paramArr);                                 // 스터디 기술스택
         } 
-
         await conn.commit();
 
         return sgId;
