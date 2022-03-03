@@ -66,10 +66,16 @@ router.get('/update/:sgId', async (req, res) => {
     res.render('user/login', {page: 'login'});
 });
 
+/**
+ * 내 스터디 목록 페이지
+ */
 router.get('/myStudy', (req, res) => {
     res.render('user/myStudy');
 });
 
+/**
+ * 내 북마크 목록 페이지
+ */
 router.get('/bookmark', (req, res) => {
     res.render('user/bookmark');
 });
@@ -83,11 +89,37 @@ router.get('/dashboard/:sgId', (req, res) => {
 });
 
 /**
- * 스터디관리 - 게시판 페이지
+ * 스터디관리 - 게시판 글등록
+ */
+router.get('/board/create/:sgId', (req, res) => {
+    const sgId = req.params.sgId;
+
+    res.render('manage/boardCreate', {
+        mode: 'create',
+        sgId
+    });
+});
+
+/**
+ * 스터디관리 - 게시판 글수정
+ */
+router.get('/board/modify/:sbId', (req, res) => {
+    const sbId = req.params.sbId;
+
+    res.render('manage/boardCreate', {
+        mode: 'modify',
+        sbId
+    });
+});
+
+/**
+ * 스터디관리 - 게시판 목록 페이지
  */
 router.get('/board/:sgId', (req, res) => {
     const sgId = req.params.sgId;
-    res.render('manage/board', {sgId});
+    res.render('manage/boardList', {sgId});
 });
+
+
 
 module.exports = router;

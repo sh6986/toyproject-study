@@ -1,5 +1,5 @@
 // 스터디모집글 목록 조회
-exports.getRecruit = `
+exports.getRecruitList = `
     SELECT TB.SG_ID
          , TB.SG_NAME
          , TB.SG_CATEGORY

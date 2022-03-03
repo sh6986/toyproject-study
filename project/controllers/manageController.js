@@ -15,3 +15,50 @@ exports.getBoardList = async (req, res) => {
         // next(err);
     }
 };
+
+/**
+ * 게시판 상세 조회
+ */
+exports.getBoardDetail = async (req, res) => {
+    const sbId = req.params.sbId;
+
+    try {
+        const result = await manageService.getBoardDetail(sbId);
+        return res.json(result[0]);
+    } catch (err) {
+        console.error(err)
+        return res.status(500).json(err);
+        // next(err);
+    }
+};
+
+/**
+ * 게시판 글 생성
+ */
+exports.createBoard = async (req, res) => {
+    const board = req.body;
+
+    try {
+        await manageService.createBoard(board);
+        return res.json({});
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(err);
+        // next(err);
+    }
+}
+
+/**
+ * 게시판 글 수정
+ */
+exports.modifyBoard = async (req, res) => {
+    const board = req.body;
+    
+    try {
+        await manageService.modifyBoard(board);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(err);
+        // next(err);
+    }
+}

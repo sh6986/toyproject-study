@@ -1,0 +1,103 @@
+{% extends 'common/layout.html' %}
+
+{% block content %}
+<div class="breadcomb-area" style="background-color: white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="breadcomb-list">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                            <div class="breadcomb-wp">
+                                <div class="breadcomb-ctn">
+                                    <h1>자바 스터디</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-menu-area mg-tb-40">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
+                    <li class="active"><a data-toggle="tab" href="#Home">메뉴1</a>
+                    </li>
+                    <li><a data-toggle="tab" href="#mailbox">메뉴2</a>
+                    </li>
+                    <li><a data-toggle="tab" href="#Interface">메뉴3</a>
+                    </li>
+                    <li><a data-toggle="tab" href="#Charts">메뉴4</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-element-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-element-list mg-t-30">
+                    <input type="hidden" id="sgId" value="{{sgId}}">
+                    <input type="hidden" id="sbId" value="{{sbId}}">
+                    <input type="hidden" id="mode" value="{{mode}}">
+                    <div class="basic-tb-hd">
+                        {% if mode === 'create' %}
+                            <h2>글 작성</h2>
+                        {% else %}
+                            <h2>글 수정</h2>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="nk-int-mk sl-dp-mn">
+                                <h2>제목</h2>
+                            </div>
+                            <div class="form-group">
+                                <div class="nk-int-st">
+                                    <input type="text" id="sbTitle" class="form-control input-lg" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="nk-int-mk sl-dp-mn">
+                                <h2>내용</h2>
+                            </div>
+                            <div class="form-group">
+                                <div class="nk-int-st">
+                                    <textarea id="sbContent" class="form-control" rows="5" placeholder=""></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-example-int mg-t-15">
+                                {% if mode === 'create' %}
+                                    <button id="createBtn" class="btn btn-success notika-btn-success">만들기</button>
+                                {% else %}
+                                    <button id="updateBtn" class="btn btn-success notika-btn-success">수정하기</button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="./manage/boardCreate.js"></script>
+{% endblock %}

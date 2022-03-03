@@ -9,7 +9,7 @@ router.get('/', recruitController.getList);
 router.get('/detail/:sgId', recruitController.getDetail);
 // 스터디 / 스터디 모집글 생성
 router.post('/', recruitController.createStudy);
-// 스터디 / 스터디모집글 수정
+// 스터디 / 스터디 모집글 수정
 router.put('/', recruitController.modifyStudy);
 // 스터디 모집완료
 router.put('/complete/:sgId', recruitController.modifyComplete);
