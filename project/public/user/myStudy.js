@@ -22,7 +22,8 @@ function setEventListener() {
      * 스터디모집글 클릭시 -> 대시보드로 이동
      */
     document.getElementById('dashboard').addEventListener('click', (e) => {
-        
+        const sgId = e.target.closest('.myStudyDiv').querySelector('.sgId').value;
+        location.href = `/dashboard/${sgId}`;
     });
 }
 
@@ -44,7 +45,8 @@ function getMyStudyList() {
                 }
 
                 innerHtml += `
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 myStudyDiv">
+                        <input type="hidden" class="sgId" value="${item.SG_ID}">
                         <div class="contact-inner">
                             <div class="contact-hd widget-ctn-hd">
                                 <h2>${item.SG_NAME}</h2>

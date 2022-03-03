@@ -78,7 +78,9 @@ router.get('/bookmark', (req, res) => {
     res.render('user/bookmark');
 });
 
-router.get('/dashboard', (req, res) => {
+router.get('/dashboard/:sgId', (req, res) => {
+    const sgId = req.params.sgId;
+    console.log(sgId);
     res.render('manage/dashboard');
 });
 

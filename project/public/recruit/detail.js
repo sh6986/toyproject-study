@@ -10,7 +10,7 @@ window.onload = () => {
  * 화면 초기화
  */
 function initPage() {
-    const sgId = document.getElementById('recruitDetail').getAttribute('data-sgId');
+    const sgId = document.getElementById('sgId').value;
     
     // 스터디모집글 상세 조회
     getRecruitDetail(sgId);
@@ -23,7 +23,7 @@ function initPage() {
  * 이벤트 등록
  */
 function setEventListener() {
-    const sgId = document.getElementById('recruitDetail').getAttribute('data-sgId');
+    const sgId = document.getElementById('sgId').value;
 
     /**
      * 글 수정 버튼 클릭시
@@ -60,7 +60,7 @@ function setEventListener() {
     document.getElementById('commentList').addEventListener('click', (e) => {
         const targetClassName = e.target.classList;
         const commentDtlElement = e.target.closest('.commentDtl');
-        const srcId = commentDtlElement ? commentDtlElement.getAttribute('data-srcId') : '';
+        const srcId = commentDtlElement ? commentDtlElement.querySelector('.srcId').value : '';
         const comment = {
             srcId: srcId,
             sgId: sgId,
@@ -87,7 +87,7 @@ function setEventListener() {
 
         // 삭제버튼 클릭시
         if (targetClassName.contains('commentRemoveBtn')) {
-            document.querySelector('.removeModal').setAttribute('data-srcId', srcId);
+            document.querySelector('.srcId').value = srcId;
         }
     });
 
@@ -95,7 +95,7 @@ function setEventListener() {
      * 댓글삭제확인 모달창 - 확인버튼 클릭시
      */
     document.getElementById('removeCommentOkBtn').addEventListener('click', (e) => {
-        const srcId = document.querySelector('.removeModal').getAttribute('data-srcId');
+        const srcId = document.querySelector('.srcId').value;
         const comment = {
             srcId: srcId,
             sgId: sgId,
@@ -154,7 +154,8 @@ function getRecruitComment(sgId, srcId) {
             // [TODO] 관리자 혹은 댓글작성자한테만 수정, 삭제버튼 뜨게 
             res.data.forEach((item, index, arr) => {
                 innerHtml += `
-                    <div class="row commentDtl" data-srcId="${item.SRC_ID}">
+                    <div class="row commentDtl">
+                        <input type="hidden" class="srcId" value="${item.SRC_ID}">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="nk-int-mk sl-dp-mn">
                                 <div>

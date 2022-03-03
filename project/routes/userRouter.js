@@ -9,4 +9,6 @@ const router = express.Router();
  */
 router.get('/myStudy', userController.getMyStudyList);
 
+
+
 module.exports = router;

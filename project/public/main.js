@@ -22,7 +22,7 @@ function setEventListener() {
      * 스터디모집글 클릭시 -> 상세페이지로 이동
      */
     document.getElementById('studyList').addEventListener('click', (e) => {
-        const sgId = e.target.closest('.recruitBox').getAttribute('data-sgId');
+        const sgId = e.target.closest('.recruitBox').querySelector('.sgId').value;
         location.href = `/detail/${sgId}`;
     });
 }
@@ -45,7 +45,8 @@ function getList() {
                 }
 
                 innerHtml += `
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 recruitBox" data-sgId="${item.SG_ID}">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 recruitBox">
+                        <input type="hidden" class="sgId" value="${item.SG_ID}">
                         <div class="contact-inner">
                             <div class="contact-hd widget-ctn-hd">
                                 <h2>${item.SR_TITLE}</h2>
