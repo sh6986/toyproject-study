@@ -18,14 +18,13 @@ exports.getList = async (req, res) => {
  * 스터디모집글 상세 조회
  */
 exports.getDetail = async (req, res) => {
-    const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
     const sgId = req.params.sgId;
 
     try {
         // 조회수 증가
         await recruitService.modifyView(sgId);
         // 상세조회
-        const result = await recruitService.getDetail(userId, sgId);
+        const result = await recruitService.getDetail(sgId);
         return res.json(result[0]);    
     } catch (err) {
         console.error(err);
@@ -39,8 +38,6 @@ exports.getDetail = async (req, res) => {
  */
 exports.createStudy = async (req, res) => {
     const study = req.body;
-    const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
-    study.userId = userId;
 
     try {
         const sgId = await recruitService.createStudy(study);
@@ -56,9 +53,7 @@ exports.createStudy = async (req, res) => {
  * 스터디 / 스터디모집글 수정
  */
  exports.modifyStudy = async (req, res) => {
-    const userId = 1;
     const study = req.body;
-    study.userId = userId;
 
     try {
         await recruitService.modifyStudyGroup(study);
@@ -75,11 +70,10 @@ exports.createStudy = async (req, res) => {
  * 스터디 모집완료
  */
 exports.modifyComplete = async (req, res) => {
-    const userId = 1;
     const sgId = req.params.sgId;
 
     try {   
-        await recruitService.modifyComplete(userId, sgId);
+        await recruitService.modifyComplete(sgId);
         return res.json({});
     } catch (err) {
         console.error(err);
@@ -108,8 +102,6 @@ exports.getComment = async (req, res) => {
  */
  exports.createComment = async (req, res) => {
     const comment = req.body;
-    const userId = 1; // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
-    comment.userId = userId;
 
     try {
         await recruitService.createComment(comment);
@@ -126,8 +118,6 @@ exports.getComment = async (req, res) => {
  */
 exports.modifyComment = async (req, res) => {
     const comment = req.body;
-    const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
-    comment.userId = userId;
 
     try {
         await recruitService.modifyComment(comment);
@@ -143,11 +133,10 @@ exports.modifyComment = async (req, res) => {
  * 스터디모집글 댓글 삭제
  */
 exports.removeComment = async (req, res) => {
-    const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
     const srcId = req.params.srcId;
 
     try {
-        await recruitService.removeComment(userId, srcId);
+        await recruitService.removeComment(srcId);
         return res.json({});   // [TODO] 조회아닌 등록이나 수정시 리턴값 고려해보기
     } catch (err) {
         console.error(err);

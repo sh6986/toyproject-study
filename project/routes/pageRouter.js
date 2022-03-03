@@ -14,10 +14,7 @@ router.get('/', (req, res) => {
  */
 router.get('/detail/:sgId', (req, res) => {
     const sgId = req.params.sgId;
-
-    res.render('recruit/detail', {
-        sgId
-    });
+    res.render('recruit/detail', {sgId});
 });
 
 /**
@@ -42,13 +39,12 @@ router.get('/create', async (req, res) => {
  * 스터디 수정 페이지
  */
 router.get('/update/:sgId', async (req, res) => {
-    const userId = 1; // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
     const sgId = req.params.sgId;
 
     try {
         const sgCategory = await recruitService.getComCd('sg_category');    // 공통코드 조회 - 카테고리
         const stName = await recruitService.getComCd('st_name');            // 공통코드 조회 - 기술스택
-        const recruitDetail = await recruitService.getDetail(userId, sgId);
+        const recruitDetail = await recruitService.getDetail(sgId);
 
         recruitDetail[0].ST_NAME = recruitDetail[0].ST_NAME.split(',');
         
@@ -78,14 +74,20 @@ router.get('/bookmark', (req, res) => {
     res.render('user/bookmark');
 });
 
+/**
+ * 스터디관리 - 대시보드 페이지
+ */
 router.get('/dashboard/:sgId', (req, res) => {
     const sgId = req.params.sgId;
-    console.log(sgId);
-    res.render('manage/dashboard');
+    res.render('manage/dashboard', {sgId});
 });
 
-router.get('/board', (req, res) => {
-    res.render('manage/board');
+/**
+ * 스터디관리 - 게시판 페이지
+ */
+router.get('/board/:sgId', (req, res) => {
+    const sgId = req.params.sgId;
+    res.render('manage/board', {sgId});
 });
 
 module.exports = router;
