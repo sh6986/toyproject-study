@@ -39,14 +39,14 @@ exports.createBoard = async (req, res) => {
     const board = req.body;
 
     try {
-        await manageService.createBoard(board);
-        return res.json({});
+        const sbId = await manageService.createBoard(board);
+        return res.json({sbId});
     } catch (err) {
         console.error(err);
         return res.status(500).json(err);
         // next(err);
     }
-}
+};
 
 /**
  * 게시판 글 수정
@@ -56,9 +56,26 @@ exports.modifyBoard = async (req, res) => {
     
     try {
         await manageService.modifyBoard(board);
+        return res.json({});
     } catch (err) {
         console.error(err);
         return res.status(500).json(err);
         // next(err);
     }
-}
+};
+
+/**
+ * 게시판 글 삭제
+ */
+exports.removeBoard = async (req, res) => {
+    const sbId = req.params.sbId;
+
+    try {
+        await manageService.removeBoard(sbId);
+        return res.json({});
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(err);
+        // next(err);
+    }
+};

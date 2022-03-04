@@ -26,7 +26,7 @@ function setEventListener() {
      * 게시판 - 더보기 버튼 클릭시 -> 게시판목록으로 이동
      */
     document.getElementById('boardListBtn').addEventListener('click', (e) => {
-        location.href = `/board/${sgId}`;
+        location.href = `/boardList/${sgId}`;
     });
 }
 

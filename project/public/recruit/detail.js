@@ -109,34 +109,17 @@ function setEventListener() {
  * 스터디모집글 상세 조회
  */
  function getRecruitDetail(sgId) {
-    let innerHtml = ``;
-
     axios.get(`/recruit/detail/${sgId}`)
         .then(res => {
             const study = res.data;
-
-            innerHtml = `
-                <div class="basic-tb-hd">
-                    <h1>${study.SR_TITLE}</h1>
-                    <h4>${study.USER_NICKNAME} | ${study.SG_REG_DATE} | 조회수 ${study.SR_VIEWS} | 북마크 ${study.SRB_CNT} ${study.SRB_YN}</h4>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="nk-int-mk sl-dp-mn">
-                            <h2>${study.ST_NAME_DESC}</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="nk-int-mk sl-dp-mn">
-                            <h2>${study.SR_CONTENT}</h2>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('studyDetail').innerHTML = innerHtml;
+            document.getElementById('srTitle').innerHTML = study.SR_TITLE;
+            document.getElementById('userNickname').innerHTML = study.USER_NICKNAME;
+            document.getElementById('sbRegDate').innerHTML = study.SG_REG_DATE;
+            document.getElementById('sbViews').innerHTML = study.SR_VIEWS;
+            document.getElementById('srbCnt').innerHTML = study.SRB_CNT;
+            document.getElementById('srbYn').innerHTML = study.SRB_YN;
+            document.getElementById('stNameDesc').innerHTML = study.ST_NAME_DESC;
+            document.getElementById('srContent').innerHTML = study.SR_CONTENT;
         })
         .catch(err => {
             console.error(err);

@@ -1,6 +1,8 @@
 // 게시판 목록 조회
 exports.getBoardList = `
-    SELECT A.SB_TITLE 
+    SELECT A.SG_ID
+         , A.SB_ID
+         , A.SB_TITLE 
          , A.SB_VIEWS
          , A.SB_NOTICE_YN
          , B.USER_NICKNAME
@@ -60,6 +62,15 @@ exports.modifyBoard = `
        SET SB_TITLE = ?
          , SB_CONTENT = ?
          , SB_NOTICE_YN = ?
+         , SB_UDT_ID = ?
+         , SB_UDT_DATE = NOW()
+     WHERE SB_ID = ?
+`;
+
+// 게시판 글 삭제
+exports.removeBoard = `
+    UPDATE STUDY_BOARD 
+       SET SB_DEL_YN = 'Y'
          , SB_UDT_ID = ?
          , SB_UDT_DATE = NOW()
      WHERE SB_ID = ?

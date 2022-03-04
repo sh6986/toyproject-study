@@ -89,6 +89,24 @@ router.get('/dashboard/:sgId', (req, res) => {
 });
 
 /**
+ * 스터디관리 - 게시판 목록 페이지
+ */
+ router.get('/boardList/:sgId', (req, res) => {
+    const sgId = req.params.sgId;
+    res.render('manage/boardList', {sgId});
+});
+
+/**
+ * 스터디관리 - 게시판 글 상세 페이지
+ */
+ router.get('/board/detail/:sgId/:sbId', (req, res) => {
+    const sgId = req.params.sgId;
+    const sbId = req.params.sbId;
+
+    res.render('manage/boardDetail', {sgId, sbId});
+});
+
+/**
  * 스터디관리 - 게시판 글등록
  */
 router.get('/board/create/:sgId', (req, res) => {
@@ -111,15 +129,5 @@ router.get('/board/modify/:sbId', (req, res) => {
         sbId
     });
 });
-
-/**
- * 스터디관리 - 게시판 목록 페이지
- */
-router.get('/board/:sgId', (req, res) => {
-    const sgId = req.params.sgId;
-    res.render('manage/boardList', {sgId});
-});
-
-
 
 module.exports = router;

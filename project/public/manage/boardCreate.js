@@ -90,7 +90,8 @@ function getBoardDetail(sbId) {
 function createBoard(board) {
     axios.post(`/manage/board`, board)
         .then(res => {
-            location.href = `/board/${board.sgId}`;
+            const sbId = res.data.sbId;
+            location.href = `/board/detail/${board.sgId}/${sbId}`;
         })
         .catch(err => {
             console.error(err);
@@ -103,7 +104,7 @@ function createBoard(board) {
 function modifyBoard(board) {
     axios.put(`/manage/board`, board)
         .then(res => {
-            // [TODO] 수정한 글 상세로 이동
+            location.href = `/board/detail/${board.sgId}/${board.sbId}`;
         })
         .catch(err => {
             console.error(err);

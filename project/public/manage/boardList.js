@@ -20,7 +20,14 @@ function initPage() {
  * 이벤트 등록
  */
 function setEventListener() {
+    const sgId = document.getElementById('sgId').value;
 
+    /**
+     * 글쓰기 버튼 클릭
+     */
+    document.getElementById('createBtn').addEventListener('click', (e) => {
+        location.href = `/board/create/${sgId}`;
+    });
 }
 
 /**
@@ -35,6 +42,9 @@ function getBoardList(sgId) {
                 innerHtml += `
                     <tr>
                         <td>${item.SB_TITLE}</td>
+                        <td>
+                            <a href="/board/detail/${item.SG_ID}/${item.SB_ID}">${item.SB_TITLE}</a>
+                        </td>
                         <td>${item.USER_NICKNAME}</td>
                         <td>${item.SB_REG_DATE}</td>
                         <td>${item.SB_VIEWS}</td>

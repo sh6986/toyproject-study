@@ -10,6 +10,8 @@ router.get('/boardDetail/:sbId', manageController.getBoardDetail);
 router.post('/board', manageController.createBoard);
 // 게시판 글 수정
 router.put('/board', manageController.modifyBoard);
+// 게시판 글 삭제
+router.delete('/board/:sbId', manageController.removeBoard);
 
 
 /**

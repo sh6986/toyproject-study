@@ -1,0 +1,98 @@
+{% extends 'common/layout.html' %}
+
+{% block content %}
+<div class="breadcomb-area" style="background-color: white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="breadcomb-list">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                            <div class="breadcomb-wp">
+                                <div class="breadcomb-ctn">
+                                    <h1>자바 스터디</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-menu-area mg-tb-40">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
+                    <li class="active"><a data-toggle="tab" href="#Home">메뉴1</a>
+                    </li>
+                    <li><a data-toggle="tab" href="#mailbox">메뉴2</a>
+                    </li>
+                    <li><a data-toggle="tab" href="#Interface">메뉴3</a>
+                    </li>
+                    <li><a data-toggle="tab" href="#Charts">메뉴4</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-element-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <input type="hidden" id="sbId" value="{{sbId}}">
+                <input type="hidden" id="sgId" value="{{sgId}}">
+                <div class="form-element-list mg-t-30">
+                    <div id="boardDetail">
+                        <div class="basic-tb-hd">
+                            <h1 id="sbTitle"></h1>
+                            <span id="userNickname"></span> | 
+                            <span id="sbRegDate"></span> |
+                            조회수 <span id="sbViews"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="nk-int-mk sl-dp-mn">
+                                    <h2 id="sbContent"></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-default" id="modifyBtn" data-dismiss="modal">수정</button>
+                    <button type="button" class="btn btn-default" id="removeBtn" data-toggle="modal" data-target="#removeModal">삭제</button>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 게시글 삭제확인 모달창 -->
+<div class="modal fade removeModal" id="removeModal" role="dialog">
+    <div class="modal-dialog modals-default">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h2>게시글을 삭제하시겠습니까?</h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="removeOkBtn" data-dismiss="modal">확인</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /게시글 삭제확인 모달창 -->
+
+
+{% endblock %}
+
+{% block script %}
+<script src="./manage/boardDetail.js"></script>
+{% endblock %}

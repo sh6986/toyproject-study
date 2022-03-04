@@ -36,12 +36,14 @@ exports.createBoard = async (board) => {
     const {sgId, sbTitle, sbContent, sbNoticeYn} = board;
 
     try {
-        await pool.query(manageQuery.createBoard, [sgId, sbTitle, sbContent, sbNoticeYn, userId, userId]);
+        const result = await pool.query(manageQuery.createBoard, [sgId, sbTitle, sbContent, sbNoticeYn, userId, userId]);
+        sbId = result[0].insertId;
+        return sbId;
     } catch (err) {
         console.error(err);
         throw Error(err);
     }
-}
+};
 
 /**
  * 게시판 글 수정
@@ -56,4 +58,18 @@ exports.modifyBoard = async (board) => {
         console.error(err);
         throw Error(err);
     }
-}
+};
+
+/**
+ * 게시판 글 삭제
+ */
+exports.removeBoard = async (sbId) => {
+    const userId = 1;
+
+    try {
+        await pool.query(manageQuery.removeBoard, [userId, sbId]);
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};
