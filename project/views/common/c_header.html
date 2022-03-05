@@ -11,7 +11,11 @@
                 <div class="header-top-menu">
                     <ul class="nav navbar-nav notika-top-nav">
                         <li class="nav-item">
+                            {% if user %}
+                            <a href="/login" role="button" aria-expanded="false" class="nav-link"><span>로그아웃</span></a>
+                            {% else %}
                             <a href="/login" role="button" aria-expanded="false" class="nav-link"><span>로그인</span></a>
+                            {% endif %}
                         </li>
                     </ul>
                 </div>

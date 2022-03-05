@@ -4,7 +4,7 @@ const recruitQuery = require('../queries/recruitQuery');
 /**
  * 스터디모집글 목록 조회
  */
-exports.getList = async (req, res) => {
+exports.getList = async () => {
     try {
         const result = await pool.query(recruitQuery.getRecruitList);
         return result[0];   // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고

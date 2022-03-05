@@ -3,6 +3,14 @@ const recruitService = require('../services/recruitService');
 const router = express.Router();
 
 /**
+ * 세션에 저장된 유저 정보 가져오기
+ */
+router.use((req, res, next) => {
+    res.locals.user = req.user;
+    next();
+});
+
+/**
  * 스터디 목록 페이지 - 메인 페이지
  */
 router.get('/', (req, res) => {

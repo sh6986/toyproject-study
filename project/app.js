@@ -2,13 +2,19 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const path = require('path');
+const session = require('express-session');
+const passport = require('passport');
 const nunjucks = require('nunjucks');
+const dotenv = require('dotenv');
 const pageRouter = require('./routes/pageRouter');
 const userRouter = require('./routes/userRouter');
 const recruitRouter = require('./routes/recruitRouter');
 const manageRouter = require('./routes/manageRouter');
 const authRouter = require('./routes/authRouter');
+const passportConfig = require('./passport/index');
 const app = express();
+dotenv.config();
+passportConfig();
 
 app.set('port', process.env.PORT || 8001);
 app.set('view engine', 'html');
@@ -22,6 +28,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(session({
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.COOKIE_SECRET,
+    cookie: {
+        httpOnly: true,
+        secure: false
+    }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', pageRouter);
 app.use('/user', userRouter);
