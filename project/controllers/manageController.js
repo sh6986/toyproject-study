@@ -40,6 +40,7 @@ exports.getBoardDetail = async (req, res) => {
  */
 exports.createBoard = async (req, res) => {
     const board = req.body;
+    board.userId = req.user.USER_ID;
 
     try {
         const sbId = await manageService.createBoard(board);
@@ -56,6 +57,7 @@ exports.createBoard = async (req, res) => {
  */
 exports.modifyBoard = async (req, res) => {
     const board = req.body;
+    board.userId = req.user.USER_ID;
     
     try {
         await manageService.modifyBoard(board);
@@ -71,10 +73,11 @@ exports.modifyBoard = async (req, res) => {
  * 게시판 글 삭제
  */
 exports.removeBoard = async (req, res) => {
+    const userId = req.user.USER_ID;
     const sbId = req.params.sbId;
 
     try {
-        await manageService.removeBoard(sbId);
+        await manageService.removeBoard(userId, sbId);
         return res.json({});
     } catch (err) {
         console.error(err);

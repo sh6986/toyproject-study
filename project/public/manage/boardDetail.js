@@ -27,7 +27,7 @@ function setEventListener() {
      * 수정 버튼 클릭시
      */
     document.getElementById('modifyBtn').addEventListener('click', (e) => {
-        location.href = `/board/modify/${sbId}`;
+        location.href = `/board/modify/${sgId}/${sbId}`;
     });
 
     /**

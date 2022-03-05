@@ -18,10 +18,8 @@ exports.getList = async () => {
  * 스터디모집글 상세 조회
  */
 exports.getDetail = async (sgId) => {
-    const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
-
     try {
-        const result = await pool.query(recruitQuery.getRecruitDetail, [userId, sgId]);
+        const result = await pool.query(recruitQuery.getRecruitDetail, [sgId]);
         return result[0];   // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고
     } catch (err) {
         console.error(err);
@@ -45,8 +43,7 @@ exports.modifyView = async (sgId) => {
  * 스터디 / 스터디 모집글 생성
  */
 exports.createStudy = async (study) => {
-    const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
-    const {sgName, sgCategory, sgCnt, srTitle, srContent, stCode} = study;
+    const {sgName, sgCategory, sgCnt, srTitle, srContent, stCode, userId} = study;
     const conn = await pool.getConnection();
     let sgId;
     let insertValues = ``;
@@ -85,8 +82,7 @@ exports.createStudy = async (study) => {
  * 스터디 / 스터디모집글 수정
  */
  exports.modifyStudyGroup = async (study) => {
-    const userId = 1;
-    const {sgName, sgCategory, sgCnt, sgId, stCode, srTitle, srContent} = study;
+    const {sgName, sgCategory, sgCnt, sgId, stCode, srTitle, srContent, userId} = study;
     let insertValues = ``;
     let paramArr = [];
     const conn = await pool.getConnection();
@@ -121,9 +117,7 @@ exports.createStudy = async (study) => {
 /**
  * 스터디 모집완료
  */
-exports.modifyComplete = async (sgId) => {
-    const userId = 1;
-
+exports.modifyComplete = async (userId, sgId) => {
     try {
         await pool.query(recruitQuery.modifyComplete, [userId, sgId]);
     } catch (err) {
@@ -149,8 +143,7 @@ exports.getComment = async (sgId) => {
  * 스터디모집글 댓글 등록
  */
 exports.createComment = async (comment) => {
-    const userId = 1; // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
-    const {sgId, srcContent} = comment;
+    const {sgId, srcContent, userId} = comment;
 
     try {
         await pool.query(recruitQuery.createRecruitComment, [sgId, srcContent, userId, userId]);
@@ -164,8 +157,7 @@ exports.createComment = async (comment) => {
  * 스터디모집글 댓글 수정
  */
 exports.modifyComment = async (comment) => {
-    const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
-    const {srcContent, srcId} = comment;
+    const {srcContent, srcId, userId} = comment;
 
     try {
         await pool.query(recruitQuery.modifyRecruitComment, [srcContent, userId, srcId]);
@@ -178,9 +170,7 @@ exports.modifyComment = async (comment) => {
 /**
  * 스터디모집글 댓글 삭제
  */
-exports.removeComment = async (srcId) => {
-    const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
-
+exports.removeComment = async (userId, srcId) => {
     try {
         await pool.query(recruitQuery.removeRecruitComment, [userId, srcId]);
     } catch (err) {

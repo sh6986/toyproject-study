@@ -32,10 +32,7 @@ function setEventListener() {
          * 만들기 버튼 클릭시
          */
         document.getElementById('createBtn').addEventListener('click', (e) => {
-            const sgId = document.getElementById('sgId').value;
             board = getValue();
-            board.sgId = sgId;
-
             createBoard(board);
         });
     } else {                    // 수정일때
@@ -44,6 +41,7 @@ function setEventListener() {
          */
         document.getElementById('updateBtn').addEventListener('click', (e) => {
             const sbId = document.getElementById('sbId').value;
+            
             board = getValue();
             board.sbId = sbId;
 
@@ -56,10 +54,12 @@ function setEventListener() {
  * 각 입력값 가져오기
  */
 function getValue() {
+    const sgId = document.getElementById('sgId').value;
     const sbTitle = document.getElementById('sbTitle').value;
     const sbContent = document.getElementById('sbContent').value;
     const sbNoticeYn = 'N';     // [TODO] 게시판 글 생성시 공지여부 체크박스
     const board = {
+        sgId,
         sbTitle,
         sbContent,
         sbNoticeYn

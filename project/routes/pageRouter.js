@@ -1,5 +1,6 @@
 const express = require('express');
 const recruitService = require('../services/recruitService');
+const {isLoggedIn, isNotLoggedIn} = require('./middlewares');
 const router = express.Router();
 
 /**
@@ -28,7 +29,7 @@ router.get('/detail/:sgId', (req, res) => {
 /**
  * 스터디 생성 페이지
  */
-router.get('/create', async (req, res) => {
+router.get('/create', isLoggedIn, async (req, res) => {
     try {
         const sgCategory = await recruitService.getComCd('sg_category');    // 공통코드 조회 - 카테고리
         const stName = await recruitService.getComCd('st_name');            // 공통코드 조회 - 기술스택
@@ -46,7 +47,7 @@ router.get('/create', async (req, res) => {
 /**
  * 스터디 수정 페이지
  */
-router.get('/update/:sgId', async (req, res) => {
+router.get('/update/:sgId', isLoggedIn, async (req, res) => {
     const sgId = req.params.sgId;
 
     try {
@@ -70,28 +71,28 @@ router.get('/update/:sgId', async (req, res) => {
 /**
  * 로그인 페이지
  */
- router.get('/login', (req, res) => {
+ router.get('/login', isNotLoggedIn, (req, res) => {
     res.render('user/login', {page: 'login'});
 });
 
 /**
  * 내 스터디 목록 페이지
  */
-router.get('/myStudy', (req, res) => {
+router.get('/myStudy', isLoggedIn, (req, res) => {
     res.render('user/myStudy');
 });
 
 /**
  * 내 북마크 목록 페이지
  */
-router.get('/bookmark', (req, res) => {
+router.get('/bookmark', isLoggedIn, (req, res) => {
     res.render('user/bookmark');
 });
 
 /**
  * 스터디관리 - 대시보드 페이지
  */
-router.get('/dashboard/:sgId', (req, res) => {
+router.get('/dashboard/:sgId', isLoggedIn, (req, res) => {
     const sgId = req.params.sgId;
     res.render('manage/dashboard', {sgId});
 });
@@ -99,7 +100,7 @@ router.get('/dashboard/:sgId', (req, res) => {
 /**
  * 스터디관리 - 게시판 목록 페이지
  */
- router.get('/boardList/:sgId', (req, res) => {
+ router.get('/boardList/:sgId', isLoggedIn, (req, res) => {
     const sgId = req.params.sgId;
     res.render('manage/boardList', {sgId});
 });
@@ -107,7 +108,7 @@ router.get('/dashboard/:sgId', (req, res) => {
 /**
  * 스터디관리 - 게시판 글 상세 페이지
  */
- router.get('/board/detail/:sgId/:sbId', (req, res) => {
+ router.get('/board/detail/:sgId/:sbId', isLoggedIn, (req, res) => {
     const sgId = req.params.sgId;
     const sbId = req.params.sbId;
 
@@ -117,7 +118,7 @@ router.get('/dashboard/:sgId', (req, res) => {
 /**
  * 스터디관리 - 게시판 글등록
  */
-router.get('/board/create/:sgId', (req, res) => {
+router.get('/board/create/:sgId', isLoggedIn, (req, res) => {
     const sgId = req.params.sgId;
 
     res.render('manage/boardCreate', {
@@ -129,11 +130,13 @@ router.get('/board/create/:sgId', (req, res) => {
 /**
  * 스터디관리 - 게시판 글수정
  */
-router.get('/board/modify/:sbId', (req, res) => {
+router.get('/board/modify/:sgId/:sbId', isLoggedIn, (req, res) => {
+    const sgId = req.params.sgId;
     const sbId = req.params.sbId;
 
     res.render('manage/boardCreate', {
         mode: 'modify',
+        sgId,
         sbId
     });
 });
@@ -141,7 +144,7 @@ router.get('/board/modify/:sbId', (req, res) => {
 /**
  * 스터디관리 - 일정 등록
  */
-router.get('/schedule/create/:sgId', (req, res) => {
+router.get('/schedule/create/:sgId', isLoggedIn, (req, res) => {
     const sgId = req.params.sgId;
     
     res.render('manage/scheduleCreate', {

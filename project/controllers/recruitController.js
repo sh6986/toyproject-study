@@ -38,6 +38,7 @@ exports.getDetail = async (req, res) => {
  */
 exports.createStudy = async (req, res) => {
     const study = req.body;
+    study.userId = req.user.USER_ID;
 
     try {
         const sgId = await recruitService.createStudy(study);
@@ -54,6 +55,7 @@ exports.createStudy = async (req, res) => {
  */
  exports.modifyStudy = async (req, res) => {
     const study = req.body;
+    study.userId = req.user.USER_ID;
 
     try {
         await recruitService.modifyStudyGroup(study);
@@ -70,10 +72,11 @@ exports.createStudy = async (req, res) => {
  * 스터디 모집완료
  */
 exports.modifyComplete = async (req, res) => {
+    const userId = req.user.USER_ID;
     const sgId = req.params.sgId;
 
     try {   
-        await recruitService.modifyComplete(sgId);
+        await recruitService.modifyComplete(userId, sgId);
         return res.json({});
     } catch (err) {
         console.error(err);
@@ -102,6 +105,7 @@ exports.getComment = async (req, res) => {
  */
  exports.createComment = async (req, res) => {
     const comment = req.body;
+    comment.userId = req.user.USER_ID;
 
     try {
         await recruitService.createComment(comment);
@@ -118,6 +122,7 @@ exports.getComment = async (req, res) => {
  */
 exports.modifyComment = async (req, res) => {
     const comment = req.body;
+    comment.userId = req.user.USER_ID;
 
     try {
         await recruitService.modifyComment(comment);
@@ -133,10 +138,11 @@ exports.modifyComment = async (req, res) => {
  * 스터디모집글 댓글 삭제
  */
 exports.removeComment = async (req, res) => {
+    const userId = req.user.USER_ID;
     const srcId = req.params.srcId;
 
     try {
-        await recruitService.removeComment(srcId);
+        await recruitService.removeComment(userId, srcId);
         return res.json({});   // [TODO] 조회아닌 등록이나 수정시 리턴값 고려해보기
     } catch (err) {
         console.error(err);

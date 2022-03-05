@@ -43,8 +43,7 @@ exports.modifyBoardViews = async (sbId) => {
  * 게시판 글 생성
  */
 exports.createBoard = async (board) => {
-    const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
-    const {sgId, sbTitle, sbContent, sbNoticeYn} = board;
+    const {sgId, sbTitle, sbContent, sbNoticeYn, userId} = board;
 
     try {
         const result = await pool.query(manageQuery.createBoard, [sgId, sbTitle, sbContent, sbNoticeYn, userId, userId]);
@@ -60,8 +59,7 @@ exports.createBoard = async (board) => {
  * 게시판 글 수정
  */
 exports.modifyBoard = async (board) => {
-    const userId = 1;   // [TODO] 로그인 구현 후 세션에서 해당아이디 가져오기
-    const {sbId, sbTitle, sbContent, sbNoticeYn} = board;
+    const {sbId, sbTitle, sbContent, sbNoticeYn, userId} = board;
     
     try {
         await pool.query(manageQuery.modifyBoard, [sbTitle, sbContent, sbNoticeYn, userId, sbId]);
@@ -74,9 +72,7 @@ exports.modifyBoard = async (board) => {
 /**
  * 게시판 글 삭제
  */
-exports.removeBoard = async (sbId) => {
-    const userId = 1;
-
+exports.removeBoard = async (userId, sbId) => {
     try {
         await pool.query(manageQuery.removeBoard, [userId, sbId]);
     } catch (err) {

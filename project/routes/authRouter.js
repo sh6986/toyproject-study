@@ -1,11 +1,12 @@
 const express = require('express');
 const passport = require('passport');
+const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const router = express.Router();
 
 /**
  * 로그인
  */
-router.post('/login', (req, res, next) => {
+router.post('/login', isNotLoggedIn, (req, res, next) => {
     passport.authenticate('local', (authError, user, info) => {
         // 서버에러
         if (authError) {
@@ -35,7 +36,7 @@ router.post('/login', (req, res, next) => {
 /**
  * 로그아웃
  */
-router.get('/logout', (req, res) => {
+router.get('/logout', isLoggedIn, (req, res) => {
     req.logout();
     req.session.destroy();
     res.redirect('/');
