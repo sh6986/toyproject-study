@@ -44,16 +44,3 @@ function login(loginUser) {
             console.error(err);
         }) ;
 }
-
-/**
- * 로그아웃
- */
-function logout() {
-    axois.get(`/auth/logout`)
-        .then(res => {
-            location.href = '/';
-        })
-        .catch(err => {
-            console.error(err);
-        });
-}
