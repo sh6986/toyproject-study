@@ -29,6 +29,13 @@ exports.getBoardDetail = `
        AND A.SB_DEL_YN = 'N'
 `;
 
+// 게시판 조회수 증가
+exports.modifyBoardViews = `
+    UPDATE STUDY_BOARD 
+       SET SB_VIEWS = SB_VIEWS + 1
+     WHERE SB_ID = ?
+`;
+
 // 게시판 글 생성
 exports.createBoard = `
     INSERT INTO STUDY_BOARD (

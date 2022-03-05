@@ -130,4 +130,16 @@ router.get('/board/modify/:sbId', (req, res) => {
     });
 });
 
+/**
+ * 스터디관리 - 일정 등록
+ */
+router.get('/schedule/create/:sgId', (req, res) => {
+    const sgId = req.params.sgId;
+    
+    res.render('manage/scheduleCreate', {
+        mode: 'create',
+        sgId
+    });
+});
+
 module.exports = router;

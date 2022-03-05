@@ -17,7 +17,6 @@ function initPage() {
         
         // 게시판 상세 조회
         getBoardDetail(sbId);
-
     } 
 }
 

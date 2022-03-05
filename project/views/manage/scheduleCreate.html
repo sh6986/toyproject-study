@@ -44,28 +44,14 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <input type="hidden" id="sgId" value="{{sgId}}">
                 <div class="form-element-list mg-t-30">
-                    <input type="hidden" id="sgId" value="{{sgId}}">
-                    <input type="hidden" id="sbId" value="{{sbId}}">
-                    <input type="hidden" id="mode" value="{{mode}}">
                     <div class="basic-tb-hd">
                         {% if mode === 'create' %}
-                            <h2>글 작성</h2>
+                            <h2>일정 등록</h2>
                         {% else %}
-                            <h2>글 수정</h2>
+                            <h2>일정 수정</h2>
                         {% endif %}
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h2>제목</h2>
-                            </div>
-                            <div class="form-group">
-                                <div class="nk-int-st">
-                                    <input type="text" id="sbTitle" class="form-control input-lg" placeholder="">
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -74,7 +60,51 @@
                             </div>
                             <div class="form-group">
                                 <div class="nk-int-st">
-                                    <textarea id="sbContent" class="form-control" rows="5" placeholder=""></textarea>
+                                    <input type="text" class="form-control input-lg" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="nk-int-mk sl-dp-mn">
+                                <h2>장소</h2>
+                            </div>
+                            <div class="form-group">
+                                <div class="nk-int-st">
+                                    <input type="text" class="form-control input-lg" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="nk-int-mk sl-dp-mn">
+                                <h2>날짜</h2>
+                            </div>
+                            <div class="form-group nk-datapk-ctm form-elet-mg scheduleDate" id="data_1">
+                                <div class="input-group date nk-int-st">
+                                    <span class="input-group-addon"></span>
+                                    <input type="text" class="form-control" value="03/19/2018">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="nk-int-mk sl-dp-mn">
+                                <h2>시간</h2>
+                            </div>
+                            <div class="form-group">
+                                <div class="nk-int-st">
+                                    <div class="bootstrap-select fm-cmp-mg">
+                                        <select class="selectpicker">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -99,5 +129,5 @@
 {% endblock %}
 
 {% block script %}
-<script src="./manage/boardCreate.js"></script>
+<script src="./manage/scheduleCreate.js"></script>
 {% endblock %}

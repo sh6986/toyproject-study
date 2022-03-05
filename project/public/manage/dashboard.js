@@ -28,6 +28,13 @@ function setEventListener() {
     document.getElementById('boardListBtn').addEventListener('click', (e) => {
         location.href = `/boardList/${sgId}`;
     });
+
+    /**
+     * 일정 - 일정만들기 버튼 클릭시
+     */
+    document.getElementById('createScheduleBtn').addEventListener('click', (e) => {
+        location.href = `/schedule/create/${sgId}`;
+    });
 }
 
 /**

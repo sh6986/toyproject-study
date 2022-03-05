@@ -23,6 +23,9 @@ exports.getBoardDetail = async (req, res) => {
     const sbId = req.params.sbId;
 
     try {
+        // 조회수 증가
+        await manageService.modifyBoardViews(sbId);
+        // 상세조회
         const result = await manageService.getBoardDetail(sbId);
         return res.json(result[0]);
     } catch (err) {

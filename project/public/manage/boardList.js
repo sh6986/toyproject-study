@@ -41,7 +41,6 @@ function getBoardList(sgId) {
             res.data.forEach((item, index) => {
                 innerHtml += `
                     <tr>
-                        <td>${item.SB_TITLE}</td>
                         <td>
                             <a href="/board/detail/${item.SG_ID}/${item.SB_ID}">${item.SB_TITLE}</a>
                         </td>

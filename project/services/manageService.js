@@ -25,7 +25,18 @@ exports.getBoardDetail = async (sbId) => {
         console.error(err);
         throw Error(err);
     }
-    // [TODO] 조회수 증가
+};
+
+/**
+ * 게시판 조회수 증가
+ */
+exports.modifyBoardViews = async (sbId) => {
+    try {
+        await pool.query(manageQuery.modifyBoardViews, [sbId]);
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
 };
 
 /**
