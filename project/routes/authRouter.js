@@ -15,7 +15,7 @@ router.post('/login', (req, res, next) => {
 
         // 로그인 실패시
         if (!user) {
-            return res.json({result: 'err'});   // [TODO] 에러페이지
+            return res.json({});   // [TODO] 에러페이지
         }
 
         // 로그인 성공시
@@ -26,10 +26,19 @@ router.post('/login', (req, res, next) => {
                 return next(loginError);
             }
 
-            return res.json({result: 'suc'});   // [TODO] 에러페이지
+            return res.json({});   // [TODO] 에러페이지
         });
 
     })(req, res, next);
+});
+
+/**
+ * 로그아웃
+ */
+router.get('/logout', (req, res) => {
+    req.logout();
+    req.session.destroy();
+    res.redirect('/');
 });
 
 module.exports = router;

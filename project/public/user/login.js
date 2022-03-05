@@ -38,10 +38,22 @@ function setEventListener() {
 function login(loginUser) {
     axios.post(`/auth/login`, loginUser)
         .then(res => {
-            console.log(res);
             location.href = '/';
         })
         .catch(err => {
             console.error(err);
         }) ;
+}
+
+/**
+ * 로그아웃
+ */
+function logout() {
+    axois.get(`/auth/logout`)
+        .then(res => {
+            location.href = '/';
+        })
+        .catch(err => {
+            console.error(err);
+        });
 }
