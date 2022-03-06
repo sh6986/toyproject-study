@@ -16,6 +16,10 @@ router.put('/', isLoggedIn, recruitController.modifyStudy);
 router.put('/complete/:sgId', isLoggedIn, recruitController.modifyComplete);
 // 스터디 멤버 생성
 router.post('/member', isLoggedIn, recruitController.createMember);
+// 스터디 북마크 등록
+router.post('/studyBkm', isLoggedIn, recruitController.createStudyBkm);
+// 스터디 북마크 취소
+router.put('/studyBkm', isLoggedIn, recruitController.modifyStudyBkm);
 
 // 스터디모집글 댓글 조회
 router.get('/comment/:sgId', recruitController.getComment);

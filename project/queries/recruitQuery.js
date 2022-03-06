@@ -211,6 +211,37 @@ exports.modifyComplete = `
      WHERE SG_ID = ?
 `;
 
+// 스터디 북마크 등록
+exports.createStudyBkm = `
+    INSERT INTO STUDY_RCRTM_BKM (
+           USER_ID
+         , SG_ID 
+         , SRB_DEL_YN 
+         , SRB_REG_ID 
+         , SRB_REG_DATE 
+         , SRB_UDT_ID 
+         , SRB_UDT_DATE 
+    ) VALUES (
+           ?
+         , ?
+         , 'N'
+         , ?
+         , NOW()
+         , ?
+         , NOW()
+    )
+`;
+
+// 스터디 북마크 취소
+exports.modifyStudyBkm = `
+    UPDATE STUDY_RCRTM_BKM 
+       SET SRB_DEL_YN ='Y'
+         , SRB_UDT_ID = ?
+         , SRB_UDT_DATE = NOW()
+     WHERE USER_ID = ?
+       AND SG_ID = ?
+`
+
 // 스터디모집글 댓글 조회
 exports.getRecruitComment = `
     SELECT A.SRC_ID

@@ -17,15 +17,10 @@ function initPage() {
 
     // 스터디모집글 상세 댓글 조회
     getRecruitComment(sgId);
-};
 
-/**
- * 세션에 저장된 사용자ID 가져오기
- */
-function getSessionUserId() {
-    const sessionUserId = document.getElementById('sessionUserId').value;
-    return sessionUserId;
-}
+    // 스터디 북마크 여부
+    getStudyBkmYn(sgId);
+};
 
 /**
  * 이벤트 등록
@@ -62,6 +57,20 @@ function setEventListener() {
         } else {                // 비로그인시
             location.href = `/login`;
         }
+    });
+
+    /**
+     * 북마크하기 아이콘 클릭시
+     */
+    document.getElementById('studyBkmN').addEventListener('click', (e) => {
+        createStudyBkm(sgId);
+    });
+
+    /**
+     * 북마크취소 아이콘 클릭시
+     */
+    document.getElementById('studyBkmY').addEventListener('click', (e) => {
+        modifyStudyBkm(sgId);
     });
     
     /**
@@ -130,6 +139,14 @@ function setEventListener() {
 };
 
 /**
+ * 세션에 저장된 사용자ID 가져오기
+ */
+ function getSessionUserId() {
+    const sessionUserId = document.getElementById('sessionUserId').value;
+    return sessionUserId;
+}
+
+/**
  * 스터디모집글 상세 조회
  */
 function getRecruitDetail(sgId) {
@@ -141,7 +158,6 @@ function getRecruitDetail(sgId) {
             document.getElementById('sbRegDate').innerHTML = study.SG_REG_DATE;
             document.getElementById('sbViews').innerHTML = study.SR_VIEWS;
             document.getElementById('srbCnt').innerHTML = study.SRB_CNT;
-            // document.getElementById('srbYn').innerHTML = study.SRB_YN;
             document.getElementById('stNameDesc').innerHTML = study.ST_NAME_DESC;
             document.getElementById('sMCnt').value = study.SM_CNT;
             document.getElementById('sgCnt').value = study.SG_CNT;
@@ -155,10 +171,8 @@ function getRecruitDetail(sgId) {
                         const memberIdArr = res.data.map(item => String(item.USER_ID));
 
                         if (memberIdArr.indexOf(getSessionUserId()) > -1) {  // 스터디에 이미 참여시 -> 스터디참여하기버튼 안보이게
-                            console.log('참여중');
                             document.getElementById('joinBtn').classList.add('noVisible');
                         } else {                                            // 스터디에 참여하지 않았을시 -> 스터디참여하기버튼 보이게
-                            console.log('안참여중');
                             document.getElementById('joinBtn').classList.remove('noVisible');
                         }
                     })
@@ -175,7 +189,7 @@ function getRecruitDetail(sgId) {
 /**
  * 스터디 모집완료
  */
- function modifyComplete(sgId) {
+function modifyComplete(sgId) {
     axios.put(`/recruit/complete/${sgId}`)
         .then(res => {
             location.href = `/`;
@@ -188,7 +202,7 @@ function getRecruitDetail(sgId) {
 /**
  * 스터디 멤버 생성
  */
- function createMember(study) {
+function createMember(study) {
     axios.post(`/recruit/member`, study)
         .then(res => {
             getRecruitDetail(study.sgId);
@@ -196,6 +210,55 @@ function getRecruitDetail(sgId) {
         .catch(err => {
             console.error(err);
         });
+}
+
+/**
+ * 스터디 북마크 여부
+ */
+function getStudyBkmYn(sgId) {
+    axios.get(`/user/studyBkm`)
+        .then(res => {
+            const bkmArr = res.data.map(item => String(item.SG_ID));
+
+            if (bkmArr.indexOf(sgId) > -1) {
+                document.getElementById('studyBkmN').classList.add('noVisible');
+                document.getElementById('studyBkmY').classList.remove('noVisible');
+            } else {
+                document.getElementById('studyBkmY').classList.add('noVisible');
+                document.getElementById('studyBkmN').classList.remove('noVisible');
+            }
+        })  
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+/**
+ * 스터디 북마크 등록
+ */
+function createStudyBkm(sgId) {
+    axios.post(`/recruit/studyBkm`, {sgId})
+        .then(res => {
+            getRecruitDetail(sgId);
+            getStudyBkmYn(sgId);
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+/**
+ * 스터디 북마크 취소
+ */
+function modifyStudyBkm(sgId) {
+    axios.put(`/recruit/studyBkm`, {sgId})
+        .then(res => {
+            getRecruitDetail(sgId);
+            getStudyBkmYn(sgId);
+        })
+        .catch(err => {
+            console.error(err);
+        })
 }
 
 /**

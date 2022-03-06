@@ -96,7 +96,41 @@ exports.createMember = async (req, res) => {
         return res.json({});
     } catch (err) {
         console.error(err);
-        return res.status(5000).json(err);
+        return res.status(500).json(err);
+        // next(err);
+    }
+};
+
+/**
+ * 스터디 북마크 등록
+ */
+exports.createStudyBkm = async (req, res) => {
+    const userId = req.user.USER_ID;
+    const sgId = req.body.sgId;
+
+    try {   
+        await recruitService.createStudyBkm(userId, sgId);
+        return res.json({});
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(err);
+        // next(err);
+    }
+};
+
+/**
+ * 스터디 북마크 취소
+ */
+exports.modifyStudyBkm = async (req, res) => {
+    const userId = req.user.USER_ID;
+    const sgId = req.body.sgId;
+
+    try {
+        await recruitService.modifyStudyBkm(userId, sgId);
+        return res.json({});
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(err);
         // next(err);
     }
 };

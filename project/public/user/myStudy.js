@@ -19,9 +19,9 @@ function initPage() {
  */
 function setEventListener() {
     /**
-     * 스터디모집글 클릭시 -> 대시보드로 이동
+     * 스터디 클릭시 -> 대시보드로 이동
      */
-    document.getElementById('dashboard').addEventListener('click', (e) => {
+    document.getElementById('myStudyList').addEventListener('click', (e) => {
         const sgId = e.target.closest('.myStudyDiv').querySelector('.sgId').value;
         location.href = `/dashboard/${sgId}`;
     });
@@ -38,9 +38,9 @@ function getMyStudyList() {
             res.data.forEach((item, index) => {
                 if ((index === 0) || ((index % 4) === 0)) {
                     innerHtml += `
-                    <div class="contact-info-area mg-t-30">
-                        <div class="container">
-                            <div class="row">
+                        <div class="contact-info-area mg-t-30">
+                            <div class="container">
+                                <div class="row">
                     `;
                 }
 
@@ -65,7 +65,7 @@ function getMyStudyList() {
                 }
             });
 
-            document.getElementById('dashboard').innerHTML = innerHtml;
+            document.getElementById('myStudyList').innerHTML = innerHtml;
         })
         .catch(err => {
             console.error(err);

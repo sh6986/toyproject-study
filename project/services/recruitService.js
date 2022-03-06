@@ -147,6 +147,30 @@ exports.createMember = async (study) => {
 };
 
 /**
+ * 스터디 북마크 등록
+ */
+exports.createStudyBkm = async (userId, sgId) => {
+    try {
+        await pool.query(recruitQuery.createStudyBkm, [userId, sgId, userId, userId]);
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};
+
+/**
+ * 스터디 북마크 취소
+ */
+exports.modifyStudyBkm = async (userId, sgId) => {
+    try {
+        await pool.query(recruitQuery.modifyStudyBkm, [userId, userId, sgId]);
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};
+
+/**
  * 스터디모집글 댓글 조회
  */
 exports.getComment = async (sgId) => {

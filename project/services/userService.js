@@ -13,3 +13,16 @@ exports.getMyStudyList = async (userId) => {
         throw Error(err);
     }
 };
+
+/**
+ * 내 북마크 목록 조회
+ */
+exports.getStudyBkmList = async (userId) => {
+    try {
+        const result = await pool.query(userQuery.getStudyBkmList, [userId]);
+        return result[0];
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};
