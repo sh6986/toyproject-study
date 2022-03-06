@@ -11,13 +11,21 @@ window.onload = () => {
  */
 function initPage() {
     const sgId = document.getElementById('sgId').value;
-    
+
     // 스터디모집글 상세 조회
     getRecruitDetail(sgId);
 
     // 스터디모집글 상세 댓글 조회
     getRecruitComment(sgId);
 };
+
+/**
+ * 세션에 저장된 사용자ID 가져오기
+ */
+function getSessionUserId() {
+    const sessionUserId = document.getElementById('sessionUserId').value;
+    return sessionUserId;
+}
 
 /**
  * 이벤트 등록
@@ -34,10 +42,26 @@ function setEventListener() {
     });
 
     /**
-     * 댓글삭제확인 모달창 - 확인버튼 클릭시
+     * 모집완료 모달창 - 확인버튼 클릭시
      */
     document.getElementById('completeOkBtn').addEventListener('click', (e) => {
         modifyComplete(sgId);
+    });
+
+    /**
+     * 스터디참여하기 버튼 클릭시
+     */
+    document.getElementById('joinBtn').addEventListener('click', (e) => {
+        if (getSessionUserId()) {      // 로그인했을시
+            const sMCnt = document.getElementById('sMCnt').value;
+            const sgCnt = document.getElementById('sgCnt').value;
+            const study = {
+                sgId, sMCnt, sgCnt
+            };
+            createMember(study);
+        } else {                // 비로그인시
+            location.href = `/login`;
+        }
     });
     
     /**
@@ -108,7 +132,7 @@ function setEventListener() {
 /**
  * 스터디모집글 상세 조회
  */
- function getRecruitDetail(sgId) {
+function getRecruitDetail(sgId) {
     axios.get(`/recruit/detail/${sgId}`)
         .then(res => {
             const study = res.data;
@@ -117,9 +141,57 @@ function setEventListener() {
             document.getElementById('sbRegDate').innerHTML = study.SG_REG_DATE;
             document.getElementById('sbViews').innerHTML = study.SR_VIEWS;
             document.getElementById('srbCnt').innerHTML = study.SRB_CNT;
-            document.getElementById('srbYn').innerHTML = study.SRB_YN;
+            // document.getElementById('srbYn').innerHTML = study.SRB_YN;
             document.getElementById('stNameDesc').innerHTML = study.ST_NAME_DESC;
+            document.getElementById('sMCnt').value = study.SM_CNT;
+            document.getElementById('sgCnt').value = study.SG_CNT;
+            document.getElementById('cnt').innerHTML = study.SM_CNT + '/' + study.SG_CNT ;
             document.getElementById('srContent').innerHTML = study.SR_CONTENT;
+
+            // [TODO] async await 적용
+            if (getSessionUserId()) {
+                axios.get(`/manage/member/${sgId}`)
+                    .then(res => {
+                        const memberIdArr = res.data.map(item => String(item.USER_ID));
+
+                        if (memberIdArr.indexOf(getSessionUserId()) > -1) {  // 스터디에 이미 참여시 -> 스터디참여하기버튼 안보이게
+                            console.log('참여중');
+                            document.getElementById('joinBtn').classList.add('noVisible');
+                        } else {                                            // 스터디에 참여하지 않았을시 -> 스터디참여하기버튼 보이게
+                            console.log('안참여중');
+                            document.getElementById('joinBtn').classList.remove('noVisible');
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    })
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+/**
+ * 스터디 모집완료
+ */
+ function modifyComplete(sgId) {
+    axios.put(`/recruit/complete/${sgId}`)
+        .then(res => {
+            location.href = `/`;
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+/**
+ * 스터디 멤버 생성
+ */
+ function createMember(study) {
+    axios.post(`/recruit/member`, study)
+        .then(res => {
+            getRecruitDetail(study.sgId);
         })
         .catch(err => {
             console.error(err);
@@ -161,19 +233,6 @@ function getRecruitComment(sgId, srcId) {
             });
 
             document.getElementById('commentList').innerHTML = innerHtml;
-        })
-        .catch(err => {
-            console.error(err);
-        });
-}
-
-/**
- * 스터디 모집완료
- */
-function modifyComplete(sgId) {
-    axios.put(`/recruit/complete/${sgId}`)
-        .then(res => {
-            location.href = `/`;
         })
         .catch(err => {
             console.error(err);

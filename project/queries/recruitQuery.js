@@ -51,6 +51,7 @@ exports.getRecruitDetail = `
          , GROUP_CONCAT(DISTINCT(D.CC_NAME)) AS ST_NAME
          , CONCAT('#', GROUP_CONCAT(DISTINCT(D.CC_DESC) SEPARATOR ' #')) AS ST_NAME_DESC
          , COUNT(DISTINCT F.USER_ID) AS SRB_CNT
+         , COUNT(DISTINCT G.USER_ID) AS SM_CNT
       FROM STUDY_GROUP AS A
       LEFT JOIN STUDY_RCRTM AS B 
         ON A.SG_ID = B.SG_ID
@@ -62,8 +63,9 @@ exports.getRecruitDetail = `
         ON A.SG_REG_ID = E.USER_ID AND E.USER_DEL_YN = 'N' AND E.USER_SCSN_YN = 'N'
       LEFT JOIN STUDY_RCRTM_BKM AS F 
         ON B.SG_ID = F.SG_ID AND F.SRB_DEL_YN = 'N'
+      LEFT JOIN STUDY_MEMBER AS G 
+        ON A.SG_ID = G.SG_ID AND G.SM_DEL_YN = 'N'
      WHERE A.SG_ID = ?
-       AND A.SG_OPEN_YN = 'Y'
        AND A.SG_DEL_YN = 'N'
        AND B.SR_DEL_YN = 'N'
      GROUP BY A.SG_ID
@@ -148,7 +150,7 @@ exports.createStudyMember = `
     ) VALUES (
            ?
          , ?
-         , '001'
+         , ?
          , 'N'
          , ?
          , NOW()

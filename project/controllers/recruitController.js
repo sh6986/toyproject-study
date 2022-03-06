@@ -85,6 +85,23 @@ exports.modifyComplete = async (req, res) => {
 };
 
 /**
+ * 스터디 멤버 생성
+ */
+exports.createMember = async (req, res) => {
+    const study = req.body;
+    study.userId = req.user.USER_ID;
+
+    try {
+        await recruitService.createMember(study);
+        return res.json({});
+    } catch (err) {
+        console.error(err);
+        return res.status(5000).json(err);
+        // next(err);
+    }
+};
+
+/**
  * 스터디모집글 댓글 조회
  */
 exports.getComment = async (req, res) => {

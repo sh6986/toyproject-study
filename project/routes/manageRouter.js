@@ -4,9 +4,9 @@ const {isLoggedIn} = require('./middlewares');
 const router = express.Router();
 
 // 게시판 목록 조회
-router.get('/boardList/:sgId', manageController.getBoardList);
+router.get('/boardList/:sgId', isLoggedIn, manageController.getBoardList);
 // 게시판 상세 조회
-router.get('/boardDetail/:sbId', manageController.getBoardDetail);
+router.get('/boardDetail/:sbId', isLoggedIn, manageController.getBoardDetail);
 // 게시판 글 생성
 router.post('/board', isLoggedIn, manageController.createBoard);
 // 게시판 글 수정
@@ -14,6 +14,8 @@ router.put('/board', isLoggedIn, manageController.modifyBoard);
 // 게시판 글 삭제
 router.delete('/board/:sbId', isLoggedIn, manageController.removeBoard);
 
+// 팀원 목록 조회
+router.get('/member/:sgId', isLoggedIn, manageController.getStudyMember);
 
 /**
  * 일정

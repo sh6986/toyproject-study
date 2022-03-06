@@ -11,6 +11,7 @@
                 <div class="header-top-menu">
                     <ul class="nav navbar-nav notika-top-nav">
                         <li class="nav-item">
+                            <input type="hidden" id="sessionUserId" value="{{user.USER_ID}}">
                             {% if user %}
                             <a href="/auth/logout" role="button" aria-expanded="false" class="nav-link"><span>로그아웃</span></a>
                             {% else %}

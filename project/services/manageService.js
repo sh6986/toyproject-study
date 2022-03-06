@@ -80,3 +80,16 @@ exports.removeBoard = async (userId, sbId) => {
         throw Error(err);
     }
 };
+
+/**
+ * 팀원 목록 조회
+ */
+exports.getStudyMember = async (sgId) => {
+    try {
+        const result = await pool.query(manageQuery.getStudyMember, [sgId]);
+        return result[0];
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+}

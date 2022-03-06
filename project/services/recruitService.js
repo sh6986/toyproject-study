@@ -54,7 +54,7 @@ exports.createStudy = async (study) => {
         const result = await conn.query(recruitQuery.createStudyGroup, [sgName, sgCategory, sgCnt, userId, userId]);  // 스터디그룹
         sgId = result[0].insertId;
         await conn.query(recruitQuery.createStudyRcrtm, [sgId, srTitle, srContent, userId, userId]);                  // 스터디모집글
-        await conn.query(recruitQuery.createStudyMember, [sgId, userId, userId, userId]);                             // 스터디멤버
+        await conn.query(recruitQuery.createStudyMember, [sgId, userId, '001',  userId, userId]);                             // 스터디멤버
 
         if (stCode.length) {    // 기술스택(stCode)을 하나 이상 선택했을때 -> 아무것도 선택하지 않으면 insert 안함
             stCode.forEach((item, index) => { 
@@ -120,6 +120,26 @@ exports.createStudy = async (study) => {
 exports.modifyComplete = async (userId, sgId) => {
     try {
         await pool.query(recruitQuery.modifyComplete, [userId, sgId]);
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};
+
+/**
+ * 스터디 멤버 생성
+ */
+exports.createMember = async (study) => {
+    const {sgId, userId, sMCnt, sgCnt} = study;
+
+    try {
+        // 스터디 참가 - 스터디 멤버 추가
+        await pool.query(recruitQuery.createStudyMember, [sgId, userId, '002', userId, userId]);
+
+        // 스터디 참가 후 인원이 다 찼을 시 - 모집중여부를 N 으로 변경
+        if (Number(sMCnt) === (sgCnt - 1)) {
+            await pool.query(recruitQuery.modifyComplete, [userId, sgId]);
+        }
     } catch (err) {
         console.error(err);
         throw Error(err);

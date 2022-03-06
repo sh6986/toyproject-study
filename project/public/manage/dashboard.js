@@ -14,6 +14,9 @@ function initPage() {
 
     // 스터디모집글 상세 조회
     getDetail(sgId);
+
+    // 팀원 목록 조회
+    getStudyMember(sgId);
 }
 
 /**
@@ -45,6 +48,27 @@ function getDetail(sgId) {
         .then(res => {
             const study = res.data;
             document.getElementById('sgName').innerHTML = study.SG_NAME;    // 스터디명
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+/**
+ * 팀원 목록 조회
+ */
+function getStudyMember(sgId) {
+    axios.get(`/manage/member/${sgId}`)
+        .then(res => {
+            let innerHtml = ``;
+
+            res.data.forEach((item, index, arr) => {
+                innerHtml += `
+                    <p>[${item.CC_DESC}] ${item.USER_NICKNAME}</p>
+                `;
+            });
+
+            document.getElementById('memberList').innerHTML = innerHtml;
         })
         .catch(err => {
             console.error(err);

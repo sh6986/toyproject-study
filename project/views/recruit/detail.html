@@ -13,6 +13,10 @@
     .commentModifyBtn {
         margin-top: 10px;
     }
+
+    .noVisible {
+        display: none;
+    }
 </style>
 
 <div class="form-element-area">
@@ -20,6 +24,8 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="recruitDetail">
                 <input type="hidden" id="sgId" value="{{sgId}}">
+                <input type="hidden" id="sMCnt">
+                <input type="hidden" id="sgCnt">
                 <div class="form-element-list mg-t-30">
                     <div id="studyDetail">
                         <div class="basic-tb-hd">
@@ -28,7 +34,7 @@
                             <span id="sbRegDate"></span> | 
                             조회수 <span id="sbViews"></span> |
                             북마크 <span id="srbCnt"></span>
-                            <span id="srbYn"></span>
+                            <!-- <span id="srbYn"></span> -->
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -40,11 +46,21 @@
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="nk-int-mk sl-dp-mn">
+                                    <h2>모집인원수
+                                        <span id="cnt"></span> 
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="nk-int-mk sl-dp-mn">
                                     <h2 id="srContent"></h2>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <button type="button" class="btn btn-default noVisible" id="joinBtn" data-dismiss="modal">스터디참여하기</button>
                     <button type="button" class="btn btn-default" id="modifyBtn" data-dismiss="modal">수정</button>
                     <button type="button" class="btn btn-default" id="completeBtn" data-toggle="modal" data-target="#completeModal">모집완료</button>
                     <hr>

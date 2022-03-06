@@ -85,3 +85,18 @@ exports.removeBoard = async (req, res) => {
         // next(err);
     }
 };
+
+/**
+ * 팀원 목록 조회
+ */
+exports.getStudyMember = async (req, res) => {
+    const sgId = req.params.sgId;
+
+    try {
+        const result = await manageService.getStudyMember(sgId);
+        return res.json(result);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(err);
+    }
+}
