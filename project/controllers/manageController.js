@@ -1,6 +1,21 @@
 const manageService = require('../services/manageService');
 
 /**
+ * 일정 등록
+ */
+exports.createSchedule = async (req, res, next) => {
+    const schedule = req.body;
+    schedule.userId = req.user.USER_ID;
+
+    try {
+        await manageService.createSchedule(schedule);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
+
+/**
  * 게시판 목록 조회
  */
 exports.getBoardList = async (req, res, next) => {

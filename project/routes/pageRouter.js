@@ -144,13 +144,35 @@ router.get('/board/modify/:sgId/:sbId', isLoggedIn, (req, res) => {
 });
 
 /**
+ * 스터디관리 - 일정 목록
+ */
+router.get('/scheduleList', /* isLoggedIn, */ (req, res) => {
+    res.render('manage/scheduleList');
+});
+
+/**
  * 스터디관리 - 일정 등록
  */
 router.get('/schedule/create/:sgId', isLoggedIn, (req, res) => {
     const sgId = req.params.sgId;
+    const today = new Date();
+    const calVal = (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear();
     
     res.render('manage/scheduleCreate', {
         mode: 'create',
+        sgId,
+        calVal
+    });
+});
+
+/**
+ * 스터디관리 - 일정 수정
+ */
+router.get('/schedule/modify/:sgId', isLoggedIn, (req, res) => {
+    const sgId = req.params.sgId;
+
+    res.render('manage/scheduleCreate', {
+        mode: 'modify',
         sgId
     });
 });

@@ -3,6 +3,9 @@ const manageController = require('../controllers/manageController');
 const {isLoggedIn} = require('./middlewares');
 const router = express.Router();
 
+// 일정 등록
+router.post('/schedule', isLoggedIn, manageController.createSchedule);
+
 // 게시판 목록 조회
 router.get('/boardList/:sgId', isLoggedIn, manageController.getBoardList);
 // 게시판 상세 조회

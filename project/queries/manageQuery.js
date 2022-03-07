@@ -1,3 +1,32 @@
+// 일정 등록
+exports.createSchedule = `
+    INSERT INTO STUDY_SCHEDULE (
+           SG_ID
+         , SS_TOPIC
+         , SS_CONTENT 
+         , SS_PLACE 
+         , SS_DATE 
+         , SS_TIME 
+         , SS_DEL_YN 
+         , SS_REG_ID 
+         , SS_REG_DATE 
+         , SS_UDT_ID 
+         , SS_UDT_DATE 
+    ) VALUES (
+           ?
+         , ?
+         , ?
+         , ?
+         , ?
+         , ?
+         , 'N'
+         , ?
+         , NOW()
+         , ?
+         , NOW()
+    )
+`;
+
 // 게시판 목록 조회
 exports.getBoardList = `
     SELECT A.SG_ID
@@ -97,3 +126,4 @@ exports.getStudyMember = `
      WHERE A.SG_ID = ?
        AND A.SM_DEL_YN = 'N'
 `;
+

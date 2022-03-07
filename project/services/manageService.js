@@ -2,6 +2,20 @@ const pool = require('../lib/db');
 const manageQuery = require('../queries/manageQuery');
 
 /**
+ * 일정 등록
+ */
+exports.createSchedule = async (schedule) => {
+    const {sgId, ssTopic, ssContent, ssPlace, ssDate, ssTime, userId} = schedule;
+
+    try {
+        await pool.query(manageQuery.createSchedule, [sgId, ssTopic, ssContent, ssPlace, ssDate, ssTime, userId, userId]);
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};
+
+/**
  * 게시판 목록 조회
  */
 exports.getBoardList = async (sgId) => {
