@@ -3,7 +3,8 @@ exports.isLoggedIn = (req, res, next) => {
         next();
     } else {
         res.redirect(`/login`);
-        // next() 가 없으므로 다음으로 안넘어가고 여기서 끝난다.
+        // 전체요청 -> login 페이지 렌더링
+        // axios요청 -> 에러코드 응답
     }
 };
 

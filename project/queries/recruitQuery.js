@@ -43,6 +43,7 @@ exports.getRecruitDetail = `
          , A.SG_NAME 
          , A.SG_CATEGORY
          , A.SG_CNT
+         , A.SG_REG_ID 
          , DATE_FORMAT(A.SG_REG_DATE,'%Y-%m-%d') AS SG_REG_DATE
          , B.SR_TITLE
          , B.SR_CONTENT
@@ -246,6 +247,7 @@ exports.modifyStudyBkm = `
 exports.getRecruitComment = `
     SELECT A.SRC_ID
          , A.SRC_CONTENT
+         , A.SRC_REG_ID 
          , B.USER_NICKNAME
          , DATE_FORMAT(A.SRC_REG_DATE, '%Y-%m-%d %H:%i:%s') AS SRC_REG_DATE
       FROM STUDY_RCRTM_CMNTS AS A

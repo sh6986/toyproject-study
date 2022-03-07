@@ -1,7 +1,18 @@
 {% extends 'common/layout.html' %}
 
 {% block content %}
-<h1>{{message}}</h1>
-<h2>{{error.status}}</h2>
-<pre>{{error.stack}}</pre>
+
+<div class="error-page-area">
+    <div class="error-page-wrap">
+        <i class="notika-icon notika-close"></i>
+        <h2>ERROR <span class="counter">{{error.status}}</span></h2>
+        <p>{{message}}</p>
+        <p>{{error.stack}}</p>
+        <a href="/" class="btn">home</a>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
 {% endblock %}

@@ -19,7 +19,9 @@ function initPage() {
     getRecruitComment(sgId);
 
     // 스터디 북마크 여부
-    getStudyBkmYn(sgId);
+    if (getSessionUserId()) {
+        getStudyBkmYn(sgId);
+    }
 };
 
 /**
@@ -63,7 +65,11 @@ function setEventListener() {
      * 북마크하기 아이콘 클릭시
      */
     document.getElementById('studyBkmN').addEventListener('click', (e) => {
-        createStudyBkm(sgId);
+        if (getSessionUserId()) {
+            createStudyBkm(sgId);
+        } else {
+            location.href = `/login`;
+        }
     });
 
     /**
@@ -83,7 +89,12 @@ function setEventListener() {
             srcContent: srcContent,
         };
     
-        createRecruitComment(comment);
+        if (getSessionUserId()) {
+            createRecruitComment(comment);
+        } else {
+            location.href = `/login`;
+        }
+
         document.getElementById('srcContent').value = '';
     });
 
@@ -180,6 +191,12 @@ function getRecruitDetail(sgId) {
                         console.error(err);
                     })
             }
+
+            // 수정, 모집완료 버튼 - 작성자만 보이게
+            if (getSessionUserId() === String(study.SG_REG_ID)) {
+                document.getElementById('modifyBtn').classList.remove('noVisible');
+                document.getElementById('completeBtn').classList.remove('noVisible');
+            } 
         })
         .catch(err => {
             console.error(err);
@@ -278,7 +295,9 @@ function getRecruitComment(sgId, srcId) {
                             <div class="nk-int-mk sl-dp-mn">
                                 <div>
                                     <span>${item.USER_NICKNAME} (${item.SRC_REG_DATE})</span>
-                                    <span class="commentModifyBtn">수정</span> | <span class="commentRemoveBtn" data-toggle="modal" data-target="#removeCommentModal">삭제</span>
+                                    <span class="modifyRemoveBtnBox ${getSessionUserId() === String(item.SRC_REG_ID) ? '' : 'noVisible'}">
+                                        <span class="commentModifyBtn">수정</span> | <span class="commentRemoveBtn" data-toggle="modal" data-target="#removeCommentModal">삭제</span>
+                                    </span>
                                 </div>
                                 <span>${item.SRC_CONTENT}</span>
                                 <div class="commentModifyForm" ${Number(srcId) === item.SRC_ID ? '' : 'style="display:none;"'}>

@@ -41,6 +41,7 @@ router.get('/create', isLoggedIn, async (req, res) => {
         });   
     } catch (err) {
         console.error(err);
+        next(err);
     }
 });
 
@@ -65,6 +66,7 @@ router.get('/update/:sgId', isLoggedIn, async (req, res) => {
         });   
     } catch (err) {
         console.error(err);
+        next(err);
     }
 });
 

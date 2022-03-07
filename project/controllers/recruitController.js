@@ -3,21 +3,20 @@ const recruitService = require('../services/recruitService');
 /**
  * 스터디모집글 목록 조회
  */
-exports.getList = async (req, res) => {
+exports.getList = async (req, res, next) => {
     try {
         const result = await recruitService.getList();
-        return res.json(result);    
+        res.json(result);    
     } catch (err) {
         console.error(err);
-        return res.status(500).json(err);
-        // next(err);
+        next(err);
     }
 };
 
 /**
  * 스터디모집글 상세 조회
  */
-exports.getDetail = async (req, res) => {
+exports.getDetail = async (req, res, next) => {
     const sgId = req.params.sgId;
 
     try {
@@ -25,196 +24,186 @@ exports.getDetail = async (req, res) => {
         await recruitService.modifyView(sgId);
         // 상세조회
         const result = await recruitService.getDetail(sgId);
-        return res.json(result[0]);    
+        res.json(result[0]);    
     } catch (err) {
         console.error(err);
-        return res.status(500).json(err);
-        // next(err);
+        next(err);
     }
 };
 
 /**
  * 스터디 / 스터디 모집글 생성
  */
-exports.createStudy = async (req, res) => {
+exports.createStudy = async (req, res, next) => {
     const study = req.body;
     study.userId = req.user.USER_ID;
 
     try {
         const sgId = await recruitService.createStudy(study);
-        return res.json({sgId});
+        res.json({sgId});
     } catch (err) {
         console.error(err);
-        return res.status(500).json(err);
-        // next(err);
+        next(err);
     }
 };
 
 /**
  * 스터디 / 스터디모집글 수정
  */
- exports.modifyStudy = async (req, res) => {
+ exports.modifyStudy = async (req, res, next) => {
     const study = req.body;
     study.userId = req.user.USER_ID;
 
     try {
         await recruitService.modifyStudyGroup(study);
-        return res.json({
+        res.json({
             sgId: study.sgId
         });
     } catch (err) {
         console.error(err);
-        return res.status(500).json(err);
+        next(err);
     }
 };
 
 /**
  * 스터디 모집완료
  */
-exports.modifyComplete = async (req, res) => {
+exports.modifyComplete = async (req, res, next) => {
     const userId = req.user.USER_ID;
     const sgId = req.params.sgId;
 
     try {   
         await recruitService.modifyComplete(userId, sgId);
-        return res.json({});
+        res.json({});
     } catch (err) {
         console.error(err);
-        return res.status(500).json(err);
+        next(err);
     }
 };
 
 /**
  * 스터디 멤버 생성
  */
-exports.createMember = async (req, res) => {
+exports.createMember = async (req, res, next) => {
     const study = req.body;
     study.userId = req.user.USER_ID;
 
     try {
         await recruitService.createMember(study);
-        return res.json({});
+        res.json({});
     } catch (err) {
         console.error(err);
-        return res.status(500).json(err);
-        // next(err);
+        next(err);
     }
 };
 
 /**
  * 스터디 북마크 등록
  */
-exports.createStudyBkm = async (req, res) => {
+exports.createStudyBkm = async (req, res, next) => {
     const userId = req.user.USER_ID;
     const sgId = req.body.sgId;
 
     try {   
         await recruitService.createStudyBkm(userId, sgId);
-        return res.json({});
+        res.json({});
     } catch (err) {
         console.error(err);
-        return res.status(500).json(err);
-        // next(err);
+        next(err);
     }
 };
 
 /**
  * 스터디 북마크 취소
  */
-exports.modifyStudyBkm = async (req, res) => {
+exports.modifyStudyBkm = async (req, res, next) => {
     const userId = req.user.USER_ID;
     const sgId = req.body.sgId;
 
     try {
         await recruitService.modifyStudyBkm(userId, sgId);
-        return res.json({});
+        res.json({});
     } catch (err) {
         console.error(err);
-        return res.status(500).json(err);
-        // next(err);
+        next(err);
     }
 };
 
 /**
  * 스터디모집글 댓글 조회
  */
-exports.getComment = async (req, res) => {
+exports.getComment = async (req, res, next) => {
     const sgId = req.params.sgId;
 
     try {
         const result = await recruitService.getComment(sgId);
-        return res.json(result);
+        res.json(result);
     } catch (err) {
         console.error(err);
-        return res.status(500).json(err);
-        // next(err);
+        next(err);
     }
 };
 
 /**
  * 스터디모집글 댓글 등록
  */
- exports.createComment = async (req, res) => {
+ exports.createComment = async (req, res, next) => {
     const comment = req.body;
     comment.userId = req.user.USER_ID;
 
     try {
         await recruitService.createComment(comment);
-        return res.json({});   // [TODO] 조회아닌 등록이나 수정시 리턴값 고려해보기
+        res.json({});   // [TODO] 조회아닌 등록이나 수정시 리턴값 고려해보기
     } catch (err) {
         console.error(err);
-        return res.status(5000).json(err);
-        // next(err);
+        next(err);
     }
 };
 
 /**
  * 스터디모집글 댓글 수정
  */
-exports.modifyComment = async (req, res) => {
+exports.modifyComment = async (req, res, next) => {
     const comment = req.body;
     comment.userId = req.user.USER_ID;
 
     try {
         await recruitService.modifyComment(comment);
-        return res.json({});   // [TODO] 조회아닌 등록이나 수정시 리턴값 고려해보기
+        res.json({});   // [TODO] 조회아닌 등록이나 수정시 리턴값 고려해보기
     } catch (err) {
         console.error(err);
-        return res.status(500).json(err);
-        // next(err);
+        next(err);
     }
 };
 
 /**
  * 스터디모집글 댓글 삭제
  */
-exports.removeComment = async (req, res) => {
+exports.removeComment = async (req, res, next) => {
     const userId = req.user.USER_ID;
     const srcId = req.params.srcId;
 
     try {
         await recruitService.removeComment(userId, srcId);
-        return res.json({});   // [TODO] 조회아닌 등록이나 수정시 리턴값 고려해보기
+        res.json({});   // [TODO] 조회아닌 등록이나 수정시 리턴값 고려해보기
     } catch (err) {
         console.error(err);
-        return res.status(500).json(err);
-        // next(err);
+        next(err);
     }
 };
 
 /**
  * 공통코드 조회
  */
-exports.getComCd = async (req, res) => {
+exports.getComCd = async (req, res, next) => {
     const cgcName = req.params.cgcName;
 
     try {
         const result = await recruitService.getComCd(cgcName);
-        return res.json(result);
+        res.json(result);
     } catch (err) {
         console.error(err);
-        return res.status(500).json(err);
-        // next(err);
+        next(err);
     }
 };
 
