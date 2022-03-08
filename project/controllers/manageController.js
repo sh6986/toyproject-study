@@ -38,12 +38,30 @@ exports.createSchedule = async (req, res, next) => {
     schedule.userId = req.user.USER_ID;
 
     try {
-        await manageService.createSchedule(schedule);
+        const ssId = await manageService.createSchedule(schedule);
+        res.json({ssId});
     } catch (err) {
         console.error(err);
         next(err);
     }
 };
+
+/**
+ * 일정 수정
+ */
+exports.modifySchedule = async (req, res, next) => {
+    const schedule = req.body;
+    schedule.userId = req.user.USER_ID;
+
+    try {
+        await manageService.modifySchedule(schedule);
+        res.json({});
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
+
 
 /**
  * 게시판 목록 조회

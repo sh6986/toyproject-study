@@ -20,11 +20,13 @@ function initPage() {
  * 이벤트 등록
  */
 function setEventListener() {
+    const ssId = document.getElementById('ssId').value;
+
     /**
      * 수정 버튼 클릭시
      */
     document.getElementById('modifyBtn').addEventListener('click', (e) => {
-
+        location.href = `/schedule/modify/${ssId}`;
     });
 
     /**

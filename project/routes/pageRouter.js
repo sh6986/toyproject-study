@@ -1,5 +1,6 @@
 const express = require('express');
 const recruitService = require('../services/recruitService');
+const manageService = require('../services/manageService');
 const {isLoggedIn, isNotLoggedIn} = require('./middlewares');
 const router = express.Router();
 
@@ -29,7 +30,7 @@ router.get('/detail/:sgId', (req, res) => {
 /**
  * 스터디 생성 페이지
  */
-router.get('/create', isLoggedIn, async (req, res) => {
+router.get('/create', isLoggedIn, async (req, res, next) => {
     try {
         const sgCategory = await recruitService.getComCd('sg_category');    // 공통코드 조회 - 카테고리
         const stName = await recruitService.getComCd('st_name');            // 공통코드 조회 - 기술스택
@@ -48,7 +49,7 @@ router.get('/create', isLoggedIn, async (req, res) => {
 /**
  * 스터디 수정 페이지
  */
-router.get('/update/:sgId', isLoggedIn, async (req, res) => {
+router.get('/update/:sgId', isLoggedIn, async (req, res, next) => {
     const sgId = req.params.sgId;
 
     try {
@@ -177,13 +178,24 @@ router.get('/schedule/create/:sgId', isLoggedIn, (req, res) => {
 /**
  * 스터디관리 - 일정 수정
  */
-router.get('/schedule/modify/:sgId', isLoggedIn, (req, res) => {
-    const sgId = req.params.sgId;
+router.get('/schedule/modify/:ssId', isLoggedIn, async (req, res, next) => {
+    const ssId = req.params.ssId;
 
-    res.render('manage/scheduleCreate', {
-        mode: 'modify',
-        sgId
-    });
+    try {
+        // 일정 상세 조회
+        const scheduleDetail = await manageService.getScheduleDetail(ssId);
+        const ssDateArr = scheduleDetail[0].SS_DATE.split('-');
+        scheduleDetail[0].SS_DATE = ssDateArr[1] + '/' + ssDateArr[2] + '/' + ssDateArr[0];
+        scheduleDetail[0].SS_DATE_HOUR_12 = scheduleDetail[0].SS_DATE_HOUR % 12;
+
+        res.render('manage/scheduleCreate', {
+            mode: 'modify',
+            scheduleDetail: scheduleDetail[0]
+        });
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
 });
 
 module.exports = router;

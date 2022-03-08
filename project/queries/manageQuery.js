@@ -58,6 +58,19 @@ exports.createSchedule = `
     )
 `;
 
+// 일정 수정
+exports.modifySchedule = `
+    UPDATE STUDY_SCHEDULE 
+       SET SS_TOPIC = ?
+         , SS_CONTENT = ?
+         , SS_PLACE = ?
+         , SS_DATE = ?
+         , SS_TIME = ?
+         , SS_UDT_ID = ?
+         , SS_UDT_DATE = NOW()
+     WHERE SS_ID = ?
+`;
+
 // 게시판 목록 조회
 exports.getBoardList = `
     SELECT A.SG_ID

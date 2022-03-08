@@ -10,24 +10,37 @@ window.onload = () => {
  * 화면 초기화
  */
 function initPage() {
-    const sgId = document.getElementById('sgId').value;
+    
 }
 
 /**
  * 이벤트 등록
  */
 function setEventListener() {
+    const mode = document.getElementById('mode').value;
     const sgId = document.getElementById('sgId').value;
     let schedule = {};
 
-    /**
-     * 만들기 버튼 클릭시
-     */
-    document.getElementById('createBtn').addEventListener('click', (e) => {
-        schedule = getValue();
-        schedule.sgId = sgId;
-        createSchedule(schedule);
-    });
+    if (mode == 'create') {     // 생성일때
+        /**
+         * 만들기 버튼 클릭시
+         */
+        document.getElementById('createBtn').addEventListener('click', (e) => {
+            schedule = getValue();
+            schedule.sgId = sgId;
+            createSchedule(schedule);
+        });
+        
+    } else {                    // 수정일때
+        /**
+         * 수정하기 버튼 클릭시
+         */
+        document.getElementById('updateBtn').addEventListener('click', (e) => {
+            schedule = getValue();
+            schedule.ssId = document.getElementById('ssId').value;
+            modifySchedule(schedule);
+        });
+    }
 }
 
 /**
@@ -58,7 +71,20 @@ function getValue() {
 function createSchedule(schedule) {
     axios.post(`/manage/schedule`, schedule)
         .then(res => {
-            console.log(res);
+            location.href = `/schedule/detail/${res.data.ssId}`;
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+/**
+ * 일정 수정
+ */
+function modifySchedule(schedule) {
+    axios.put(`/manage/schedule`, schedule)
+        .then(res => {
+            location.href = `/schedule/detail/${schedule.ssId}`;
         })
         .catch(err => {
             console.error(err);

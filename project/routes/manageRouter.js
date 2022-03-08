@@ -9,6 +9,8 @@ router.get('/scheduleList/:sgId', isLoggedIn, manageController.getScheduleList);
 router.get('/schedule/:ssId', isLoggedIn, manageController.getScheduleDetail);
 // 일정 등록
 router.post('/schedule', isLoggedIn, manageController.createSchedule);
+// 일정 수정
+router.put('/schedule', isLoggedIn, manageController.modifySchedule);
 
 // 게시판 목록 조회
 router.get('/boardList/:sgId', isLoggedIn, manageController.getBoardList);

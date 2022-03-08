@@ -34,7 +34,23 @@ exports.createSchedule = async (schedule) => {
     const {sgId, ssTopic, ssContent, ssPlace, ssDate, ssTime, userId} = schedule;
 
     try {
-        await pool.query(manageQuery.createSchedule, [sgId, ssTopic, ssContent, ssPlace, ssDate, ssTime, userId, userId]);
+        const result = await pool.query(manageQuery.createSchedule, [sgId, ssTopic, ssContent, ssPlace, ssDate, ssTime, userId, userId]);
+        ssId = result[0].insertId;
+        return ssId;
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};
+
+/**
+ * 일정 수정
+ */
+exports.modifySchedule = async (schedule) => {
+    const {ssId, ssTopic, ssContent, ssPlace, ssDate, ssTime, userId} = schedule;
+
+    try {
+        await pool.query(manageQuery.modifySchedule, [ssTopic, ssContent, ssPlace, ssDate, ssTime, userId, ssId]);
     } catch (err) {
         console.error(err);
         throw Error(err);
