@@ -21,6 +21,7 @@ function initPage() {
  */
 function setEventListener() {
     const ssId = document.getElementById('ssId').value;
+    const sgId = document.getElementById('sgId').value;
 
     /**
      * 수정 버튼 클릭시
@@ -32,8 +33,8 @@ function setEventListener() {
     /**
      * 삭제 버튼 클릭시
      */
-    document.getElementById('removeBtn').addEventListener('click', (e) => {
-
+    document.getElementById('removeOkBtn').addEventListener('click', (e) => {
+        removeSchedule(ssId, sgId);
     });
 }
 
@@ -51,6 +52,19 @@ function getScheduleDetail(ssId) {
             document.getElementById('ssPlace').innerHTML = '장소 : ' + schedule.SS_PLACE;
             document.getElementById('ssDate').innerHTML = '날짜 : ' + schedule.SS_DATE;
             document.getElementById('ssDateTime').innerHTML = '시간 : ' + hour;
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+/**
+ * 일정 삭제
+ */
+function removeSchedule(ssId, sgId) {
+    axios.delete(`/manage/schedule/${ssId}`)
+        .then(res => {
+            location.href = `/scheduleList/${sgId}`;
         })
         .catch(err => {
             console.error(err);

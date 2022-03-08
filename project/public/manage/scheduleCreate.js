@@ -18,7 +18,6 @@ function initPage() {
  */
 function setEventListener() {
     const mode = document.getElementById('mode').value;
-    const sgId = document.getElementById('sgId').value;
     let schedule = {};
 
     if (mode == 'create') {     // 생성일때
@@ -27,7 +26,6 @@ function setEventListener() {
          */
         document.getElementById('createBtn').addEventListener('click', (e) => {
             schedule = getValue();
-            schedule.sgId = sgId;
             createSchedule(schedule);
         });
         
@@ -47,6 +45,7 @@ function setEventListener() {
  * 각 입력값 가져오기
  */
 function getValue() {
+    const sgId = document.getElementById('sgId').value;
     const ssTopic = document.getElementById('ssTopic').value;           // 주제
     const ssContent = document.getElementById('ssContent').value;       // 내용
     const ssPlace = document.getElementById('ssPlace').value;           // 장소
@@ -59,7 +58,7 @@ function getValue() {
     ssDate = `${ssDate.getFullYear()}-${ssDate.getMonth() + 1}-${ssDate.getDate()} ${ssDate.getHours().length === 1 ? ('0' + ssDate.getHours()) : ssDate.getHours()}:00:00`;
     
     const schedule = {
-        ssTopic, ssContent, ssPlace, ssDate, ssTime
+        sgId, ssTopic, ssContent, ssPlace, ssDate, ssTime
     };
 
     return schedule;
@@ -71,7 +70,7 @@ function getValue() {
 function createSchedule(schedule) {
     axios.post(`/manage/schedule`, schedule)
         .then(res => {
-            location.href = `/schedule/detail/${res.data.ssId}`;
+            location.href = `/schedule/detail/${schedule.sgId}/${res.data.ssId}`;
         })
         .catch(err => {
             console.error(err);
@@ -84,7 +83,7 @@ function createSchedule(schedule) {
 function modifySchedule(schedule) {
     axios.put(`/manage/schedule`, schedule)
         .then(res => {
-            location.href = `/schedule/detail/${schedule.ssId}`;
+            location.href = `/schedule/detail/${schedule.sgId}/${schedule.ssId}`;
         })
         .catch(err => {
             console.error(err);

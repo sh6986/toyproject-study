@@ -155,9 +155,10 @@ router.get('/scheduleList/:sgId', isLoggedIn, (req, res) => {
 /**
  * 스터디관리 - 일정 상세
  */
-router.get('/schedule/detail/:ssId', isLoggedIn, (req, res) => {
+router.get('/schedule/detail/:sgId/:ssId', isLoggedIn, (req, res) => {
+    const sgId = req.params.sgId;
     const ssId = req.params.ssId;
-    res.render('manage/scheduleDetail', {ssId});
+    res.render('manage/scheduleDetail', {ssId, sgId});
 });
 
 /**

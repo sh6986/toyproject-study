@@ -62,6 +62,21 @@ exports.modifySchedule = async (req, res, next) => {
     }
 };
 
+/**
+ * 일정 삭제
+ */
+exports.removeSchedule = async (req, res, next) => {
+    const userId = req.user.USER_ID;
+    const ssId = req.params.ssId;
+
+    try {
+        await manageService.removeSchedule(userId, ssId);
+        res.json({});
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
 
 /**
  * 게시판 목록 조회

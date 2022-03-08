@@ -58,6 +58,18 @@ exports.modifySchedule = async (schedule) => {
 };
 
 /**
+ * 일정 삭제
+ */
+exports.removeSchedule = async (userId, ssId) => {
+    try {
+        await pool.query(manageQuery.removeSchedule, [userId, ssId]);
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};
+
+/**
  * 게시판 목록 조회
  */
 exports.getBoardList = async (sgId) => {

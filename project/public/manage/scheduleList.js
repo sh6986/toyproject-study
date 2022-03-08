@@ -21,8 +21,9 @@ function initPage() {
  */
 function setEventListener() {
     document.getElementById('scheduleList').addEventListener('click', (e) => {
+        const sgId = document.getElementById('sgId').value;
         const ssId = e.target.closest('.scheduleDiv').querySelector('.ssId').value;
-        location.href = `/schedule/detail/${ssId}`;
+        location.href = `/schedule/detail/${sgId}/${ssId}`;
     });
 }
 

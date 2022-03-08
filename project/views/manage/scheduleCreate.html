@@ -32,8 +32,12 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <input type="hidden" id="mode" value="{{mode}}">
-                <input type="hidden" id="sgId" value="{{sgId}}">
-                <input type="hidden" id="ssId" value="{{scheduleDetail.SS_ID}}">
+                {% if mode === 'create' %}
+                    <input type="hidden" id="sgId" value="{{sgId}}">
+                {% else %}
+                    <input type="hidden" id="ssId" value="{{scheduleDetail.SS_ID}}">
+                    <input type="hidden" id="sgId" value="{{scheduleDetail.SG_ID}}">
+                {% endif %}
                 <div class="form-element-list mg-t-30">
                     <div class="basic-tb-hd">
                         {% if mode === 'create' %}

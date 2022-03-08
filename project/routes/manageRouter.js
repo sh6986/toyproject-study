@@ -11,6 +11,8 @@ router.get('/schedule/:ssId', isLoggedIn, manageController.getScheduleDetail);
 router.post('/schedule', isLoggedIn, manageController.createSchedule);
 // 일정 수정
 router.put('/schedule', isLoggedIn, manageController.modifySchedule);
+// 일정 삭제
+router.delete('/schedule/:ssId', isLoggedIn, manageController.removeSchedule);
 
 // 게시판 목록 조회
 router.get('/boardList/:sgId', isLoggedIn, manageController.getBoardList);

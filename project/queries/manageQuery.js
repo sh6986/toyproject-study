@@ -15,7 +15,8 @@ exports.getScheduleList = `
 
 // 일정 상세 조회
 exports.getScheduleDetail = `
-    SELECT SS_ID
+    SELECT SG_ID
+         , SS_ID
          , SS_TOPIC
          , SS_CONTENT 
          , SS_PLACE
@@ -66,6 +67,15 @@ exports.modifySchedule = `
          , SS_PLACE = ?
          , SS_DATE = ?
          , SS_TIME = ?
+         , SS_UDT_ID = ?
+         , SS_UDT_DATE = NOW()
+     WHERE SS_ID = ?
+`;
+
+// 일정 삭제
+exports.removeSchedule = `
+    UPDATE STUDY_SCHEDULE 
+       SET SS_DEL_YN = 'Y'
          , SS_UDT_ID = ?
          , SS_UDT_DATE = NOW()
      WHERE SS_ID = ?
