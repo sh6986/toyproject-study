@@ -44,20 +44,38 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <input type="hidden" id="sbId" value="{{sbId}}">
-                <input type="hidden" id="sgId" value="{{sgId}}">
+                <input type="hidden" id="ssId" value="{{ssId}}">
+                <!-- <input type="hidden" id="sgId" value="{{sgId}}"> -->
                 <div class="form-element-list mg-t-30">
                     <div id="boardDetail">
                         <div class="basic-tb-hd">
-                            <h1 id="sbTitle"></h1>
-                            <span id="userNickname"></span> | 
-                            <span id="sbRegDate"></span> |
-                            조회수 <span id="sbViews"></span>
+                            <h1 id="ssTopic"></h1>
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="nk-int-mk sl-dp-mn">
-                                    <h2 id="sbContent"></h2>
+                                    <h2 id="ssContent"></h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="nk-int-mk sl-dp-mn">
+                                    <h2 id="ssPlace"></h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="nk-int-mk sl-dp-mn">
+                                    <h2 id="ssDate"></h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="nk-int-mk sl-dp-mn">
+                                    <h2 id="ssDateTime">시간 : bb</h2>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +89,7 @@
 </div>
 
 <!-- 게시글 삭제확인 모달창 -->
-<div class="modal fade removeModal" id="removeModal" role="dialog">
+<!-- <div class="modal fade removeModal" id="removeModal" role="dialog">
     <div class="modal-dialog modals-default">
         <div class="modal-content">
             <div class="modal-header">
@@ -86,12 +104,12 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- /게시글 삭제확인 모달창 -->
 
 
 {% endblock %}
 
 {% block script %}
-<script src="./manage/boardDetail.js"></script>
+<script src="./manage/scheduleDetail.js"></script>
 {% endblock %}

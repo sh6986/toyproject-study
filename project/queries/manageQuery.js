@@ -1,3 +1,34 @@
+// 일정 목록 조회
+exports.getScheduleList = `
+    SELECT SS_ID
+         , SS_TOPIC
+         , SS_PLACE
+         , SS_TIME 
+         , DATE_FORMAT(SS_DATE,'%Y-%m-%d') AS SS_DATE
+         , DATE_FORMAT(SS_DATE,'%H') AS SS_DATE_HOUR
+         , DATE_FORMAT(DATE_ADD(SS_DATE, INTERVAL SS_TIME HOUR),'%Y-%m-%d') AS SS_END_DATE
+         , DATE_FORMAT(DATE_ADD(SS_DATE, INTERVAL SS_TIME HOUR),'%H') AS SS_END_DATE_HOUR
+      FROM STUDY_SCHEDULE
+     WHERE SS_DEL_YN = 'N'
+       AND SG_ID = ?
+`;
+
+// 일정 상세 조회
+exports.getScheduleDetail = `
+    SELECT SS_ID
+         , SS_TOPIC
+         , SS_CONTENT 
+         , SS_PLACE
+         , SS_TIME 
+         , DATE_FORMAT(SS_DATE,'%Y-%m-%d') AS SS_DATE
+         , DATE_FORMAT(SS_DATE,'%H') AS SS_DATE_HOUR
+         , DATE_FORMAT(DATE_ADD(SS_DATE, INTERVAL SS_TIME HOUR),'%Y-%m-%d') AS SS_END_DATE
+         , DATE_FORMAT(DATE_ADD(SS_DATE, INTERVAL SS_TIME HOUR),'%H') AS SS_END_DATE_HOUR
+      FROM STUDY_SCHEDULE
+     WHERE SS_DEL_YN = 'N'
+       AND SS_ID = ?
+`;
+
 // 일정 등록
 exports.createSchedule = `
     INSERT INTO STUDY_SCHEDULE (

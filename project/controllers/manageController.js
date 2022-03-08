@@ -1,6 +1,36 @@
 const manageService = require('../services/manageService');
 
 /**
+ * 일정 목록 조회
+ */
+exports.getScheduleList = async (req, res, next) => {
+    const sgId = req.params.sgId;
+
+    try {
+        const result = await manageService.getScheduleList(sgId);
+        res.json(result);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
+
+/**
+ * 일정 상세 조회
+ */
+exports.getScheduleDetail = async (req, res, next) => {
+    const ssId = req.params.ssId;
+
+    try { 
+        const result = await manageService.getScheduleDetail(ssId);
+        res.json(result[0]);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
+
+/**
  * 일정 등록
  */
 exports.createSchedule = async (req, res, next) => {

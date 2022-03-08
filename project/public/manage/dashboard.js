@@ -26,10 +26,10 @@ function setEventListener() {
     const sgId = document.getElementById('sgId').value;
 
     /**
-     * 게시판 - 더보기 버튼 클릭시 -> 게시판목록으로 이동
+     * 모든일정보기
      */
-    document.getElementById('boardListBtn').addEventListener('click', (e) => {
-        location.href = `/boardList/${sgId}`;
+    document.getElementById('scheduleList').addEventListener('click', (e) => {
+        location.href = `/scheduleList/${sgId}`;
     });
 
     /**
@@ -37,6 +37,13 @@ function setEventListener() {
      */
     document.getElementById('createScheduleBtn').addEventListener('click', (e) => {
         location.href = `/schedule/create/${sgId}`;
+    });
+
+    /**
+     * 게시판 - 더보기 버튼 클릭시 -> 게시판목록으로 이동
+     */
+    document.getElementById('boardListBtn').addEventListener('click', (e) => {
+        location.href = `/boardList/${sgId}`;
     });
 }
 

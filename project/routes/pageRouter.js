@@ -146,8 +146,17 @@ router.get('/board/modify/:sgId/:sbId', isLoggedIn, (req, res) => {
 /**
  * 스터디관리 - 일정 목록
  */
-router.get('/scheduleList', /* isLoggedIn, */ (req, res) => {
-    res.render('manage/scheduleList');
+router.get('/scheduleList/:sgId', isLoggedIn, (req, res) => {
+    const sgId = req.params.sgId;
+    res.render('manage/scheduleList', {sgId});
+});
+
+/**
+ * 스터디관리 - 일정 상세
+ */
+router.get('/schedule/detail/:ssId', isLoggedIn, (req, res) => {
+    const ssId = req.params.ssId;
+    res.render('manage/scheduleDetail', {ssId});
 });
 
 /**

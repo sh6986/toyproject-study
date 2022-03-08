@@ -2,6 +2,32 @@ const pool = require('../lib/db');
 const manageQuery = require('../queries/manageQuery');
 
 /**
+ * 일정 목록 조회
+ */
+exports.getScheduleList = async (sgId) => {
+    try { 
+        const result = await pool.query(manageQuery.getScheduleList, [sgId]);
+        return result[0];
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};
+
+/**
+ * 일정 상세 조회
+ */
+exports.getScheduleDetail = async (ssId) => {
+    try {
+        const result = await pool.query(manageQuery.getScheduleDetail, [ssId]);
+        return result[0];
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};
+
+/**
  * 일정 등록
  */
 exports.createSchedule = async (schedule) => {

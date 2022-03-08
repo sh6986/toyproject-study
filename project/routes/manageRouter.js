@@ -3,6 +3,10 @@ const manageController = require('../controllers/manageController');
 const {isLoggedIn} = require('./middlewares');
 const router = express.Router();
 
+// 일정 목록 조회
+router.get('/scheduleList/:sgId', isLoggedIn, manageController.getScheduleList);
+// 일정 상세 조회
+router.get('/schedule/:ssId', isLoggedIn, manageController.getScheduleDetail);
 // 일정 등록
 router.post('/schedule', isLoggedIn, manageController.createSchedule);
 
@@ -19,10 +23,5 @@ router.delete('/board/:sbId', isLoggedIn, manageController.removeBoard);
 
 // 팀원 목록 조회
 router.get('/member/:sgId', isLoggedIn, manageController.getStudyMember);
-
-/**
- * 일정
- */
-
 
 module.exports = router;
