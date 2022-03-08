@@ -39,6 +39,14 @@ function setEventListener() {
 };
 
 /**
+ * 세션에 저장된 사용자ID 가져오기
+ */
+ function getSessionUserId() {
+    const sessionUserId = document.getElementById('sessionUserId').value;
+    return sessionUserId;
+}
+
+/**
  * 게시판 상세 조회
  */
 function getBoardDetail(sbId) {
@@ -50,6 +58,12 @@ function getBoardDetail(sbId) {
             document.getElementById('sbRegDate').innerHTML = board.SB_REG_DATE;         // 등록일시
             document.getElementById('sbViews').innerHTML = board.SB_VIEWS;              // 조회수
             document.getElementById('sbContent').innerHTML = board.SB_CONTENT;          // 내용
+        
+            // 수정, 모집완료 버튼 - 작성자만 보이게
+            if (getSessionUserId() === String(board.SB_REG_ID)) {
+                document.getElementById('modifyBtn').classList.remove('noVisible');
+                document.getElementById('removeBtn').classList.remove('noVisible');
+            } 
         })
         .catch(err => {
             console.error(err);

@@ -39,6 +39,14 @@ function setEventListener() {
 }
 
 /**
+ * 세션에 저장된 사용자ID 가져오기
+ */
+ function getSessionUserId() {
+    const sessionUserId = document.getElementById('sessionUserId').value;
+    return sessionUserId;
+}
+
+/**
  * 일정 상세 조회
  */
 function getScheduleDetail(ssId) {
@@ -52,6 +60,12 @@ function getScheduleDetail(ssId) {
             document.getElementById('ssPlace').innerHTML = '장소 : ' + schedule.SS_PLACE;
             document.getElementById('ssDate').innerHTML = '날짜 : ' + schedule.SS_DATE;
             document.getElementById('ssDateTime').innerHTML = '시간 : ' + hour;
+
+            // 수정, 모집완료 버튼 - 작성자만 보이게
+            if (getSessionUserId() === String(schedule.SS_REG_ID)) {
+                document.getElementById('modifyBtn').classList.remove('noVisible');
+                document.getElementById('removeBtn').classList.remove('noVisible');
+            } 
         })
         .catch(err => {
             console.error(err);

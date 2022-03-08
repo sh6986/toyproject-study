@@ -1,6 +1,12 @@
 {% extends 'common/layout.html' %}
 
 {% block content %}
+<style>
+    .noVisible {
+        display: none;
+    }
+</style>
+
 <div class="breadcomb-area" style="background-color: white;">
     <div class="container">
         <div class="row">
@@ -80,8 +86,8 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-default" id="modifyBtn" data-dismiss="modal">수정</button>
-                    <button type="button" class="btn btn-default" id="removeBtn" data-toggle="modal" data-target="#removeModal">삭제</button>
+                    <button type="button" class="btn btn-default noVisible" id="modifyBtn" data-dismiss="modal">수정</button>
+                    <button type="button" class="btn btn-default noVisible" id="removeBtn" data-toggle="modal" data-target="#removeModal">삭제</button>
                 </div>
             </div>
         </div>

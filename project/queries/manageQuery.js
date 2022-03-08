@@ -25,6 +25,8 @@ exports.getScheduleDetail = `
          , DATE_FORMAT(SS_DATE,'%H') AS SS_DATE_HOUR
          , DATE_FORMAT(DATE_ADD(SS_DATE, INTERVAL SS_TIME HOUR),'%Y-%m-%d') AS SS_END_DATE
          , DATE_FORMAT(DATE_ADD(SS_DATE, INTERVAL SS_TIME HOUR),'%H') AS SS_END_DATE_HOUR
+         , SS_REG_ID
+         , DATE_FORMAT(SS_REG_DATE,'%Y-%m-%d %H:%i:%s') AS SS_REG_DATE 
       FROM STUDY_SCHEDULE
      WHERE SS_DEL_YN = 'N'
        AND SS_ID = ?
@@ -103,6 +105,7 @@ exports.getBoardDetail = `
          , A.SB_CONTENT 
          , A.SB_VIEWS
          , A.SB_NOTICE_YN
+         , A.SB_REG_ID 
          , B.USER_NICKNAME
          , DATE_FORMAT(A.SB_REG_DATE,'%Y-%m-%d %H:%i:%s') AS SB_REG_DATE
       FROM STUDY_BOARD AS A
