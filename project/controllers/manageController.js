@@ -79,6 +79,21 @@ exports.removeSchedule = async (req, res, next) => {
 };
 
 /**
+ * 일정 출결 상세 조회
+ */
+exports.getScheduleAtndn = async (req, res, next) => {
+    const ssId = req.params.ssId;
+
+    try {
+        const result = await manageService.getScheduleAtndn(ssId);
+        res.json(result);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
+
+/**
  * 일정 출결 투표 등록
  */
 exports.createScheduleAtndn = async (req, res, next) => {
@@ -87,6 +102,22 @@ exports.createScheduleAtndn = async (req, res, next) => {
 
     try {
         await manageService.createScheduleAtndn(scheduleAtndn);
+        res.json({});
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
+
+/**
+ * 일정 출결 투표 수정
+ */
+exports.modifyScheduleAtndn = async (req, res, next) => {
+    const scheduleAtndn = req.body;
+    scheduleAtndn.userId = req.user.USER_ID;
+
+    try {
+        await manageService.modifyScheduleAtndn(scheduleAtndn);
         res.json({});
     } catch (err) {
         console.error(err);

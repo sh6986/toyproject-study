@@ -14,6 +14,9 @@ function initPage() {
 
     // 일정 상세 조회
     getScheduleDetail(ssId);
+
+    // 일정 출결 상세 조회
+    getScheduleAtndn(ssId);
 }
 
 /**
@@ -66,6 +69,39 @@ function getScheduleDetail(ssId) {
                 document.getElementById('modifyBtn').classList.remove('noVisible');
                 document.getElementById('removeBtn').classList.remove('noVisible');
             } 
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+/**
+ * 일정 출결 상세 조회
+ */
+function getScheduleAtndn(ssId) {
+    axios.get(`/manage/scheduleAtndn/${ssId}`)
+        .then(res => {
+            let attendArr = [];     // 참석
+            let absenceArr = [];    // 불참
+            let beingLateArr = [];  // 지각
+            let noVoteArr = [];     // 미투표
+
+            res.data.forEach((item, index) => {
+                if (item.SSA_STATUS === '001') {
+                    attendArr.push(item.USER_NICKNAME);
+                } else if (item.SSA_STATUS === '002') {
+                    absenceArr.push(item.USER_NICKNAME);
+                } else if (item.SSA_STATUS === '003') {
+                    beingLateArr.push(item.USER_NICKNAME);
+                } else {
+                    noVoteArr.push(item.USER_NICKNAME);
+                }
+            });
+
+            document.getElementById('attend').innerHTML = '참석 : ' + attendArr.join(', ');
+            document.getElementById('absence').innerHTML = '블참 : ' + absenceArr.join(', ');
+            document.getElementById('beingLate').innerHTML = '지각 : ' + beingLateArr.join(', ');
+            document.getElementById('noVote').innerHTML = '미투표 : ' + noVoteArr.join(', ');
         })
         .catch(err => {
             console.error(err);

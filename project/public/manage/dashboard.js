@@ -46,22 +46,34 @@ function setEventListener() {
      * 일정 - 참석 버튼 클릭시
      */
     document.getElementById('attendBtn').addEventListener('click', (e) => {
-        createScheduleAtndn('001');
+        createScheduleAtndn('001', sgId);
     });
 
     /**
      * 일정 - 불참 버튼 클릭시
      */
     document.getElementById('absenceBtn').addEventListener('click', (e) => {
-        createScheduleAtndn('002');
+        createScheduleAtndn('002', sgId);
     });
 
     /**
      * 일정 - 지각 버튼 클릭시
      */
     document.getElementById('beingLateBtn').addEventListener('click', (e) => {
-        createScheduleAtndn('003');
+        createScheduleAtndn('003', sgId);
     });
+
+    /**
+     * 일정 - 다시투표하기
+     */
+    document.getElementById('reVoteBtn').addEventListener('click', (e) => {
+        document.getElementById('attendBtn').classList.remove('noVisible');
+        document.getElementById('absenceBtn').classList.remove('noVisible');
+        document.getElementById('beingLateBtn').classList.remove('noVisible');
+
+        document.getElementById('voteResult').classList.add('noVisible');
+        document.getElementById('reVoteBtn').classList.add('noVisible');
+    }); 
 
     /**
      * 게시판 - 더보기 버튼 클릭시 -> 게시판목록으로 이동
@@ -69,6 +81,14 @@ function setEventListener() {
     document.getElementById('boardListBtn').addEventListener('click', (e) => {
         location.href = `/boardList/${sgId}`;
     });
+}
+
+/**
+ * 세션에 저장된 사용자ID 가져오기
+ */
+ function getSessionUserId() {
+    const sessionUserId = document.getElementById('sessionUserId').value;
+    return sessionUserId;
 }
 
 /**
@@ -99,6 +119,27 @@ function getScheduleNewOne(sgId) {
             document.getElementById('ssPlace').innerHTML = '장소 : ' + schedule.SS_PLACE;
             document.getElementById('ssDate').innerHTML = '날짜 : ' + schedule.SS_DATE;
             document.getElementById('ssDateTime').innerHTML = '시간 : ' + hour;
+
+            // [TODO] async await 적용
+            // 일정 투표 여부 조회
+            axios.get(`/manage/scheduleAtndn/${schedule.SS_ID}`)
+                .then(res => {
+                    res.data.forEach((item, index) => {
+                        if ((getSessionUserId() === String(item.USER_ID)) && item.SSA_STATUS) {
+                            document.getElementById('attendBtn').classList.add('noVisible');
+                            document.getElementById('absenceBtn').classList.add('noVisible');
+                            document.getElementById('beingLateBtn').classList.add('noVisible');
+
+                            document.getElementById('ssaId').value = item.SSA_ID;
+                            document.getElementById('voteResult').innerHTML = '[' + item.CC_DESC + ' 예정]';
+                            document.getElementById('voteResult').classList.remove('noVisible');
+                            document.getElementById('reVoteBtn').classList.remove('noVisible');
+                        }
+                    });
+                })
+                .catch(err => {
+                    console.error(err);
+                });
         })
         .catch(err => {
             console.error(err);
@@ -127,20 +168,33 @@ function getStudyMember(sgId) {
 }
 
 /**
- * 일정 출결 투표 등록
+ * 일정 출결 투표 등록 / 수정
  */
-function createScheduleAtndn(ssaStatus) {
+function createScheduleAtndn(ssaStatus, sgId) {
     const scheduleAtndn = {
         ssId: document.getElementById('ssId').value,
         ssaStatus: ssaStatus
     };
+    const ssaId = document.getElementById('ssaId').value;
 
-    axios.post(`/manage/scheduleAtndn`, scheduleAtndn)
-        .then(res => {
-            console.log(res);
-        })
-        .catch(err => {
-            console.error(err);
-        });
+    if (ssaId) {        // 수정
+        scheduleAtndn.ssaId = ssaId;
+        axios.put(`/manage/scheduleAtndn`, scheduleAtndn)
+            .then(res => {
+                getScheduleNewOne(sgId);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+
+    } else {            // 등록
+        axios.post(`/manage/scheduleAtndn`, scheduleAtndn)
+            .then(res => {
+                getScheduleNewOne(sgId);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
 }
 

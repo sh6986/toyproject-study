@@ -5,6 +5,9 @@
     .dbContent {
         height: 250px;
     }
+    .noVisible {
+        display: none;
+    }
 </style>
 
 <div class="breadcomb-area" style="background-color: white;">
@@ -75,6 +78,10 @@
                             <button id="attendBtn" class="btn btn-success notika-btn-success waves-effect">참석</button>
                             <button id="absenceBtn" class="btn btn-success notika-btn-success waves-effect">불참</button>
                             <button id="beingLateBtn" class="btn btn-success notika-btn-success waves-effect">지각</button>
+                            
+                            <input type="hidden" id="ssaId" value="">
+                            <span id="voteResult" class="noVisible"></span>
+                            <button id="reVoteBtn" class="btn btn-success notika-btn-success waves-effect noVisible">다시투표하기</button>
                         </div>
                     </div>
                 </div>

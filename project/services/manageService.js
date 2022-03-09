@@ -70,6 +70,19 @@ exports.removeSchedule = async (userId, ssId) => {
 };
 
 /**
+ * 일정 출결 상세 조회
+ */
+exports.getScheduleAtndn = async (ssId) => {
+    try {
+        const result = await pool.query(manageQuery.getScheduleAtndn, [ssId]);
+        return result[0];
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};
+
+/**
  * 일정 출결 투표 등록
  */
 exports.createScheduleAtndn = async (scheduleAtndn) => {
@@ -81,6 +94,20 @@ exports.createScheduleAtndn = async (scheduleAtndn) => {
         console.error(err);
         throw Error(err);
     } 
+};
+
+/**
+ * 일정 출결 투표 수정
+ */
+exports.modifyScheduleAtndn = async (scheduleAtndn) => {
+    const {ssaStatus, userId, ssaId} = scheduleAtndn;
+
+    try {
+        await pool.query(manageQuery.modifyScheduleAtndn, [ssaStatus, userId, ssaId]);
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
 };
 
 /**

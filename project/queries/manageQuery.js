@@ -84,6 +84,29 @@ exports.removeSchedule = `
      WHERE SS_ID = ?
 `;
 
+// 일정 출결 상세 조회
+exports.getScheduleAtndn = `
+    SELECT A.SG_ID
+         , A.USER_ID
+         , B.USER_NICKNAME 
+         , C.SS_ID
+         , D.SSA_ID
+         , D.SSA_STATUS 
+         , E.CC_DESC 
+      FROM STUDY_MEMBER AS A
+      LEFT JOIN USER AS B 
+        ON A.USER_ID = B.USER_ID AND B.USER_DEL_YN = 'N'
+      LEFT JOIN STUDY_SCHEDULE AS C 
+        ON A.SG_ID = C.SG_ID 
+      LEFT JOIN STUDY_SCHEDULE_ATNDN AS D 
+        ON A.USER_ID = D.SSA_REG_ID AND C.SS_ID = D.SS_ID AND D.SSA_DEL_YN = 'N'
+      LEFT JOIN COM_CD AS E 
+        ON D.SSA_STATUS = E.CC_NAME AND E.CGC_NAME = 'ssa_status' AND E.CC_DEL_YN = 'N'
+     WHERE A.SM_DEL_YN = 'N'
+       AND C.SS_DEL_YN = 'N'
+       AND C.SS_ID = ?
+`;
+
 // 일정 출결 투표 등록
 exports.createScheduleAtndn = `
     INSERT INTO STUDY_SCHEDULE_ATNDN (
@@ -103,6 +126,15 @@ exports.createScheduleAtndn = `
          , ?
          , NOW()
     )
+`;
+
+// 일정 출결 투표 수정
+exports.modifyScheduleAtndn = `
+    UPDATE STUDY_SCHEDULE_ATNDN 
+       SET SSA_STATUS = ?
+         , SSA_UDT_ID = ?
+         , SSA_UDT_DATE = NOW()
+     WHERE SSA_ID = ?
 `;
 
 // 게시판 목록 조회

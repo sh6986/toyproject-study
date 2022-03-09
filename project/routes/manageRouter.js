@@ -13,8 +13,13 @@ router.post('/schedule', isLoggedIn, manageController.createSchedule);
 router.put('/schedule', isLoggedIn, manageController.modifySchedule);
 // 일정 삭제
 router.delete('/schedule/:ssId', isLoggedIn, manageController.removeSchedule);
+
+// 일정 출결 상세 조회
+router.get('/scheduleAtndn/:ssId', isLoggedIn, manageController.getScheduleAtndn);
 // 일정 출결 투표 등록
 router.post('/scheduleAtndn', isLoggedIn, manageController.createScheduleAtndn);
+// 일정 출결 투표 수정
+router.put('/scheduleAtndn', isLoggedIn, manageController.modifyScheduleAtndn);
 
 // 게시판 목록 조회
 router.get('/boardList/:sgId', isLoggedIn, manageController.getBoardList);
