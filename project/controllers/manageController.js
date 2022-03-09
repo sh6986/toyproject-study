@@ -79,6 +79,22 @@ exports.removeSchedule = async (req, res, next) => {
 };
 
 /**
+ * 일정 출결 투표 등록
+ */
+exports.createScheduleAtndn = async (req, res, next) => {
+    const scheduleAtndn = req.body;
+    scheduleAtndn.userId = req.user.USER_ID;
+
+    try {
+        await manageService.createScheduleAtndn(scheduleAtndn);
+        res.json({});
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
+
+/**
  * 게시판 목록 조회
  */
 exports.getBoardList = async (req, res, next) => {

@@ -11,6 +11,7 @@ exports.getScheduleList = `
       FROM STUDY_SCHEDULE
      WHERE SS_DEL_YN = 'N'
        AND SG_ID = ?
+     ORDER BY SS_ID DESC
 `;
 
 // 일정 상세 조회
@@ -81,6 +82,27 @@ exports.removeSchedule = `
          , SS_UDT_ID = ?
          , SS_UDT_DATE = NOW()
      WHERE SS_ID = ?
+`;
+
+// 일정 출결 투표 등록
+exports.createScheduleAtndn = `
+    INSERT INTO STUDY_SCHEDULE_ATNDN (
+           SS_ID
+         , SSA_STATUS 
+         , SSA_DEL_YN 
+         , SSA_REG_ID 
+         , SSA_REG_DATE 
+         , SSA_UDT_ID 
+         , SSA_UDT_DATE 
+    ) VALUES (
+           ?
+         , ?
+         , 'N'
+         , ?
+         , NOW()
+         , ?
+         , NOW()
+    )
 `;
 
 // 게시판 목록 조회

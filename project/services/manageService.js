@@ -70,6 +70,20 @@ exports.removeSchedule = async (userId, ssId) => {
 };
 
 /**
+ * 일정 출결 투표 등록
+ */
+exports.createScheduleAtndn = async (scheduleAtndn) => {
+    const {ssId, ssaStatus, userId} = scheduleAtndn;
+
+    try {
+        await pool.query(manageQuery.createScheduleAtndn, [ssId, ssaStatus, userId, userId]);
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    } 
+};
+
+/**
  * 게시판 목록 조회
  */
 exports.getBoardList = async (sgId) => {
