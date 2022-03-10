@@ -3,6 +3,9 @@ const manageController = require('../controllers/manageController');
 const {isLoggedIn} = require('./middlewares');
 const router = express.Router();
 
+// 스터디 규칙 등록 / 수정
+router.put('/studyRule', isLoggedIn, manageController.modifyStudyRule);
+
 // 일정 목록 조회
 router.get('/scheduleList/:sgId', isLoggedIn, manageController.getScheduleList);
 // 일정 상세 조회

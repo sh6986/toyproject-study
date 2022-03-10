@@ -58,9 +58,17 @@
                     <div class="contact-inner dbContent">
                         <div class="contact-hd widget-ctn-hd">
                             <h2>스터디규칙</h2>
-                            <p>- 일정확인부탁드려요</p>
-                            <p>- 열정을 가지고 공부합시다</p>
-                            <p>- 백엔드 환영해요</p>
+                            <button id="createRuleBtn" class="btn btn-success notika-btn-success waves-effect noVisible">등록</button>
+                            <button id="modifyRuleBtn" class="btn btn-success notika-btn-success waves-effect noVisible">수정</button>
+                            <button type="button" class="btn btn-default noVisible" id="removeRuleBtn" data-toggle="modal" data-target="#removeRuleModal">삭제</button>
+                            <div class="nk-int-st">
+                                <textarea id="ruleText" class="form-control noVisible" rows="5" placeholder=""></textarea>
+                            </div>
+                            <div class="nk-int-mk sl-dp-mn" id="ruleY">
+                                <h2 id="ruleContent"></h2>
+                            </div>
+                            <button id="confirmBtn" class="btn btn-success notika-btn-success waves-effect noVisible">확인</button>
+                            <button id="cancelBtn" class="btn btn-success notika-btn-success waves-effect noVisible">취소</button>
                         </div>
                     </div>
                 </div>
@@ -69,15 +77,16 @@
                         <div class="contact-hd widget-ctn-hd">
                             <h2>일정</h2>
                             <input type="hidden" id="ssId" value="">
+                            <button id="scheduleDetail" class="btn btn-success notika-btn-success waves-effect">상세보기</button>
                             <button id="createScheduleBtn" class="btn btn-success notika-btn-success waves-effect">일정만들기</button>
                             <button id="scheduleList" class="btn btn-success notika-btn-success waves-effect">모든일정보기</button>
                             <p id="ssTopic"></p>
                             <p id="ssPlace"></p>
                             <p id="ssDate"></p>
                             <p id="ssDateTime"></p>
-                            <button id="attendBtn" class="btn btn-success notika-btn-success waves-effect">참석</button>
-                            <button id="absenceBtn" class="btn btn-success notika-btn-success waves-effect">불참</button>
-                            <button id="beingLateBtn" class="btn btn-success notika-btn-success waves-effect">지각</button>
+                            <button id="attendBtn" class="btn btn-success notika-btn-success waves-effect noVisible">참석</button>
+                            <button id="absenceBtn" class="btn btn-success notika-btn-success waves-effect noVisible">불참</button>
+                            <button id="beingLateBtn" class="btn btn-success notika-btn-success waves-effect noVisible">지각</button>
                             
                             <input type="hidden" id="ssaId" value="">
                             <span id="voteResult" class="noVisible"></span>
@@ -115,6 +124,25 @@
         </div>
     </div>
 </div>
+
+<!-- 규칙삭제확인 모달창 -->
+<div class="modal fade removeRuleModal" id="removeRuleModal" role="dialog">
+    <div class="modal-dialog modals-default">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h2>규칙을 삭제하시겠습니까?</h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="removeRuleOkBtn" data-dismiss="modal">확인</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /규칙삭제확인 모달창 -->
 {% endblock %}
 
 {% block script %}

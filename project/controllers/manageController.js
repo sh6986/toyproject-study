@@ -1,6 +1,22 @@
 const manageService = require('../services/manageService');
 
 /**
+ * 스터디 규칙 등록 / 수정
+ */
+exports.modifyStudyRule = async (req, res, next) => {
+    const study = req.body;
+    study.userId = req.user.USER_ID;
+
+    try {
+        await manageService.modifyStudyRule(study);
+        res.json({});
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
+
+/**
  * 일정 목록 조회
  */
 exports.getScheduleList = async (req, res, next) => {

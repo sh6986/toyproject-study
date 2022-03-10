@@ -56,7 +56,7 @@ function getMyStudyList() {
                     </div>
                 `;
                 
-                if (index === (res.data.length - 1) || ((index !== 0) && (index % 3) === 0)) {
+                if (index === (res.data.length - 1) || ((index !== 0) && ((index + 1) % 4) === 0)) {
                     innerHtml += `
                                 </div>
                             </div>

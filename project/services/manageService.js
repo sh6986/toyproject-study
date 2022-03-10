@@ -2,6 +2,20 @@ const pool = require('../lib/db');
 const manageQuery = require('../queries/manageQuery');
 
 /**
+ * 스터디 규칙 등록 / 수정
+ */
+exports.modifyStudyRule = async (study) => {
+    const {sgId, sgRule, userId} = study;
+
+    try {
+        await pool.query(manageQuery.modifyStudyRule, [sgRule, userId, sgId]);
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};
+
+/**
  * 일정 목록 조회
  */
 exports.getScheduleList = async (sgId) => {

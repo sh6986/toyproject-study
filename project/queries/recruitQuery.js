@@ -43,6 +43,7 @@ exports.getRecruitDetail = `
          , A.SG_NAME 
          , A.SG_CATEGORY
          , A.SG_CNT
+         , A.SG_RULE
          , A.SG_REG_ID 
          , DATE_FORMAT(A.SG_REG_DATE,'%Y-%m-%d') AS SG_REG_DATE
          , B.SR_TITLE

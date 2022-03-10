@@ -29,6 +29,63 @@ function setEventListener() {
     const sgId = document.getElementById('sgId').value;
 
     /**
+     * 스터디 규칙 - 등록 버튼 클릭시
+     */
+    document.getElementById('createRuleBtn').addEventListener('click', (e) => {
+        document.getElementById('createRuleBtn').classList.add('noVisible');
+        document.getElementById('ruleText').value = ``;
+        document.getElementById('ruleText').classList.remove('noVisible');
+        document.getElementById('ruleY').classList.add('noVisible');
+        document.getElementById('confirmBtn').classList.remove('noVisible');
+        document.getElementById('cancelBtn').classList.remove('noVisible');
+    });
+
+    /**
+     * 스터디 규칙 - 수정 버튼 클릭시
+     */
+    document.getElementById('modifyRuleBtn').addEventListener('click', (e) => {
+        document.getElementById('modifyRuleBtn').classList.add('noVisible');
+        document.getElementById('removeRuleBtn').classList.add('noVisible');
+        document.getElementById('ruleText').value = document.getElementById('ruleContent').innerHTML;
+        document.getElementById('ruleText').classList.remove('noVisible');
+        document.getElementById('ruleY').classList.add('noVisible');
+        document.getElementById('confirmBtn').classList.remove('noVisible');
+        document.getElementById('cancelBtn').classList.remove('noVisible');
+    });
+
+    /**
+     * 스터디 규칙 등록 / 수정 - 확인 버튼 클릭시
+     */
+    document.getElementById('confirmBtn').addEventListener('click', (e) => {
+        const sgRule = document.getElementById('ruleText').value;
+        const study = {sgId, sgRule};
+        modifyStudyRule(study);
+    });
+
+    /**
+     * 스터디 규칙 등록 / 수정 - 취소 버튼 클릭시
+     */
+    document.getElementById('cancelBtn').addEventListener('click', (e) => {
+        getDetail(sgId);
+    });
+
+    /**
+     * 스터디 규칙 삭제확인 모달 - 확인 버튼 클릭시
+     */
+    document.getElementById('removeRuleOkBtn').addEventListener('click', (e) => {
+        const study = {sgId, sgRule: null};
+        modifyStudyRule(study);
+    });
+
+    /**
+     * 일정 클릭시
+     */
+    document.getElementById('scheduleDetail').addEventListener('click', (e) => {
+        const ssId = document.getElementById('ssId').value;
+        location.href = `/schedule/detail/${sgId}/${ssId}`;
+    });
+
+    /**
      * 일정 - 모든일정보기
      */
     document.getElementById('scheduleList').addEventListener('click', (e) => {
@@ -67,12 +124,7 @@ function setEventListener() {
      * 일정 - 다시투표하기
      */
     document.getElementById('reVoteBtn').addEventListener('click', (e) => {
-        document.getElementById('attendBtn').classList.remove('noVisible');
-        document.getElementById('absenceBtn').classList.remove('noVisible');
-        document.getElementById('beingLateBtn').classList.remove('noVisible');
-
-        document.getElementById('voteResult').classList.add('noVisible');
-        document.getElementById('reVoteBtn').classList.add('noVisible');
+        voteYn(false);
     }); 
 
     /**
@@ -105,7 +157,34 @@ function getDetail(sgId) {
     axios.get(`/recruit/detail/${sgId}`)
         .then(res => {
             const study = res.data;
-            document.getElementById('sgName').innerHTML = study.SG_NAME;    // 스터디명
+            document.getElementById('sgName').innerHTML = study.SG_NAME;        // 스터디명
+            document.getElementById('ruleText').classList.add('noVisible');
+            document.getElementById('confirmBtn').classList.add('noVisible');
+            document.getElementById('cancelBtn').classList.add('noVisible');
+            document.getElementById('ruleContent').innerHTML = study.SG_RULE;   // 규칙
+            document.getElementById('ruleY').classList.remove('noVisible');
+
+            if (study.SG_RULE) {
+                document.getElementById('modifyRuleBtn').classList.remove('noVisible');
+                document.getElementById('removeRuleBtn').classList.remove('noVisible');
+            } else {
+                document.getElementById('createRuleBtn').classList.remove('noVisible');
+                document.getElementById('modifyRuleBtn').classList.add('noVisible');
+                document.getElementById('removeRuleBtn').classList.add('noVisible');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+/**
+ * 스터디 규칙 등록 / 수정
+ */
+function modifyStudyRule(study) {
+    axios.put(`/manage/studyRule`, study)
+        .then(res => {
+            getDetail(study.sgId);
         })
         .catch(err => {
             console.error(err);
@@ -127,30 +206,59 @@ function getScheduleNewOne(sgId) {
             document.getElementById('ssDate').innerHTML = '날짜 : ' + schedule.SS_DATE;
             document.getElementById('ssDateTime').innerHTML = '시간 : ' + hour;
 
-            // [TODO] async await 적용
-            // 일정 투표 여부 조회
-            axios.get(`/manage/scheduleAtndn/${schedule.SS_ID}`)
-                .then(res => {
-                    res.data.forEach((item, index) => {
-                        if ((getSessionUserId() === String(item.USER_ID)) && item.SSA_STATUS) {
-                            document.getElementById('attendBtn').classList.add('noVisible');
-                            document.getElementById('absenceBtn').classList.add('noVisible');
-                            document.getElementById('beingLateBtn').classList.add('noVisible');
+            
+            // 현재 진행중인 투표인지 아닌지 여부 검사
+            const today = new Date();
+            const dateArr = schedule.SS_DATE.split('-');
+            const ssDate = new Date(dateArr[0], Number(dateArr[1]) - 1, dateArr[2], schedule.SS_DATE_HOUR);
+            schedule.ssDate = ssDate;
 
-                            document.getElementById('ssaId').value = item.SSA_ID;
-                            document.getElementById('voteResult').innerHTML = '[' + item.CC_DESC + ' 예정]';
-                            document.getElementById('voteResult').classList.remove('noVisible');
-                            document.getElementById('reVoteBtn').classList.remove('noVisible');
-                        }
+            if (today < ssDate) {       // 현재 투표진행중 일정
+                // [TODO] async await 적용
+                // 일정 투표 여부 조회
+                axios.get(`/manage/scheduleAtndn/${schedule.SS_ID}`)
+                    .then(res => {
+                        res.data.forEach((item, index) => {
+                            if (getSessionUserId() === String(item.USER_ID)) {
+                                if (item.SSA_STATUS) {  // 이미 한 투표일때
+                                    voteYn(true, item.SSA_ID, item.CC_DESC);
+                                } else {                // 투표 안했을시
+                                    voteYn(false);
+                                }
+                            }
+                        });
+                    })
+                    .catch(err => {
+                        console.error(err);
                     });
-                })
-                .catch(err => {
-                    console.error(err);
-                });
+            }
         })
         .catch(err => {
             console.error(err);
         });
+}
+
+/**
+ * 일정 투표 여부
+ */
+ function voteYn(voteYn, ssaId, voteResult) {
+    if (voteYn) {   // 이미 투표 했을시
+        document.getElementById('attendBtn').classList.add('noVisible');
+        document.getElementById('absenceBtn').classList.add('noVisible');
+        document.getElementById('beingLateBtn').classList.add('noVisible');
+
+        document.getElementById('ssaId').value = ssaId;
+        document.getElementById('voteResult').innerHTML = '[' + voteResult + ' 예정]';
+        document.getElementById('voteResult').classList.remove('noVisible');
+        document.getElementById('reVoteBtn').classList.remove('noVisible');
+    } else  {   // 아직 안했을시, 다시투표하기일시
+        document.getElementById('attendBtn').classList.remove('noVisible');
+        document.getElementById('absenceBtn').classList.remove('noVisible');
+        document.getElementById('beingLateBtn').classList.remove('noVisible');
+
+        document.getElementById('voteResult').classList.add('noVisible');
+        document.getElementById('reVoteBtn').classList.add('noVisible');
+    }
 }
 
 /**

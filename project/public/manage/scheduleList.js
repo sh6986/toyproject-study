@@ -62,11 +62,6 @@ function getScheduleList(sgId) {
  */
 function setGrid(arr) {
     let innerHtml = ``;
-    const btnElement = `
-        <button class="btn btn-success notika-btn-success waves-effect">참석</button>
-        <button class="btn btn-success notika-btn-success waves-effect">불참</button>
-        <button class="btn btn-success notika-btn-success waves-effect">지각</button>
-    `;
 
     arr.forEach((item, index) => {
         if ((index === 0) || ((index % 4) === 0)) {
@@ -86,13 +81,12 @@ function setGrid(arr) {
                         <p>장소 : ${item.SS_PLACE}</p>
                         <p>날짜 : ${item.SS_DATE}</p>
                         <p>시간 : ${Number(item.SS_DATE_HOUR) < 12 ? '오전' : '오후'}${item.SS_DATE_HOUR}시 ~ ${Number(item.SS_END_DATE_HOUR) < 12 ? '오전' : '오후'}${item.SS_END_DATE_HOUR}시</p>
-                        ${new Date() < item.ssDate ? btnElement : ''}
                     </div>
                 </div>
             </div>
         `;
         
-        if (index === (arr.length - 1) || ((index !== 0) && (index % 3) === 0)) {
+        if (index === (arr.length - 1) || ((index !== 0) && ((index + 1) % 4) === 0)) {
             innerHtml += `
                         </div>
                     </div>

@@ -1,3 +1,12 @@
+// 스터디 규칙 등록 / 수정
+exports.modifyStudyRule = `
+    UPDATE STUDY_GROUP 
+       SET SG_RULE = ?
+         , SG_UDT_ID = ?
+         , SG_UDT_DATE = NOW()
+     WHERE SG_ID = ?
+`;
+
 // 일정 목록 조회
 exports.getScheduleList = `
     SELECT SS_ID
