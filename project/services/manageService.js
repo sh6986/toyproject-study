@@ -70,6 +70,19 @@ exports.removeSchedule = async (userId, ssId) => {
 };
 
 /**
+ * 일정 출결 목록 조회
+ */
+exports.getScheduleAtndnList = async (sgId) => {
+    try {
+        const result = await pool.query(manageQuery.getScheduleAtndnList, [sgId]);
+        return result[0];
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};
+
+/**
  * 일정 출결 상세 조회
  */
 exports.getScheduleAtndn = async (ssId) => {

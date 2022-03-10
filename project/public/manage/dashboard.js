@@ -81,6 +81,13 @@ function setEventListener() {
     document.getElementById('boardListBtn').addEventListener('click', (e) => {
         location.href = `/boardList/${sgId}`;
     });
+
+    /**
+     * 팀원목록 - 출결현황 버튼 클릭시
+     */
+    document.getElementById('scheduleAtndnList').addEventListener('click', () => {
+        location.href = `/scheduleAtndnList/${sgId}`;
+    });
 }
 
 /**

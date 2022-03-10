@@ -199,4 +199,12 @@ router.get('/schedule/modify/:ssId', isLoggedIn, async (req, res, next) => {
     }
 });
 
+/**
+ * 스터디관리 - 출결 현황 페이지
+ */
+router.get('/scheduleAtndnList/:sgId', isLoggedIn, (req, res, next) => {
+    const sgId = req.params.sgId;
+    res.render('manage/scheduleAtndnList', {sgId});
+});
+
 module.exports = router;

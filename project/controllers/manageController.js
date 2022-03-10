@@ -79,6 +79,21 @@ exports.removeSchedule = async (req, res, next) => {
 };
 
 /**
+ * 일정 출결 목록 조회
+ */
+exports.getScheduleAtndnList = async (req, res, next) => {
+    const sgId = req.params.sgId;
+
+    try {
+        const result = await manageService.getScheduleAtndnList(sgId);
+        res.json(result);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
+
+/**
  * 일정 출결 상세 조회
  */
 exports.getScheduleAtndn = async (req, res, next) => {

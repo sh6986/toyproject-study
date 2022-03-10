@@ -84,6 +84,39 @@ exports.removeSchedule = `
      WHERE SS_ID = ?
 `;
 
+// 일정 출결 목록 조회
+exports.getScheduleAtndnList = `
+    SELECT TB.USER_ID AS USER_ID
+         , TB.USER_NICKNAME AS USER_NICKNAME
+         , SUM(TB.ATTEND) AS ATTEND
+         , SUM(TB.ABSENCE) AS ABSENCE
+         , SUM(TB.BEINGLATE) AS BEINGLATE
+      FROM (
+            SELECT A.USER_ID 
+                 , B.USER_NICKNAME 
+                 , IFNULL(CASE WHEN D.SSA_STATUS = '001' THEN COUNT(D.SSA_STATUS) END, 0) AS ATTEND
+                 , IFNULL(CASE WHEN D.SSA_STATUS = '002' THEN COUNT(D.SSA_STATUS) END, 0) AS ABSENCE
+                 , IFNULL(CASE WHEN D.SSA_STATUS = '003' THEN COUNT(D.SSA_STATUS) END, 0) AS BEINGLATE
+              FROM STUDY_MEMBER AS A
+              LEFT JOIN USER AS B 
+                ON A.USER_ID = B.USER_ID AND B.USER_DEL_YN = 'N'
+              LEFT JOIN STUDY_SCHEDULE AS C 
+                ON A.SG_ID = C.SG_ID AND C.SS_DEL_YN = 'N'
+              LEFT JOIN STUDY_SCHEDULE_ATNDN AS D
+                ON A.USER_ID = D.SSA_REG_ID AND C.SS_ID = D.SS_ID AND D.SSA_DEL_YN = 'N'
+              LEFT JOIN COM_CD AS E 
+                ON D.SSA_STATUS = E.CC_NAME AND E.CGC_NAME = 'ssa_status' AND E.CC_DEL_YN = 'N'
+             WHERE A.SG_ID = ?
+               AND A.SM_DEL_YN = 'N'
+             GROUP BY A.USER_ID
+                    , B.USER_NICKNAME
+                    , D.SSA_STATUS
+                    , E.CC_DESC 
+             ORDER BY A.USER_ID
+      ) AS TB
+     GROUP BY TB.USER_ID
+`;
+
 // 일정 출결 상세 조회
 exports.getScheduleAtndn = `
     SELECT A.SG_ID

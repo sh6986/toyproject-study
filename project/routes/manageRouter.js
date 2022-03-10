@@ -14,6 +14,8 @@ router.put('/schedule', isLoggedIn, manageController.modifySchedule);
 // 일정 삭제
 router.delete('/schedule/:ssId', isLoggedIn, manageController.removeSchedule);
 
+// 일정 출결 목록 조회
+router.get('/getScheduleAtndnList/:sgId', isLoggedIn, manageController.getScheduleAtndnList);
 // 일정 출결 상세 조회
 router.get('/scheduleAtndn/:ssId', isLoggedIn, manageController.getScheduleAtndn);
 // 일정 출결 투표 등록
