@@ -24,7 +24,7 @@ exports.getMyStudyList = `
               LEFT JOIN COM_CD AS D 
                 ON C.ST_CODE = D.CC_NAME AND D.CGC_NAME = 'ST_NAME' AND D.CC_DEL_YN = 'N'
               LEFT JOIN STUDY_MEMBER AS E 
-                ON A.SG_ID = E.SG_ID
+                ON A.SG_ID = E.SG_ID AND E.SM_DEL_YN = 'N'
              WHERE A.SG_DEL_YN = 'N'
                AND B.SR_DEL_YN = 'N'
                AND E.USER_ID = ?

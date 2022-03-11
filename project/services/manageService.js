@@ -2,6 +2,18 @@ const pool = require('../lib/db');
 const manageQuery = require('../queries/manageQuery');
 
 /**
+ * 스터디 멤버 삭제
+ */
+exports.removeStudyMember = async (sgId, userId) => {
+    try {
+        await pool.query(manageQuery.removeStudyMember, [userId, sgId, userId]);
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};
+
+/**
  * 스터디 규칙 등록 / 수정
  */
 exports.modifyStudyRule = async (study) => {

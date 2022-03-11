@@ -1,3 +1,12 @@
+// 스터디 멤버 삭제
+exports.removeStudyMember = `
+    UPDATE STUDY_MEMBER 
+       SET SM_DEL_YN = 'Y'
+         , SM_UDT_ID = ?
+         , SM_UDT_DATE = NOW()
+     WHERE SG_ID = ? AND USER_ID = ?
+`;
+
 // 스터디 규칙 등록 / 수정
 exports.modifyStudyRule = `
     UPDATE STUDY_GROUP 

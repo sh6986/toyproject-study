@@ -1,6 +1,22 @@
 const manageService = require('../services/manageService');
 
 /**
+ * 스터디 멤버 삭제
+ */
+exports.removeStudyMember = async (req, res, next) => {
+    const sgId = req.params.sgId;
+    const userId = req.user.USER_ID;
+
+    try {
+        await manageService.removeStudyMember(sgId, userId);
+        res.json({});
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
+
+/**
  * 스터디 규칙 등록 / 수정
  */
 exports.modifyStudyRule = async (req, res, next) => {

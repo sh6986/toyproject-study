@@ -29,28 +29,25 @@ function setEventListener() {
     const sgId = document.getElementById('sgId').value;
 
     /**
+     * 스터디 탈퇴 확인 모달 - 확인 버튼 클릭시
+     */
+    document.getElementById('scsnOkBtn').addEventListener('click', (e) => {
+        removeStudyMember(sgId);
+    }); 
+
+    /**
      * 스터디 규칙 - 등록 버튼 클릭시
      */
     document.getElementById('createRuleBtn').addEventListener('click', (e) => {
-        document.getElementById('createRuleBtn').classList.add('noVisible');
-        document.getElementById('ruleText').value = ``;
-        document.getElementById('ruleText').classList.remove('noVisible');
-        document.getElementById('ruleY').classList.add('noVisible');
-        document.getElementById('confirmBtn').classList.remove('noVisible');
-        document.getElementById('cancelBtn').classList.remove('noVisible');
+        ruleYn(null, true);
     });
 
     /**
      * 스터디 규칙 - 수정 버튼 클릭시
      */
     document.getElementById('modifyRuleBtn').addEventListener('click', (e) => {
-        document.getElementById('modifyRuleBtn').classList.add('noVisible');
-        document.getElementById('removeRuleBtn').classList.add('noVisible');
-        document.getElementById('ruleText').value = document.getElementById('ruleContent').innerHTML;
-        document.getElementById('ruleText').classList.remove('noVisible');
-        document.getElementById('ruleY').classList.add('noVisible');
-        document.getElementById('confirmBtn').classList.remove('noVisible');
-        document.getElementById('cancelBtn').classList.remove('noVisible');
+        const sgRule = document.getElementById('ruleContent').innerHTML;
+        ruleYn(sgRule, true);
     });
 
     /**
@@ -151,6 +148,19 @@ function setEventListener() {
 }
 
 /**
+ * 스터디 멤버 삭제
+ */
+function removeStudyMember(sgId) {
+    axios.delete(`/manage/member/${sgId}`)
+        .then(res => {
+            location.href = `/myStudy`;
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+/**
  * 스터디모집글 상세 조회
  */
 function getDetail(sgId) {
@@ -158,24 +168,56 @@ function getDetail(sgId) {
         .then(res => {
             const study = res.data;
             document.getElementById('sgName').innerHTML = study.SG_NAME;        // 스터디명
-            document.getElementById('ruleText').classList.add('noVisible');
-            document.getElementById('confirmBtn').classList.add('noVisible');
-            document.getElementById('cancelBtn').classList.add('noVisible');
-            document.getElementById('ruleContent').innerHTML = study.SG_RULE;   // 규칙
-            document.getElementById('ruleY').classList.remove('noVisible');
 
-            if (study.SG_RULE) {
-                document.getElementById('modifyRuleBtn').classList.remove('noVisible');
-                document.getElementById('removeRuleBtn').classList.remove('noVisible');
+            if (getSessionUserId() === String(study.LEAD_USER_ID)) {    // 현재 사용자가 팀장일때
+                if (study.SG_RULE) {        // 규칙 수정
+                    ruleYn(study.SG_RULE);
+                } else {                    // 규칙 등록
+                    ruleYn();
+                }
             } else {
-                document.getElementById('createRuleBtn').classList.remove('noVisible');
-                document.getElementById('modifyRuleBtn').classList.add('noVisible');
-                document.getElementById('removeRuleBtn').classList.add('noVisible');
+                document.getElementById('scsnBtn').classList.remove('noVisible');   // 스터디 탈퇴하기 버튼
+                document.getElementById('ruleContent').innerHTML = study.SG_RULE;   // 규칙 값 넣어주기
             }
         })
         .catch(err => {
             console.error(err);
         });
+}
+
+/**
+ * 규칙 등록 여부에 따라 요소 활성/비활성
+ */
+function ruleYn(sgRule, inputYn) {
+    if (inputYn) {      // 입력 폼 일때
+        document.getElementById('createRuleBtn').classList.add('noVisible');            // 등록 버튼
+        document.getElementById('modifyRuleBtn').classList.add('noVisible');            // 수정 버튼
+        document.getElementById('removeRuleBtn').classList.add('noVisible');            // 삭제 버튼
+        document.getElementById('ruleText').value = sgRule;                             // 입력창 규칙 값 넣어주기, 등록 시에는 빈칸
+        document.getElementById('ruleText').classList.remove('noVisible');              // 입력창 ruleText
+        document.getElementById('ruleContent').classList.add('noVisible');              // 규칙 조회 ruleContent
+        document.getElementById('confirmBtn').classList.remove('noVisible');            // 입력창 - 확인 버튼
+        document.getElementById('cancelBtn').classList.remove('noVisible');             // 입력창 - 취소 버튼
+
+    } else {            // 규칙 조회 창 일때(입력 폼 아닐때)
+        document.getElementById('ruleText').classList.add('noVisible');                 // 입력창 ruleText
+        document.getElementById('confirmBtn').classList.add('noVisible');               // 입력창 - 확인 버튼
+        document.getElementById('cancelBtn').classList.add('noVisible');                // 입력창 - 취소 버튼
+
+        if (sgRule) {   // 이미 등록 한 규칙 존재할때
+            document.getElementById('createRuleBtn').classList.add('noVisible');        // 등록 버튼
+            document.getElementById('modifyRuleBtn').classList.remove('noVisible');     // 수정 버튼
+            document.getElementById('removeRuleBtn').classList.remove('noVisible');     // 삭제 버튼
+            document.getElementById('ruleContent').innerHTML = sgRule;                  // 규칙 값 넣어주기
+            document.getElementById('ruleContent').classList.remove('noVisible');       // 규칙 조회 ruleContent
+
+        } else {        // 첫 규칙 등록일때
+            document.getElementById('createRuleBtn').classList.remove('noVisible');     // 등록 버튼
+            document.getElementById('modifyRuleBtn').classList.add('noVisible');        // 수정 버튼
+            document.getElementById('removeRuleBtn').classList.add('noVisible');        // 삭제 버튼
+            document.getElementById('ruleContent').classList.add('noVisible');          // 규칙 조회 ruleContent
+        }
+    }
 }
 
 /**

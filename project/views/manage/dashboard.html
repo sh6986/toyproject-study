@@ -43,12 +43,14 @@
                     </li>
                     <li><a data-toggle="tab" href="#Charts">메뉴4</a>
                     </li>
+                    <li>
+                        <button type="button" class="btn btn-default noVisible" id="scsnBtn" data-toggle="modal" data-target="#scsnModal">스터디 탈퇴하기</button>
+                    </li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
-
 <div id="dashboard">
     <input type="hidden" id="sgId" value="{{sgId}}">
     <div class="contact-info-area mg-t-30">
@@ -116,6 +118,7 @@
                         <div class="contact-hd widget-ctn-hd">
                             <h2>팀원목록</h2>
                             <button id="scheduleAtndnList" class="btn btn-success notika-btn-success waves-effect">출결현황</button>
+                            <button id="memberDetail" class="btn btn-success notika-btn-success waves-effect">팀원상세</button>
                             <div id="memberList"></div>
                         </div>
                     </div>
@@ -143,6 +146,25 @@
     </div>
 </div>
 <!-- /규칙삭제확인 모달창 -->
+
+<!-- 스터디 탈퇴 확인 모달창 -->
+<div class="modal fade scsnModal" id="scsnModal" role="dialog">
+    <div class="modal-dialog modals-default">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h2>정말로 스터디를 탈퇴하시겠습니까?</h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="scsnOkBtn" data-dismiss="modal">확인</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /스터디 탈퇴 확인 모달창 -->
 {% endblock %}
 
 {% block script %}

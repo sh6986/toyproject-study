@@ -54,6 +54,7 @@ exports.getRecruitDetail = `
          , CONCAT('#', GROUP_CONCAT(DISTINCT(D.CC_DESC) SEPARATOR ' #')) AS ST_NAME_DESC
          , COUNT(DISTINCT F.USER_ID) AS SRB_CNT
          , COUNT(DISTINCT G.USER_ID) AS SM_CNT
+         , H.USER_ID AS LEAD_USER_ID
       FROM STUDY_GROUP AS A
       LEFT JOIN STUDY_RCRTM AS B 
         ON A.SG_ID = B.SG_ID
@@ -67,6 +68,8 @@ exports.getRecruitDetail = `
         ON B.SG_ID = F.SG_ID AND F.SRB_DEL_YN = 'N'
       LEFT JOIN STUDY_MEMBER AS G 
         ON A.SG_ID = G.SG_ID AND G.SM_DEL_YN = 'N'
+      LEFT JOIN STUDY_MEMBER AS H 
+      	ON A.SG_ID = H.SG_ID AND H.SM_AUTH = '001'
      WHERE A.SG_ID = ?
        AND A.SG_DEL_YN = 'N'
        AND B.SR_DEL_YN = 'N'
@@ -79,6 +82,7 @@ exports.getRecruitDetail = `
             , B.SR_CONTENT
             , B.SR_VIEWS
             , E.USER_NICKNAME
+            , H.USER_ID
 `;
 
 // 스터디모집글 조회수 증가
