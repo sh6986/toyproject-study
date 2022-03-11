@@ -96,11 +96,11 @@ exports.removeSchedule = async (userId, ssId) => {
 };
 
 /**
- * 일정 출결 목록 조회
+ * 팀원 목록 조회
  */
-exports.getScheduleAtndnList = async (sgId) => {
+exports.getMemberList = async (sgId) => {
     try {
-        const result = await pool.query(manageQuery.getScheduleAtndnList, [sgId]);
+        const result = await pool.query(manageQuery.getMemberList, [sgId]);
         return result[0];
     } catch (err) {
         console.error(err);
@@ -240,4 +240,27 @@ exports.getStudyMember = async (sgId) => {
         console.error(err);
         throw Error(err);
     }
-}
+};
+
+/**
+ * 권한 수정
+ */
+exports.modifyModifyAuth = async (member) => {
+    const {sgId, memberId, userId} = member;
+    const conn = await pool.getConnection();
+
+    try {
+        await conn.beginTransaction();
+
+        await conn.query(manageQuery.modifyModifyAuth, ['002', userId, sgId, userId]);      // 팀장 -> 팀원으로 변경
+        await conn.query(manageQuery.modifyModifyAuth, ['001', userId, sgId, memberId]);    // 팀원 -> 팀장으로 변경
+        
+        await conn.commit();
+    } catch (err) {
+        console.error(err);
+        await conn.rollback();
+        throw Error(err);
+    } finally {
+        await conn.release();
+    }
+};

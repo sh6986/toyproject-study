@@ -200,11 +200,11 @@ router.get('/schedule/modify/:ssId', isLoggedIn, async (req, res, next) => {
 });
 
 /**
- * 스터디관리 - 출결 현황 페이지
+ * 스터디관리 - 팀원 상세 페이지
  */
-router.get('/scheduleAtndnList/:sgId', isLoggedIn, (req, res, next) => {
+router.get('/memberList/:sgId', isLoggedIn, (req, res, next) => {
     const sgId = req.params.sgId;
-    res.render('manage/scheduleAtndnList', {sgId});
+    res.render('manage/memberList', {sgId});
 });
 
 module.exports = router;

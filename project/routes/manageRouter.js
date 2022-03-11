@@ -20,8 +20,8 @@ router.put('/schedule', isLoggedIn, manageController.modifySchedule);
 // 일정 삭제
 router.delete('/schedule/:ssId', isLoggedIn, manageController.removeSchedule);
 
-// 일정 출결 목록 조회
-router.get('/getScheduleAtndnList/:sgId', isLoggedIn, manageController.getScheduleAtndnList);
+// 팀원 목록 조회
+router.get('/getMemberList/:sgId', isLoggedIn, manageController.getMemberList);
 // 일정 출결 상세 조회
 router.get('/scheduleAtndn/:ssId', isLoggedIn, manageController.getScheduleAtndn);
 // 일정 출결 투표 등록
@@ -42,5 +42,7 @@ router.delete('/board/:sbId', isLoggedIn, manageController.removeBoard);
 
 // 팀원 목록 조회
 router.get('/member/:sgId', isLoggedIn, manageController.getStudyMember);
+// 권한 수정
+router.put('/memberAuth', isLoggedIn, manageController.modifyModifyAuth);
 
 module.exports = router;

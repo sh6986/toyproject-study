@@ -72,6 +72,7 @@ exports.createStudy = async (study) => {
         return sgId;
     } catch (err) {
         console.error(err);
+        await conn.rollback();
         throw Error(err);
     } finally {
         await conn.release();

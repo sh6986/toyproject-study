@@ -102,15 +102,23 @@ exports.removeSchedule = `
      WHERE SS_ID = ?
 `;
 
-// 일정 출결 목록 조회
-exports.getScheduleAtndnList = `
+// 팀원 목록 조회
+exports.getMemberList = `
     SELECT TB.USER_ID AS USER_ID
+         , TB.SM_AUTH
+         , TB.SM_AUTH_DESC
+         , TB.SM_REG_DATE
+         , TB.USER_EMAIL
          , TB.USER_NICKNAME AS USER_NICKNAME
          , SUM(TB.ATTEND) AS ATTEND
          , SUM(TB.ABSENCE) AS ABSENCE
          , SUM(TB.BEINGLATE) AS BEINGLATE
       FROM (
             SELECT A.USER_ID 
+                 , A.SM_AUTH
+                 , F.CC_DESC AS SM_AUTH_DESC
+                 , DATE_FORMAT(A.SM_REG_DATE,'%Y-%m-%d %H:%i:%s') AS SM_REG_DATE
+                 , B.USER_EMAIL
                  , B.USER_NICKNAME 
                  , IFNULL(CASE WHEN D.SSA_STATUS = '001' THEN COUNT(D.SSA_STATUS) END, 0) AS ATTEND
                  , IFNULL(CASE WHEN D.SSA_STATUS = '002' THEN COUNT(D.SSA_STATUS) END, 0) AS ABSENCE
@@ -124,15 +132,24 @@ exports.getScheduleAtndnList = `
                 ON A.USER_ID = D.SSA_REG_ID AND C.SS_ID = D.SS_ID AND D.SSA_DEL_YN = 'N'
               LEFT JOIN COM_CD AS E 
                 ON D.SSA_STATUS = E.CC_NAME AND E.CGC_NAME = 'ssa_status' AND E.CC_DEL_YN = 'N'
+              LEFT JOIN COM_CD AS F 
+                ON A.SM_AUTH = F.CC_NAME AND F.CGC_NAME = 'sm_auth' AND F.CC_DEL_YN = 'N'
              WHERE A.SG_ID = ?
                AND A.SM_DEL_YN = 'N'
              GROUP BY A.USER_ID
+                    , A.SM_AUTH
+                    , A.SM_REG_DATE
+                    , B.USER_EMAIL
                     , B.USER_NICKNAME
                     , D.SSA_STATUS
                     , E.CC_DESC 
              ORDER BY A.USER_ID
       ) AS TB
      GROUP BY TB.USER_ID
+            , TB.USER_NICKNAME
+            , TB.SM_AUTH
+            , TB.SM_REG_DATE
+            , TB.USER_EMAIL
 `;
 
 // 일정 출결 상세 조회
@@ -289,3 +306,11 @@ exports.getStudyMember = `
        AND A.SM_DEL_YN = 'N'
 `;
 
+// 권한 수정
+exports.modifyModifyAuth = `
+    UPDATE STUDY_MEMBER 
+       SET SM_AUTH = ?
+         , SM_UDT_ID = ?
+         , SM_UDT_DATE = NOW()
+     WHERE SG_ID = ? AND USER_ID = ?
+`;

@@ -132,10 +132,10 @@ function setEventListener() {
     });
 
     /**
-     * 팀원목록 - 출결현황 버튼 클릭시
+     * 팀원 목록 - 팀원 상세 버튼 클릭시
      */
-    document.getElementById('scheduleAtndnList').addEventListener('click', () => {
-        location.href = `/scheduleAtndnList/${sgId}`;
+    document.getElementById('memberListBtn').addEventListener('click', (e) => {
+        location.href = `/memberList/${sgId}`;
     });
 }
 
@@ -236,6 +236,7 @@ function modifyStudyRule(study) {
 /**
  * 최근 일정1건 조회
  */
+// [TODO] axios 2번이상 부를때 결과값 변수 둘다 res로 받음.. 수정필요
 function getScheduleNewOne(sgId) {
     axios.get(`/manage/scheduleList/${sgId}`)
         .then(res => {

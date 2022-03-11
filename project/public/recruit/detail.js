@@ -160,6 +160,7 @@ function setEventListener() {
 /**
  * 스터디모집글 상세 조회
  */
+// [TODO] axios 2번이상 부를때 결과값 변수 둘다 res로 받음.. 수정필요
 function getRecruitDetail(sgId) {
     axios.get(`/recruit/detail/${sgId}`)
         .then(res => {

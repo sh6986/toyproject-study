@@ -80,6 +80,7 @@ function setEventListener() {
 /**
  * 일정 상세 조회
  */
+// [TODO] axios 2번이상 부를때 결과값 변수 둘다 res로 받음.. 수정필요
 function getScheduleDetail(ssId) {
     axios.get(`/manage/schedule/${ssId}`)
         .then(res => {

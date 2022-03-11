@@ -111,13 +111,13 @@ exports.removeSchedule = async (req, res, next) => {
 };
 
 /**
- * 일정 출결 목록 조회
+ * 팀원 목록 조회
  */
-exports.getScheduleAtndnList = async (req, res, next) => {
+exports.getMemberList = async (req, res, next) => {
     const sgId = req.params.sgId;
 
     try {
-        const result = await manageService.getScheduleAtndnList(sgId);
+        const result = await manageService.getMemberList(sgId);
         res.json(result);
     } catch (err) {
         console.error(err);
@@ -262,6 +262,22 @@ exports.getStudyMember = async (req, res, next) => {
     try {
         const result = await manageService.getStudyMember(sgId);
         res.json(result);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
+
+/**
+ * 권한 수정
+ */
+exports.modifyModifyAuth = async (req, res, next) => {
+    const member = req.body;
+    member.userId = req.user.USER_ID;
+
+    try {
+        await manageService.modifyModifyAuth(member);
+        res.json({});
     } catch (err) {
         console.error(err);
         next(err);
