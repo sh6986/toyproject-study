@@ -14,6 +14,18 @@ exports.removeStudyMember = async (sgId, userId) => {
 };
 
 /**
+ * 스터디 삭제 (폐쇄)
+ */
+exports.removeStudy = async (sgId, userId) => {
+    try {
+        await pool.query(manageQuery.removeStudy, [userId, sgId]);
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+}
+
+/**
  * 스터디 규칙 등록 / 수정
  */
 exports.modifyStudyRule = async (study) => {

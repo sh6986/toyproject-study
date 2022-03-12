@@ -36,6 +36,13 @@ function setEventListener() {
     }); 
 
     /**
+     * 스터디 폐쇄 확인 모달 - 확인 버튼 클릭시
+     */
+    document.getElementById('closeOkBtn').addEventListener('click', (e) => {
+        removeSchedule(sgId);
+    }); 
+
+    /**
      * 스터디 규칙 - 등록 버튼 클릭시
      */
     document.getElementById('createRuleBtn').addEventListener('click', (e) => {
@@ -161,6 +168,19 @@ function removeStudyMember(sgId) {
 }
 
 /**
+ * 스터디 삭제 (폐쇄)
+ */
+ function removeSchedule(sgId) {
+    axios.delete(`/manage/study/${sgId}`)
+        .then(res => {
+            location.href = `/myStudy`;
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+/**
  * 스터디모집글 상세 조회
  */
 function getDetail(sgId) {
@@ -175,6 +195,8 @@ function getDetail(sgId) {
                 } else {                    // 규칙 등록
                     ruleYn();
                 }
+
+                document.getElementById('closeBtn').classList.remove('noVisible');   // 스터디 폐쇄하기 버튼
             } else {
                 document.getElementById('scsnBtn').classList.remove('noVisible');   // 스터디 탈퇴하기 버튼
                 document.getElementById('ruleContent').innerHTML = study.SG_RULE;   // 규칙 값 넣어주기

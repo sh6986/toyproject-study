@@ -45,6 +45,7 @@
                     </li>
                     <li>
                         <button type="button" class="btn btn-default noVisible" id="scsnBtn" data-toggle="modal" data-target="#scsnModal">스터디 탈퇴하기</button>
+                        <button type="button" class="btn btn-default noVisible" id="closeBtn" data-toggle="modal" data-target="#closeModal">스터디 폐쇄하기</button>
                     </li>
                 </ul>
             </div>
@@ -164,6 +165,26 @@
     </div>
 </div>
 <!-- /스터디 탈퇴 확인 모달창 -->
+
+<!-- 스터디 폐쇄 확인 모달창 -->
+<div class="modal fade closeModal" id="closeModal" role="dialog">
+    <div class="modal-dialog modals-default">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h2>정말로 스터디를 폐쇄하시겠습니까?</h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="closeOkBtn" data-dismiss="modal">확인</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /스터디 폐쇄 확인 모달창 -->
+
 {% endblock %}
 
 {% block script %}

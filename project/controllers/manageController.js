@@ -17,6 +17,22 @@ exports.removeStudyMember = async (req, res, next) => {
 };
 
 /**
+ * 스터디 삭제 (폐쇄)
+ */
+exports.removeStudy = async (req, res, next) => {
+    const sgId = req.params.sgId;
+    const userId = req.user.USER_ID;
+
+    try {
+        await manageService.removeStudy(sgId, userId);
+        res.json({});
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
+
+/**
  * 스터디 규칙 등록 / 수정
  */
 exports.modifyStudyRule = async (req, res, next) => {

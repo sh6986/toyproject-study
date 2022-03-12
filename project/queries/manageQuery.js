@@ -7,6 +7,15 @@ exports.removeStudyMember = `
      WHERE SG_ID = ? AND USER_ID = ?
 `;
 
+// 스터디 삭제 (폐쇄)
+exports.removeStudy = `
+    UPDATE STUDY_GROUP 
+       SET SG_DEL_YN = 'Y'
+         , SG_UDT_ID = ?
+         , SG_UDT_DATE = NOW()
+     WHERE SG_ID = ?
+`;
+
 // 스터디 규칙 등록 / 수정
 exports.modifyStudyRule = `
     UPDATE STUDY_GROUP 
