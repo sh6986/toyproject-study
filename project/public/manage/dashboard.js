@@ -19,7 +19,7 @@ function initPage() {
     getScheduleNewOne(sgId);
 
     // 팀원 목록 조회
-    getStudyMember(sgId);
+    getMemberList(sgId);
 }
 
 /**
@@ -306,7 +306,7 @@ function getScheduleNewOne(sgId) {
 /**
  * 일정 투표 여부
  */
- function voteYn(voteYn, ssaId, voteResult) {
+function voteYn(voteYn, ssaId, voteResult) {
     if (voteYn) {   // 이미 투표 했을시
         document.getElementById('attendBtn').classList.add('noVisible');
         document.getElementById('absenceBtn').classList.add('noVisible');
@@ -329,14 +329,14 @@ function getScheduleNewOne(sgId) {
 /**
  * 팀원 목록 조회
  */
-function getStudyMember(sgId) {
-    axios.get(`/manage/member/${sgId}`)
+function getMemberList(sgId) {
+    axios.get(`/manage/getMemberList/${sgId}`)
         .then(res => {
             let innerHtml = ``;
 
             res.data.forEach((item, index, arr) => {
                 innerHtml += `
-                    <p>[${item.CC_DESC}] ${item.USER_NICKNAME}</p>
+                    <p>[${item.SM_AUTH_DESC}] ${item.USER_NICKNAME}</p>
                 `;
             });
 

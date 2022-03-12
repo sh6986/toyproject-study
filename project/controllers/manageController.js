@@ -270,21 +270,6 @@ exports.removeBoard = async (req, res, next) => {
 };
 
 /**
- * 팀원 목록 조회
- */
-exports.getStudyMember = async (req, res, next) => {
-    const sgId = req.params.sgId;
-
-    try {
-        const result = await manageService.getStudyMember(sgId);
-        res.json(result);
-    } catch (err) {
-        console.error(err);
-        next(err);
-    }
-};
-
-/**
  * 권한 수정
  */
 exports.modifyModifyAuth = async (req, res, next) => {

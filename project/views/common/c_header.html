@@ -1,4 +1,9 @@
-<!-- Start Header Top Area -->
+<style>
+    .fontMedium {
+        font-size: medium;
+    }
+</style>
+
 <div class="header-top-area">
     <div class="container">
         <div class="row">
@@ -10,18 +15,33 @@
             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                 <div class="header-top-menu">
                     <ul class="nav navbar-nav notika-top-nav">
+                        <input type="hidden" id="sessionUserId" value="{{user.USER_ID}}">
+                        {% if user %}
                         <li class="nav-item">
-                            <input type="hidden" id="sessionUserId" value="{{user.USER_ID}}">
-                            {% if user %}
-                            <a href="/auth/logout" role="button" aria-expanded="false" class="nav-link"><span>로그아웃</span></a>
-                            {% else %}
-                            <a href="/login" role="button" aria-expanded="false" class="nav-link"><span>로그인</span></a>
-                            {% endif %}
+                            <a href="/myStudy" role="button" aria-expanded="false" class="nav-link">
+                                <span class="fontMedium">내스터디</span>
+                            </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="/bookmark" role="button" aria-expanded="false" class="nav-link">
+                                <span class="fontMedium">내북마크</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/auth/logout" role="button" aria-expanded="false" class="nav-link">
+                                <span class="fontMedium">로그아웃</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a href="/login" role="button" aria-expanded="false" class="nav-link">
+                                <span class="fontMedium">로그인</span>
+                            </a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- End Header Top Area -->

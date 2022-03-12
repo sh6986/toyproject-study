@@ -242,19 +242,6 @@ exports.removeBoard = async (userId, sbId) => {
 };
 
 /**
- * 팀원 목록 조회
- */
-exports.getStudyMember = async (sgId) => {
-    try {
-        const result = await pool.query(manageQuery.getStudyMember, [sgId]);
-        return result[0];
-    } catch (err) {
-        console.error(err);
-        throw Error(err);
-    }
-};
-
-/**
  * 권한 수정
  */
 exports.modifyModifyAuth = async (member) => {

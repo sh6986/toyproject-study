@@ -300,21 +300,6 @@ exports.removeBoard = `
      WHERE SB_ID = ?
 `;
 
-// 팀원 목록 조회
-exports.getStudyMember = `
-    SELECT A.USER_ID
-         , A.SG_ID
-         , B.USER_NICKNAME
-         , C.CC_DESC 
-      FROM STUDY_MEMBER AS A
-      LEFT JOIN USER AS B 
-        ON A.USER_ID = B.USER_ID
-      LEFT JOIN COM_CD AS C 
-        ON A.SM_AUTH = C.CC_NAME AND C.CGC_NAME = 'SM_AUTH'
-     WHERE A.SG_ID = ?
-       AND A.SM_DEL_YN = 'N'
-`;
-
 // 권한 수정
 exports.modifyModifyAuth = `
     UPDATE STUDY_MEMBER 

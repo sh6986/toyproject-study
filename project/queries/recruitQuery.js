@@ -4,37 +4,46 @@ exports.getRecruitList = `
          , TB.SG_NAME
          , TB.SG_CATEGORY
          , TB.SG_CNT
+         , TB.SG_OPEN_YN
          , TB.SR_TITLE
-         , TB.SR_CONTENT
-         , TB.SR_VIEWS, CONCAT('#', GROUP_CONCAT(DISTINCT(TB.CC_DESC)  SEPARATOR ' #')) AS ST_NAME_DESC 
+         , TB.SR_VIEWS
+         , GROUP_CONCAT(DISTINCT(TB.CC_DESC) SEPARATOR '|') AS ST_NAME_DESC 
+         , COUNT(DISTINCT TB.USER_ID_BKM) AS SRB_CNT
+         , COUNT(DISTINCT TB.USER_ID_SM) AS SM_CNT
       FROM (
             SELECT A.SG_ID
-                 , A.SG_NAME
+                 , A.SG_NAME 
                  , A.SG_CATEGORY
                  , A.SG_CNT
+                 , A.SG_OPEN_YN
                  , B.SR_TITLE
-                 , B.SR_CONTENT
                  , B.SR_VIEWS
+                 , F.USER_ID AS USER_ID_BKM
+                 , G.USER_ID AS USER_ID_SM
                  , D.CC_DESC 
               FROM STUDY_GROUP AS A
               LEFT JOIN STUDY_RCRTM AS B 
                 ON A.SG_ID = B.SG_ID
-              LEFT JOIN STUDY_TCHST AS C 
+              LEFT JOIN STUDY_TCHST AS C
                 ON A.SG_ID = C.SG_ID AND C.ST_DEL_YN = 'N'
               LEFT JOIN COM_CD AS D 
                 ON C.ST_CODE = D.CC_NAME AND D.CGC_NAME = 'ST_NAME' AND D.CC_DEL_YN = 'N'
-             WHERE A.SG_OPEN_YN = 'Y'
-               AND A.SG_DEL_YN = 'N'
+              LEFT JOIN STUDY_RCRTM_BKM AS F 
+                ON B.SG_ID = F.SG_ID AND F.SRB_DEL_YN = 'N'
+              LEFT JOIN STUDY_MEMBER AS G 
+                ON A.SG_ID = G.SG_ID AND G.SM_DEL_YN = 'N'
+             WHERE A.SG_DEL_YN = 'N'
                AND B.SR_DEL_YN = 'N'
-             ORDER BY A.SG_ID
       ) AS TB
-      GROUP BY TB.SG_ID
-             , TB.SG_NAME
-             , TB.SG_CATEGORY
-             , TB.SG_CNT
-             , TB.SR_TITLE
-             , TB.SR_CONTENT
-             , TB.SR_VIEWS
+     GROUP BY TB.SG_ID
+            , TB.SG_NAME
+            , TB.SG_CATEGORY
+            , TB.SG_CNT
+            , TB.SG_OPEN_YN
+            , TB.SR_TITLE
+            , TB.SR_VIEWS
+     ORDER BY TB.SG_OPEN_YN DESC
+            , TB.SG_ID DESC
 `;
 
 // 스터디모집글 상세 조회

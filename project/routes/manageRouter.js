@@ -42,8 +42,6 @@ router.put('/board', isLoggedIn, manageController.modifyBoard);
 // 게시판 글 삭제
 router.delete('/board/:sbId', isLoggedIn, manageController.removeBoard);
 
-// 팀원 목록 조회
-router.get('/member/:sgId', isLoggedIn, manageController.getStudyMember);
 // 권한 수정
 router.put('/memberAuth', isLoggedIn, manageController.modifyModifyAuth);
 

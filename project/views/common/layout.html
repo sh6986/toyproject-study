@@ -44,6 +44,10 @@
     {% block content %}
     {% endblock %}
 
+    {% if page !== 'login' and page !== 'join' and page !== 'error' %}
+    {% include "common/c_footer.html" %}
+    {% endif %}
+
     <script src="js/vendor/jquery-1.12.4.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/wow.min.js"></script>
@@ -93,7 +97,6 @@
     <script src="js/data-table/jquery.dataTables.min.js"></script>
     <script src="js/data-table/data-table-act.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/tawk-chat.js"></script>
     <script src="js/login/login-action.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     

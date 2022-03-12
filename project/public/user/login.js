@@ -54,7 +54,11 @@ function login() {
 
     axios.post(`/auth/login`, loginUser)
         .then(res => {
-            location.href = '/';
+            if (res.data.status === '002') {    // 로그인 성공
+                location.href = '/';
+            } else {        // 로그인 실패
+                document.getElementById('loginMessageBox').classList.remove('noVisible');
+            }
         })
         .catch(err => {
             console.error(err);
@@ -80,8 +84,8 @@ function join() {
                 location.reload();
                 alert(res.data.message);
             } else {    // 탈퇴한 회원이거나 이미 존재하는 이메일
-                document.getElementById('messageBox').innerHTML = res.data.message;
-                document.getElementById('messageBox').classList.remove('noVisible');
+                document.getElementById('joinMessageBox').innerHTML = res.data.message;
+                document.getElementById('joinMessageBox').classList.remove('noVisible');
             }
         })
         .catch(err => {

@@ -16,8 +16,12 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
         }
 
         // 로그인 실패시
+        // [TODO] 상태랑 메세지 따로 정리, 관리 필요
         if (!user) {
-            return res.json({});   // [TODO] 에러페이지
+            return res.json({
+                status: '001',
+                message: '로그인 실패'
+            });
         }
 
         // 로그인 성공시
@@ -28,7 +32,11 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
                 return next(loginError);
             }
 
-            return res.json({});   // [TODO] 에러페이지
+            // [TODO] 상태랑 메세지 따로 정리, 관리 필요
+            return res.json({
+                status: '002',
+                message: '로그인 성공'
+            });
         });
 
     })(req, res, next);

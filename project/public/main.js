@@ -10,8 +10,10 @@ window.onload = () => {
  * 화면 초기화
  */
 function initPage() {
+    const openYn = document.getElementById('openYn').checked;
+
     // 스터디모집글 조회
-    getList();
+    getList(openYn);
 }
 
 /**
@@ -22,41 +24,77 @@ function setEventListener() {
      * 스터디모집글 클릭시 -> 상세페이지로 이동
      */
     document.getElementById('studyList').addEventListener('click', (e) => {
-        const sgId = e.target.closest('.recruitBox').querySelector('.sgId').value;
-        location.href = `/detail/${sgId}`;
+        if (e.target.closest('.recruitBox')) {
+            const sgId = e.target.closest('.recruitBox').querySelector('.sgId').value;
+            location.href = `/detail/${sgId}`;
+        }   
+    });
+
+    /**
+     * 모집중인 글만 보기 클릭시
+     */
+    document.getElementById('openYn').addEventListener('click', (e) => {
+        const openYn = document.getElementById('openYn').checked;
+        getList(openYn);
     });
 }
 
 /**
 * 스터디모집글 조회
 */
-function getList() {
+function getList(openYn) {
     axios.get('/recruit')
         .then(res => {
             let innerHtml = ``;
+            let study = res.data;
 
-            res.data.forEach((item, index, arr) => {
+            if (openYn) {   // 모집중인 글만 보기
+                study = res.data.filter((item, index) => {
+                    return item.SG_OPEN_YN === 'Y';
+                });
+            }
+
+            study.forEach((item, index, arr) => {
+                const stNameArr = item.ST_NAME_DESC.split('|');
+                let innerStName = ``;
+
+                stNameArr.forEach((stName, i) => {
+                    innerStName += `<span class="stNameStyle">${stName}</span>`;
+                });
+
                 if ((index === 0) || ((index % 4) === 0)) {
                     innerHtml += `
-                        <div class="contact-info-area mg-t-30">
+                        <div class="contact-info-area mg-t-15">
                             <div class="container">
                                 <div class="row">
                     `;
                 }
 
                 innerHtml += `
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 recruitBox">
-                        <input type="hidden" class="sgId" value="${item.SG_ID}">
-                        <div class="contact-inner">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12  mg-t-15">
+                        <div class="contact-inner radiusDiv recruitBox ${item.SG_OPEN_YN === 'Y' ? 'hover-color' : 'closed'}">
+                            <input type="hidden" class="sgId" value="${item.SG_ID}">
                             <div class="contact-hd widget-ctn-hd">
-                                <h2>${item.SR_TITLE}</h2>
-                                <p>${item.ST_NAME_DESC}</p>
+                                <a href="javascript:void(0);">
+                                    <h2>${item.SR_TITLE}</h2>
+                                    <p>${item.SG_NAME}</p>
+                                    <p>
+                                        <i class="fas fa-user-friends"></i> ${item.SM_CNT} / ${item.SG_CNT}
+                                    </p>
+                                    <p class="alignRight">
+                                        <i class="fas fa-eye"></i> ${item.SR_VIEWS}&nbsp;&nbsp;
+                                        <i class="fas fa-bookmark"></i> ${item.SRB_CNT}
+                                    </p>
+                                    <p>
+                                        ${innerStName}
+                                    </p>
+                                </a>
                             </div>
                         </div>
                     </div>
                 `;
 
-                if (index === (res.data.length - 1) || ((index !== 0) && ((index + 1) % 4) === 0)) {
+                if (index === (study.length - 1) || ((index !== 0) && ((index + 1) % 4) === 0)) {
                     innerHtml += `
                                 </div>
                             </div>

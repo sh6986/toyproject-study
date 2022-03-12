@@ -178,7 +178,7 @@ function getRecruitDetail(sgId) {
 
             // [TODO] async await 적용
             if (getSessionUserId()) {
-                axios.get(`/manage/member/${sgId}`)
+                axios.get(`/manage/getMemberList/${sgId}`)
                     .then(res => {
                         const memberIdArr = res.data.map(item => String(item.USER_ID));
 
