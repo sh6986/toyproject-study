@@ -23,6 +23,13 @@ function setEventListener() {
     document.getElementById('loginSubmit').addEventListener('click', (e) => {
         login();
     });
+
+    /**
+     * 회원가입 버튼(->) 클릭시
+     */
+    document.getElementById('joinSubmit').addEventListener('click', (e) => {
+        join();
+    });
 }
 
 /**
@@ -52,4 +59,32 @@ function login() {
         .catch(err => {
             console.error(err);
         }) ;
+}
+
+/**
+ * 회원가입
+ */
+function join() {
+    const userEmail = document.getElementById('joinEmail').value;
+    const userPassword = document.getElementById('joinPassword').value;
+    const userNickname = document.getElementById('joinNickname').value;
+    const user = {
+        userEmail,
+        userPassword,
+        userNickname
+    };
+
+    axios.post(`/auth/join`, user)
+        .then(res => {
+            if (res.data.status === '003') {   // 가입 성공
+                location.reload();
+                alert(res.data.message);
+            } else {    // 탈퇴한 회원이거나 이미 존재하는 이메일
+                document.getElementById('messageBox').innerHTML = res.data.message;
+                document.getElementById('messageBox').classList.remove('noVisible');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        });
 }

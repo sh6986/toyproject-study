@@ -1,6 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+const authController = require('../controllers/authController');
 const router = express.Router();
 
 /**
@@ -41,5 +42,10 @@ router.get('/logout', isLoggedIn, (req, res) => {
     req.session.destroy();
     res.redirect('/');
 });
+
+/**
+ * 회원가입
+ */
+router.post('/join', isNotLoggedIn, authController.createUser);
 
 module.exports = router;

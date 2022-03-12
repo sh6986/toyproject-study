@@ -1,20 +1,29 @@
 {% extends 'common/layout.html' %}
 
 {% block content %}
+<style>
+    .dbContent {
+        height: 250px;
+    }
+    .noVisible {
+        display: none;
+    }
+</style>
+
 <div class="login-content">
-    <!-- Login -->
+    <!-- 로그인 -->
     <div class="nk-block toggled" id="l-login">
         <div class="nk-form">
             <div class="input-group">
                 <span class="input-group-addon nk-ic-st-pro"><i class="notika-icon notika-support"></i></span>
                 <div class="nk-int-st">
-                    <input type="text" id="loginEmail" class="form-control" placeholder="Username">
+                    <input type="text" id="loginEmail" class="form-control" placeholder="이메일">
                 </div>
             </div>
             <div class="input-group mg-t-15">
                 <span class="input-group-addon nk-ic-st-pro"><i class="notika-icon notika-edit"></i></span>
                 <div class="nk-int-st">
-                    <input type="password" id="loginPwd" onkeyup="enterKey()" class="form-control" placeholder="Password">
+                    <input type="password" id="loginPwd" onkeyup="enterKey()" class="form-control" placeholder="비밀번호">
                 </div>
             </div>
             <button id="loginSubmit" class="btn btn-login btn-success btn-float"><i class="notika-icon notika-right-arrow right-arrow-ant"></i></button>
@@ -22,63 +31,42 @@
 
         <div class="nk-navigation nk-lg-ic">
             <a href="#" data-ma-action="nk-login-switch" data-ma-block="#l-register"><i class="notika-icon notika-plus-symbol"></i> <span>회원가입</span></a>
-            <a href="#" data-ma-action="nk-login-switch" data-ma-block="#l-forget-password"><i>?</i> <span>비밀번호찾기</span></a>
         </div>
     </div>
+    <!-- /로그인 -->
 
-    <!-- Register -->
-    <!-- <div class="nk-block" id="l-register">
+    <!-- 회원가입 -->
+    <div class="nk-block" id="l-register">
         <div class="nk-form">
             <div class="input-group">
-                <span class="input-group-addon nk-ic-st-pro"><i class="notika-icon notika-support"></i></span>
-                <div class="nk-int-st">
-                    <input type="text" class="form-control" placeholder="Username">
-                </div>
-            </div>
-
-            <div class="input-group mg-t-15">
                 <span class="input-group-addon nk-ic-st-pro"><i class="notika-icon notika-mail"></i></span>
                 <div class="nk-int-st">
-                    <input type="text" class="form-control" placeholder="Email Address">
+                    <input type="text" id="joinEmail" class="form-control" placeholder="이메일">
                 </div>
             </div>
-
             <div class="input-group mg-t-15">
                 <span class="input-group-addon nk-ic-st-pro"><i class="notika-icon notika-edit"></i></span>
                 <div class="nk-int-st">
-                    <input type="password" class="form-control" placeholder="Password">
+                    <input type="password" id="joinPassword" class="form-control" placeholder="비밀번호">
                 </div>
             </div>
-
-            <a href="#l-login" data-ma-action="nk-login-switch" data-ma-block="#l-login" class="btn btn-login btn-success btn-float"><i class="notika-icon notika-right-arrow"></i></a>
+            <div class="input-group mg-t-15">
+                <span class="input-group-addon nk-ic-st-pro"><i class="notika-icon notika-support"></i></span>
+                <div class="nk-int-st">
+                    <input type="text" id="joinNickname" class="form-control" placeholder="닉네임">
+                </div>
+            </div>
+            <div class="input-group mg-t-15">
+                <span id="messageBox" class="noVisible"></span>
+            </div>
+            <button id="joinSubmit" class="btn btn-login btn-success btn-float"><i class="notika-icon notika-right-arrow right-arrow-ant"></i></button>
         </div>
 
         <div class="nk-navigation rg-ic-stl">
-            <a href="#" data-ma-action="nk-login-switch" data-ma-block="#l-login"><i class="notika-icon notika-right-arrow"></i> <span>Sign in</span></a>
-            <a href="" data-ma-action="nk-login-switch" data-ma-block="#l-forget-password"><i>?</i> <span>Forgot Password</span></a>
+            <a href="#" data-ma-action="nk-login-switch" data-ma-block="#l-login"><i class="notika-icon notika-right-arrow"></i> <span>로그인</span></a>
         </div>
-    </div> -->
-
-    <!-- Forgot Password -->
-    <!-- <div class="nk-block" id="l-forget-password">
-        <div class="nk-form">
-            <p class="text-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu risus. Curabitur commodo lorem fringilla enim feugiat commodo sed ac lacus.</p>
-
-            <div class="input-group">
-                <span class="input-group-addon nk-ic-st-pro"><i class="notika-icon notika-mail"></i></span>
-                <div class="nk-int-st">
-                    <input type="text" class="form-control" placeholder="Email Address">
-                </div>
-            </div>
-
-            <a href="#l-login" data-ma-action="nk-login-switch" data-ma-block="#l-login" class="btn btn-login btn-success btn-float"><i class="notika-icon notika-right-arrow"></i></a>
-        </div>
-
-        <div class="nk-navigation nk-lg-ic rg-ic-stl">
-            <a href="" data-ma-action="nk-login-switch" data-ma-block="#l-login"><i class="notika-icon notika-right-arrow"></i> <span>Sign in</span></a>
-            <a href="" data-ma-action="nk-login-switch" data-ma-block="#l-register"><i class="notika-icon notika-plus-symbol"></i> <span>Register</span></a>
-        </div>
-    </div> -->
+    </div>
+    <!-- /회원가입 -->
 </div>
 {% endblock %}
 

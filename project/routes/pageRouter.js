@@ -74,8 +74,15 @@ router.get('/update/:sgId', isLoggedIn, async (req, res, next) => {
 /**
  * 로그인 페이지
  */
- router.get('/login', isNotLoggedIn, (req, res) => {
+router.get('/login', isNotLoggedIn, (req, res) => {
     res.render('user/login', {page: 'login'});
+});
+
+/**
+ * 회원가입 페이지
+ */
+router.get('/join', isNotLoggedIn, (req, res) => {
+    res.render('user/join', {page: 'join'});
 });
 
 /**
