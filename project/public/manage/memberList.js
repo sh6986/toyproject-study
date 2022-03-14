@@ -39,14 +39,6 @@ function setEventListener() {
 }
 
 /**
- * 세션에 저장된 사용자ID 가져오기
- */
- function getSessionUserId() {
-    const sessionUserId = document.getElementById('sessionUserId').value;
-    return sessionUserId;
-}
-
-/**
  * 팀원 목록 조회
  */
 function getMemberList(sgId) {
@@ -60,7 +52,7 @@ function getMemberList(sgId) {
                 .then(study => {
                     const leadUserID = study.data.LEAD_USER_ID;   // 팀장ID
 
-                    if (getSessionUserId() === String(leadUserID)) {
+                    if (common.getSessionUserId() === String(leadUserID)) {
                         document.getElementById('modifyLeaderBtn').classList.remove('noVisible');
                         document.getElementById('radioBtn').classList.remove('noVisible');
                     }
@@ -68,7 +60,7 @@ function getMemberList(sgId) {
                     memberList.data.forEach((item, index) => {
                         innerHtml += `
                             <tr>
-                                ${getSessionUserId() === String(leadUserID) ? 
+                                ${common.getSessionUserId() === String(leadUserID) ? 
                                     `<td>
                                         ${String(leadUserID) !== String(item.USER_ID) ? `<input type="radio" value="${item.USER_ID}" name="memberRadio" class="i-checks">` : ''}
                                     </td>`

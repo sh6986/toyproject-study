@@ -7,7 +7,7 @@ exports.getRecruitList = `
          , TB.SG_OPEN_YN
          , TB.SR_TITLE
          , TB.SR_VIEWS
-         , GROUP_CONCAT(DISTINCT(TB.CC_DESC) SEPARATOR '|') AS ST_NAME_DESC 
+         , GROUP_CONCAT(DISTINCT(TB.CC_DESC)) AS ST_NAME_DESC 
          , COUNT(DISTINCT TB.USER_ID_BKM) AS SRB_CNT
          , COUNT(DISTINCT TB.USER_ID_SM) AS SM_CNT
       FROM (
@@ -55,12 +55,13 @@ exports.getRecruitDetail = `
          , A.SG_RULE
          , A.SG_REG_ID 
          , DATE_FORMAT(A.SG_REG_DATE,'%Y-%m-%d') AS SG_REG_DATE
+         , A.SG_OPEN_YN
          , B.SR_TITLE
          , B.SR_CONTENT
          , B.SR_VIEWS
          , E.USER_NICKNAME
          , GROUP_CONCAT(DISTINCT(D.CC_NAME)) AS ST_NAME
-         , CONCAT('#', GROUP_CONCAT(DISTINCT(D.CC_DESC) SEPARATOR ' #')) AS ST_NAME_DESC
+         , GROUP_CONCAT(DISTINCT(D.CC_DESC)) AS ST_NAME_DESC 			
          , COUNT(DISTINCT F.USER_ID) AS SRB_CNT
          , COUNT(DISTINCT G.USER_ID) AS SM_CNT
          , H.USER_ID AS LEAD_USER_ID
@@ -78,7 +79,7 @@ exports.getRecruitDetail = `
       LEFT JOIN STUDY_MEMBER AS G 
         ON A.SG_ID = G.SG_ID AND G.SM_DEL_YN = 'N'
       LEFT JOIN STUDY_MEMBER AS H 
-      	ON A.SG_ID = H.SG_ID AND H.SM_AUTH = '001'
+        ON A.SG_ID = H.SG_ID AND H.SM_AUTH = '001' AND H.SM_DEL_YN = 'N'
      WHERE A.SG_ID = ?
        AND A.SG_DEL_YN = 'N'
        AND B.SR_DEL_YN = 'N'
@@ -86,7 +87,10 @@ exports.getRecruitDetail = `
             , A.SG_NAME 
             , A.SG_CATEGORY
             , A.SG_CNT
+            , A.SG_RULE
+            , A.SG_REG_ID 
             , A.SG_REG_DATE
+            , A.SG_OPEN_YN
             , B.SR_TITLE
             , B.SR_CONTENT
             , B.SR_VIEWS

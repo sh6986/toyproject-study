@@ -10,16 +10,29 @@ window.onload = () => {
  * 화면 초기화
  */
 function initPage() {
+    const sgCategory = document.getElementById('sgCategory').value;
     const openYn = document.getElementById('openYn').checked;
 
     // 스터디모집글 조회
-    getList(openYn);
+    getList(openYn, sgCategory);
 }
 
 /**
  * 이벤트 등록
  */
 function setEventListener() {
+    /**
+     * 카테고리 메뉴 클릭
+     */
+    document.getElementById('category').addEventListener('click', (e) => {
+        const sgCategory = e.target.getAttribute('data-sgCategory');
+        const openYn = document.getElementById('openYn').checked;
+        document.getElementById('sgCategory').value = sgCategory;
+
+        // 스터디모집글 조회
+        getList(openYn, sgCategory);
+    });
+
     /**
      * 스터디모집글 클릭시 -> 상세페이지로 이동
      */
@@ -34,34 +47,36 @@ function setEventListener() {
      * 모집중인 글만 보기 클릭시
      */
     document.getElementById('openYn').addEventListener('click', (e) => {
+        const sgCategory = document.getElementById('sgCategory').value;
         const openYn = document.getElementById('openYn').checked;
-        getList(openYn);
+
+        // 스터디모집글 조회
+        getList(openYn, sgCategory);
     });
 }
 
 /**
-* 스터디모집글 조회
-*/
-function getList(openYn) {
+ * 스터디모집글 조회
+ */
+function getList(openYn, sgCategory) {
     axios.get('/recruit')
         .then(res => {
             let innerHtml = ``;
             let study = res.data;
 
             if (openYn) {   // 모집중인 글만 보기
-                study = res.data.filter((item, index) => {
+                study = study.filter((item, index) => {
                     return item.SG_OPEN_YN === 'Y';
                 });
             }
 
-            study.forEach((item, index, arr) => {
-                const stNameArr = item.ST_NAME_DESC.split('|');
-                let innerStName = ``;
-
-                stNameArr.forEach((stName, i) => {
-                    innerStName += `<span class="stNameStyle">${stName}</span>`;
+            if (sgCategory !== 'all') {     // 전체아닌 카테고리 선택시
+                study = study.filter((item, index) => {
+                    return item.SG_CATEGORY === sgCategory;
                 });
+            }
 
+            study.forEach((item, index, arr) => {
                 if ((index === 0) || ((index % 4) === 0)) {
                     innerHtml += `
                         <div class="contact-info-area mg-t-15">
@@ -86,7 +101,7 @@ function getList(openYn) {
                                         <i class="fas fa-bookmark"></i> ${item.SRB_CNT}
                                     </p>
                                     <p>
-                                        ${innerStName}
+                                        ${common.innerStName(item.ST_NAME_DESC)}
                                     </p>
                                 </a>
                             </div>

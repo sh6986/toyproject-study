@@ -147,14 +147,6 @@ function setEventListener() {
 }
 
 /**
- * 세션에 저장된 사용자ID 가져오기
- */
- function getSessionUserId() {
-    const sessionUserId = document.getElementById('sessionUserId').value;
-    return sessionUserId;
-}
-
-/**
  * 스터디 멤버 삭제
  */
 function removeStudyMember(sgId) {
@@ -189,7 +181,7 @@ function getDetail(sgId) {
             const study = res.data;
             document.getElementById('sgName').innerHTML = study.SG_NAME;        // 스터디명
 
-            if (getSessionUserId() === String(study.LEAD_USER_ID)) {    // 현재 사용자가 팀장일때
+            if (common.getSessionUserId() === String(study.LEAD_USER_ID)) {    // 현재 사용자가 팀장일때
                 if (study.SG_RULE) {        // 규칙 수정
                     ruleYn(study.SG_RULE);
                 } else {                    // 규칙 등록
@@ -284,7 +276,7 @@ function getScheduleNewOne(sgId) {
                 axios.get(`/manage/scheduleAtndn/${schedule.SS_ID}`)
                     .then(res => {
                         res.data.forEach((item, index) => {
-                            if (getSessionUserId() === String(item.USER_ID)) {
+                            if (common.getSessionUserId() === String(item.USER_ID)) {
                                 if (item.SSA_STATUS) {  // 이미 한 투표일때
                                     voteYn(true, item.SSA_ID, item.CC_DESC);
                                 } else {                // 투표 안했을시

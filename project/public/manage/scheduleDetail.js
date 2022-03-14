@@ -70,14 +70,6 @@ function setEventListener() {
 }
 
 /**
- * 세션에 저장된 사용자ID 가져오기
- */
- function getSessionUserId() {
-    const sessionUserId = document.getElementById('sessionUserId').value;
-    return sessionUserId;
-}
-
-/**
  * 일정 상세 조회
  */
 // [TODO] axios 2번이상 부를때 결과값 변수 둘다 res로 받음.. 수정필요
@@ -102,7 +94,7 @@ function getScheduleDetail(ssId) {
 
             if (today < ssDate) {       // 현재 투표진행중 일정
                 // 수정, 삭제 버튼 - 작성자만 보이게
-                if (getSessionUserId() === String(schedule.SS_REG_ID)) {
+                if (common.getSessionUserId() === String(schedule.SS_REG_ID)) {
                     document.getElementById('modifyBtn').classList.remove('noVisible');
                     document.getElementById('removeBtn').classList.remove('noVisible');
                 } 
@@ -112,7 +104,7 @@ function getScheduleDetail(ssId) {
                 axios.get(`/manage/scheduleAtndn/${schedule.SS_ID}`)
                     .then(res => {
                         res.data.forEach((item, index) => {
-                            if (getSessionUserId() === String(item.USER_ID)) {
+                            if (common.getSessionUserId() === String(item.USER_ID)) {
                                 if (item.SSA_STATUS) {  // 이미 한 투표일때
                                     voteYn(true, item.SSA_ID, item.CC_DESC);
                                 } else {                // 투표 안했을시

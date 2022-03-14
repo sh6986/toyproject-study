@@ -5,125 +5,120 @@
     .form-group {
         margin-bottom: 30px;
     }
-
-    .commentBtnDiv {
-        margin-bottom: 30px;
-    }
-
-    .commentModifyBtn {
-        margin-top: 10px;
-    }
-
     .noVisible {
         display: none;
     }
+    .whiteSpace {
+        white-space: pre;
+    }
+    .stNameStyle{
+        background-color: #F0EEE8;
+        padding: 4px 6px;
+        margin-right : 4px;
+        border-radius: 6px;
+    }
+    .floatLeft {
+        float: left;
+    }
+    .textRight {
+        text-align: right;
+    }
+    .btn-default.btn-icon-notika, .marginBottom0 {
+        margin-bottom: 0px;
+    }
 </style>
 
-<div class="form-element-area">
+<div class="typography-area">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="recruitDetail">
+            <div id="recruitDetail" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <input type="hidden" id="sgId" value="{{sgId}}">
                 <input type="hidden" id="sMCnt">
                 <input type="hidden" id="sgCnt">
-                <div class="form-element-list mg-t-30">
-                    <div id="studyDetail">
-                        <div class="basic-tb-hd">
-                            <h1 id="srTitle"></h1>
-                            <span id="userNickname"></span> | 
-                            <span id="sbRegDate"></span> | 
-                            조회수 <span id="sbViews"></span> |
-                            <i class="far fa-bookmark" id="studyBkmN"></i>
-                            <i class="fas fa-bookmark noVisible" id="studyBkmY"></i>
-                            <span id="srbCnt"></span>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="nk-int-mk sl-dp-mn">
-                                    <h2 id="stNameDesc"></h2>
-                                </div>
+                <div class="typography-heading typography-mgn mg-t-30">
+                    <div id="studyDetail" class="typography-hd-cr-1">
+                        <h1 id="srTitle"></h1>
+                        <h4>
+                            <div id="userNickname" class="floatLeft">
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="nk-int-mk sl-dp-mn">
-                                    <h2>모집인원수
-                                        <span id="cnt"></span> 
-                                    </h2>
-                                </div>
+                            <div class="textRight">
+                                <span id="sbRegDate"></span>&nbsp;&nbsp;
+
+                                <i class="fas fa-eye"></i>
+                                <span id="sbViews"></span>&nbsp;&nbsp;
+                                
+                                <i class="far fa-bookmark" id="studyBkmN"></i>
+                                <i class="fas fa-bookmark noVisible" id="studyBkmY"></i>
+                                <span id="srbCnt"></span>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="nk-int-mk sl-dp-mn">
-                                    <h2 id="srContent"></h2>
-                                </div>
-                            </div>
-                        </div>
+                        </h4>
+                        <p id="stNameDesc">
+                        </p>
                     </div>
-                    <button type="button" class="btn btn-default" id="joinBtn" data-dismiss="modal">스터디참여하기</button>
-                    <button type="button" class="btn btn-default noVisible" id="modifyBtn" data-dismiss="modal">수정</button>
-                    <button type="button" class="btn btn-default noVisible" id="completeBtn" data-toggle="modal" data-target="#completeModal">모집완료</button>
-                    <hr>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h4>댓글</h4>
-                                <textarea id="srcContent" class="form-control" rows="5" placeholder=""></textarea>
-                            </div>
-                        </div>
+                    <div class="typography-hd-cr-2">
+                        <p class="whiteSpace" id="srContent">
+                        </p>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="form-example-int mg-t-15 commentBtnDiv">
-                                <button id="createBtn" class="btn btn-success notika-btn-success waves-effect">댓글달기</button>
-                            </div>
-                        </div>
+                    <div class="textRight">
+                        <h4>
+                            <i class="fas fa-user-friends"></i> <span id="cnt"></span>
+                        </h4>
+                        <button id="joinBtn" class="btn btn-default btn-icon-notika waves-effect noVisible"><i class="notika-icon notika-checked"></i>&nbsp;스터디참여하기</button>
+                        <button id="modifyBtn" class="btn btn-default btn-icon-notika waves-effect noVisible">수정</button>
+                        <button id="completeBtn" class="btn btn-default btn-icon-notika waves-effect noVisible" data-toggle="modal" data-target="#completeModal"><i class="notika-icon notika-checked"></i>&nbsp;모집완료</button>
+                        <button id="goList" class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon notika-menus"></i>&nbsp;목록</button>
+                    </div>
+                </div>
+                <div class="typography-list typography-mgn mg-t-30">
+                    <h2>댓글</h2>
+                    <div class="nk-int-st mg-b-15">
+                        <textarea id="srcContent" class="form-control" rows="5" placeholder="내용을 입력해 주세요."></textarea>
+                    </div>
+                    <div class="mg-b-15 textRight">
+                        <button id="createBtn" class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon notika-checked"></i> 댓글등록</button>
                     </div>
                     <div id="commentList">
-                        
                     </div>
-
-                    <!-- 댓글삭제확인 모달창 -->
-                    <div class="modal fade removeModal" id="removeCommentModal" role="dialog">
-                        <div class="modal-dialog modals-default">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                </div>
-                                <div class="modal-body">
-                                    <h2>댓글을 삭제하시겠습니까?</h2>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" id="removeCommentOkBtn" data-dismiss="modal">확인</button>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /댓글삭제확인 모달창 -->
-
-                    <!-- 모집완료확인 모달창 -->
-                    <div class="modal fade completeModal" id="completeModal" role="dialog">
-                        <div class="modal-dialog modals-default">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                </div>
-                                <div class="modal-body">
-                                    <h2>모집완료하시겠습니까?</h2>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" id="completeOkBtn" data-dismiss="modal">확인</button>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /모집완료확인 모달창 -->
-
                 </div>
             </div>
+
+            <!-- 댓글삭제확인 모달창 -->
+            <div class="modal fade removeModal" id="removeCommentModal" role="dialog">
+                <div class="modal-dialog modals-default">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <h2>댓글을 삭제하시겠습니까?</h2>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="removeCommentOkBtn" data-dismiss="modal">확인</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /댓글삭제확인 모달창 -->
+
+            <!-- 모집완료확인 모달창 -->
+            <div class="modal fade completeModal" id="completeModal" role="dialog">
+                <div class="modal-dialog modals-default">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <h2>모집완료하시겠습니까?</h2>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="completeOkBtn" data-dismiss="modal">확인</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /모집완료확인 모달창 -->
         </div>
     </div>
 </div>

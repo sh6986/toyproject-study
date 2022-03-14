@@ -19,7 +19,7 @@ function initPage() {
     getRecruitComment(sgId);
 
     // 스터디 북마크 여부
-    if (getSessionUserId()) {
+    if (common.getSessionUserId()) {
         getStudyBkmYn(sgId);
     }
 };
@@ -33,28 +33,32 @@ function setEventListener() {
     /**
      * 글 수정 버튼 클릭시
      */
-    document.getElementById('modifyBtn').addEventListener('click', (e) => {
-        // 수정페이지로 이동 (생성페이지에 상세 데이터가 담긴)
+    document.getElementById('modifyBtn').addEventListener('click', () => {
         location.href = `/update/${sgId}`;
     });
 
     /**
      * 모집완료 모달창 - 확인버튼 클릭시
      */
-    document.getElementById('completeOkBtn').addEventListener('click', (e) => {
-        modifyComplete(sgId);
+    document.getElementById('completeOkBtn').addEventListener('click', () => {
+        modifyComplete(sgId)
+    });
+
+    /**
+     * 목록 버튼 클릭 -> 메인 (스터디모집글 목록) 으로 이동
+     */
+    document.getElementById('goList').addEventListener('click', () => {
+        location.href = `/`;
     });
 
     /**
      * 스터디참여하기 버튼 클릭시
      */
-    document.getElementById('joinBtn').addEventListener('click', (e) => {
-        if (getSessionUserId()) {      // 로그인했을시
+    document.getElementById('joinBtn').addEventListener('click', () => {
+        if (common.getSessionUserId()) {      // 로그인했을시
             const sMCnt = document.getElementById('sMCnt').value;
             const sgCnt = document.getElementById('sgCnt').value;
-            const study = {
-                sgId, sMCnt, sgCnt
-            };
+            const study = {sgId, sMCnt, sgCnt};
             createMember(study);
         } else {                // 비로그인시
             location.href = `/login`;
@@ -64,8 +68,8 @@ function setEventListener() {
     /**
      * 북마크하기 아이콘 클릭시
      */
-    document.getElementById('studyBkmN').addEventListener('click', (e) => {
-        if (getSessionUserId()) {
+    document.getElementById('studyBkmN').addEventListener('click', () => {
+        if (common.getSessionUserId()) {
             createStudyBkm(sgId);
         } else {
             location.href = `/login`;
@@ -75,21 +79,18 @@ function setEventListener() {
     /**
      * 북마크취소 아이콘 클릭시
      */
-    document.getElementById('studyBkmY').addEventListener('click', (e) => {
+    document.getElementById('studyBkmY').addEventListener('click', () => {
         modifyStudyBkm(sgId);
     });
     
     /**
      * 댓글달기 버튼 클릭시
      */
-    document.getElementById('createBtn').addEventListener('click', (e) => {
+    document.getElementById('createBtn').addEventListener('click', () => {
         const srcContent = document.getElementById('srcContent').value;
-        const comment = {
-            sgId: sgId,
-            srcContent: srcContent,
-        };
+        const comment = {sgId, srcContent};
     
-        if (getSessionUserId()) {
+        if (common.getSessionUserId()) {
             createRecruitComment(comment);
         } else {
             location.href = `/login`;
@@ -105,13 +106,10 @@ function setEventListener() {
         const targetClassName = e.target.classList;
         const commentDtlElement = e.target.closest('.commentDtl');
         const srcId = commentDtlElement ? commentDtlElement.querySelector('.srcId').value : '';
-        const comment = {
-            srcId: srcId,
-            sgId: sgId,
-        };
+        const comment = {srcId, sgId};
 
         // 수정버튼 클릭시
-        if (targetClassName[0] === 'commentModifyBtn') {
+        if (targetClassName.contains('commentModifyBtn')) {
             // 댓글 수정 폼 그리기 - 스터디모집글 상세 댓글 조회
             getRecruitComment(comment.sgId, comment.srcId);
         }
@@ -138,24 +136,12 @@ function setEventListener() {
     /**
      * 댓글삭제확인 모달창 - 확인버튼 클릭시
      */
-    document.getElementById('removeCommentOkBtn').addEventListener('click', (e) => {
+    document.getElementById('removeCommentOkBtn').addEventListener('click', () => {
         const srcId = document.querySelector('.srcId').value;
-        const comment = {
-            srcId: srcId,
-            sgId: sgId,
-        };
-
+        const comment = {srcId, sgId};
         removeRecruitComment(comment);
     });
 };
-
-/**
- * 세션에 저장된 사용자ID 가져오기
- */
- function getSessionUserId() {
-    const sessionUserId = document.getElementById('sessionUserId').value;
-    return sessionUserId;
-}
 
 /**
  * 스터디모집글 상세 조회
@@ -170,34 +156,33 @@ function getRecruitDetail(sgId) {
             document.getElementById('sbRegDate').innerHTML = study.SG_REG_DATE;
             document.getElementById('sbViews').innerHTML = study.SR_VIEWS;
             document.getElementById('srbCnt').innerHTML = study.SRB_CNT;
-            document.getElementById('stNameDesc').innerHTML = study.ST_NAME_DESC;
+            document.getElementById('stNameDesc').innerHTML = common.innerStName(study.ST_NAME_DESC);
             document.getElementById('sMCnt').value = study.SM_CNT;
             document.getElementById('sgCnt').value = study.SG_CNT;
             document.getElementById('cnt').innerHTML = study.SM_CNT + '/' + study.SG_CNT ;
             document.getElementById('srContent').innerHTML = study.SR_CONTENT;
 
             // [TODO] async await 적용
-            if (getSessionUserId()) {
+            if (common.getSessionUserId()) {
                 axios.get(`/manage/getMemberList/${sgId}`)
                     .then(res => {
                         const memberIdArr = res.data.map(item => String(item.USER_ID));
+                        let allNoVisible;
 
-                        if (memberIdArr.indexOf(getSessionUserId()) > -1) {  // 스터디에 이미 참여시 -> 스터디참여하기버튼 안보이게
-                            document.getElementById('joinBtn').classList.add('noVisible');
-                        } else {                                            // 스터디에 참여하지 않았을시 -> 스터디참여하기버튼 보이게
-                            document.getElementById('joinBtn').classList.remove('noVisible');
+                        if (common.getSessionUserId() === String(study.SG_REG_ID)) {  // 작성자일때 
+                            allNoVisible = study.SG_OPEN_YN === 'N';
+                            btnVisibleYn(allNoVisible, true);
+                        } else {    // 작성자아닐때 
+                            allNoVisible = memberIdArr.indexOf(common.getSessionUserId()) > -1;
+                            btnVisibleYn(allNoVisible, false);
                         }
                     })
                     .catch(err => {
                         console.error(err);
                     })
+            } else {
+                document.getElementById('joinBtn').classList.remove('noVisible');   // 스터디참여하기버튼 - 로그인하지 않아도 보이게
             }
-
-            // 수정, 모집완료 버튼 - 작성자만 보이게
-            if (getSessionUserId() === String(study.SG_REG_ID)) {
-                document.getElementById('modifyBtn').classList.remove('noVisible');
-                document.getElementById('completeBtn').classList.remove('noVisible');
-            } 
         })
         .catch(err => {
             console.error(err);
@@ -205,13 +190,32 @@ function getRecruitDetail(sgId) {
 }
 
 /**
+ * 작성자 여부, 상태여부에 따라 버튼 활성/비활성
+ */
+function btnVisibleYn(allNoVisible, regUserYn) {
+    if (allNoVisible) {     // 모든 버튼 안보이게 (작성자 - 모집완료일시, 작성자x - 이미 참여중인 스터디일시)
+        document.getElementById('joinBtn').classList.add('noVisible');              // 스터디참여하기버튼
+        document.getElementById('modifyBtn').classList.add('noVisible');            // 수정버튼
+        document.getElementById('completeBtn').classList.add('noVisible');          // 모집완료버튼
+    } else {
+        if (regUserYn) {    // 작성자일시
+            document.getElementById('joinBtn').classList.add('noVisible');          // 스터디참여하기버튼
+            document.getElementById('modifyBtn').classList.remove('noVisible');     // 수정버튼
+            document.getElementById('completeBtn').classList.remove('noVisible');   // 모집완료버튼
+        } else {        
+            document.getElementById('joinBtn').classList.remove('noVisible');       // 스터디참여하기버튼
+            document.getElementById('modifyBtn').classList.add('noVisible');        // 수정버튼
+            document.getElementById('completeBtn').classList.add('noVisible');      // 모집완료버튼
+        }
+    }
+}
+
+/**
  * 스터디 모집완료
  */
 function modifyComplete(sgId) {
     axios.put(`/recruit/complete/${sgId}`)
-        .then(res => {
-            location.href = `/`;
-        })
+        .then(() => btnVisibleYn(true))
         .catch(err => {
             console.error(err);
         });
@@ -222,9 +226,7 @@ function modifyComplete(sgId) {
  */
 function createMember(study) {
     axios.post(`/recruit/member`, study)
-        .then(res => {
-            getRecruitDetail(study.sgId);
-        })
+        .then(() => getRecruitDetail(study.sgId))
         .catch(err => {
             console.error(err);
         });
@@ -256,7 +258,7 @@ function getStudyBkmYn(sgId) {
  */
 function createStudyBkm(sgId) {
     axios.post(`/recruit/studyBkm`, {sgId})
-        .then(res => {
+        .then(() => {
             getRecruitDetail(sgId);
             getStudyBkmYn(sgId);
         })
@@ -270,13 +272,13 @@ function createStudyBkm(sgId) {
  */
 function modifyStudyBkm(sgId) {
     axios.put(`/recruit/studyBkm`, {sgId})
-        .then(res => {
+        .then(() => {
             getRecruitDetail(sgId);
             getStudyBkmYn(sgId);
         })
         .catch(err => {
             console.error(err);
-        })
+        });
 }
 
 /**
@@ -287,31 +289,29 @@ function getRecruitComment(sgId, srcId) {
         .then(res => {
             let innerHtml = ``;
 
-            // [TODO] 관리자 혹은 댓글작성자한테만 수정, 삭제버튼 뜨게 
             res.data.forEach((item, index, arr) => {
                 innerHtml += `
-                    <div class="row commentDtl">
+                    <blockquote class="commentDtl">
                         <input type="hidden" class="srcId" value="${item.SRC_ID}">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <div>
-                                    <span>${item.USER_NICKNAME} (${item.SRC_REG_DATE})</span>
-                                    <span class="modifyRemoveBtnBox ${getSessionUserId() === String(item.SRC_REG_ID) ? '' : 'noVisible'}">
-                                        <span class="commentModifyBtn">수정</span> | <span class="commentRemoveBtn" data-toggle="modal" data-target="#removeCommentModal">삭제</span>
-                                    </span>
-                                </div>
-                                <span>${item.SRC_CONTENT}</span>
-                                <div class="commentModifyForm" ${Number(srcId) === item.SRC_ID ? '' : 'style="display:none;"'}>
-                                    <textarea class="form-control modifySrcContent" rows="5">${item.SRC_CONTENT}</textarea>
-                                    <div class="commentModifyBtnDiv">
-                                        <button class="btn btn-default notika-btn-default waves-effect modifyCancleBtn">취소</button>
-                                        <button class="btn btn-success notika-btn-success waves-effect modifyBtn">수정</button>
-                                    </div>
-                                </div>
+                        <p class="blockquote-nk marginBottom0">
+                            ${item.USER_NICKNAME} (${item.SRC_REG_DATE})&nbsp;&nbsp;
+                            <span class="modifyRemoveBtnBox ${common.getSessionUserId() === String(item.SRC_REG_ID) ? '' : 'noVisible'}">
+                                <button class="btn btn-default btn-icon-notika waves-effect btn-xs commentModifyBtn">수정</button>
+                                <button class="btn btn-default btn-icon-notika waves-effect btn-xs commentRemoveBtn" data-toggle="modal" data-target="#removeCommentModal">삭제</button>
+                            </span> 
+                            <br>
+                            <span class="whiteSpace">${item.SRC_CONTENT}</span>
+                        </p>
+                        <div class="commentModifyForm" ${Number(srcId) === item.SRC_ID ? '' : 'style="display:none;"'}>
+                            <div class="nk-int-st mg-b-15">
+                                <textarea class="form-control modifySrcContent" rows="5" placeholder="내용을 입력해 주세요.">${item.SRC_CONTENT}</textarea>
+                            </div>
+                            <div class="commentModifyBtnDiv">
+                                <button class="btn btn-default btn-icon-notika waves-effect modifyCancleBtn">취소</button>
+                                <button class="btn btn-default btn-icon-notika waves-effect modifyBtn"><i class="notika-icon notika-checked"></i> 수정</button>
                             </div>
                         </div>
-                    </div>
-                    <hr>
+                    </blockquote>
                 `;
             });
 
@@ -327,9 +327,7 @@ function getRecruitComment(sgId, srcId) {
  */
 function createRecruitComment(comment) {
     axios.post('/recruit/comment', comment)
-        .then(res => {
-            getRecruitComment(comment.sgId);
-        })
+        .then(() => getRecruitComment(comment.sgId))
         .catch(err => {
             console.error(err);
         });
@@ -340,9 +338,7 @@ function createRecruitComment(comment) {
  */
 function modifyRecruitComment(comment) {
     axios.put('/recruit/comment', comment)
-        .then(res => {
-            getRecruitComment(comment.sgId);
-        })
+        .then(() => getRecruitComment(comment.sgId))
         .catch(err => {
             console.error(err);
         });
@@ -353,9 +349,7 @@ function modifyRecruitComment(comment) {
  */
 function removeRecruitComment(comment) {
     axios.delete(`/recruit/comment/${comment.srcId}`)
-        .then(res => {
-            getRecruitComment(comment.sgId);
-        })
+        .then(() => getRecruitComment(comment.sgId))
         .catch(err => {
             console.error(err);
         });
