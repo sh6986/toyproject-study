@@ -1,6 +1,33 @@
 {% extends 'common/layout.html' %}
 
 {% block content %}
+<style>
+    .hover-color:hover {
+        background-color: #EEEEEE;
+    }
+    .alignRight {
+        text-align: right;
+    }
+    .closed {
+        opacity: 0.4;
+    }
+    .stNameStyle{
+        background-color: #F0EEE8;
+        padding: 4px 6px;
+        margin-right : 4px;
+        border-radius: 6px;
+    }
+    .radiusDiv {
+        border-radius: 10px;
+    }
+    .backColorGreen {
+        background-color: #00c292;
+    }
+    .active {
+        font-weight: bold;
+    }
+</style>
+
 <div id="myStudyList">
 </div>
 {% endblock %}

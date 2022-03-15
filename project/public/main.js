@@ -61,65 +61,21 @@ function setEventListener() {
 function getList(openYn, sgCategory) {
     axios.get('/recruit')
         .then(res => {
-            let innerHtml = ``;
-            let study = res.data;
+            let studyList = res.data;
 
             if (openYn) {   // 모집중인 글만 보기
-                study = study.filter((item, index) => {
+                studyList = studyList.filter((item, index) => {
                     return item.SG_OPEN_YN === 'Y';
                 });
             }
 
             if (sgCategory !== 'all') {     // 전체아닌 카테고리 선택시
-                study = study.filter((item, index) => {
+                studyList = studyList.filter((item, index) => {
                     return item.SG_CATEGORY === sgCategory;
                 });
             }
 
-            study.forEach((item, index, arr) => {
-                if ((index === 0) || ((index % 4) === 0)) {
-                    innerHtml += `
-                        <div class="contact-info-area mg-t-15">
-                            <div class="container">
-                                <div class="row">
-                    `;
-                }
-
-                innerHtml += `
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12  mg-t-15">
-                        <div class="contact-inner radiusDiv recruitBox ${item.SG_OPEN_YN === 'Y' ? 'hover-color' : 'closed'}">
-                            <input type="hidden" class="sgId" value="${item.SG_ID}">
-                            <div class="contact-hd widget-ctn-hd">
-                                <a href="javascript:void(0);">
-                                    <span class="label label-info backColorGreen">${item.SG_CATEGORY_DESC}</span>
-                                    <h2 class="mg-t-10">${item.SR_TITLE}</h2>
-                                    <p>${item.SG_NAME}</p>
-                                    <p>
-                                        <i class="fas fa-user-friends" style="color:gray;"></i> ${item.SM_CNT} / ${item.SG_CNT}
-                                    </p>
-                                    <p class="alignRight">
-                                        <i class="fas fa-eye" style="color:gray;"></i> ${item.SR_VIEWS}&nbsp;&nbsp;
-                                        <i class="fas fa-bookmark" style="color:darkgreen;"></i> ${item.SRB_CNT}
-                                    </p>
-                                    <p>
-                                        ${item.SG_CATEGORY !== '004' ? common.innerStName(item.ST_NAME_DESC) : '&nbsp;'}
-                                    </p>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                if (index === (study.length - 1) || ((index !== 0) && ((index + 1) % 4) === 0)) {
-                    innerHtml += `
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-            
-            document.getElementById('studyList').innerHTML = innerHtml;
+            document.getElementById('studyList').innerHTML = common.studyRecruitList(studyList);
         })
         .catch(err => {
             console.error(err);

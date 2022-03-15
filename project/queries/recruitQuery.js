@@ -1,16 +1,6 @@
 // 스터디모집글 목록 조회
-exports.getRecruitList = `
-    SELECT TB.SG_ID
-         , TB.SG_NAME
-         , TB.SG_CATEGORY
-         , TB.SG_CNT
-         , TB.SG_OPEN_YN
-         , TB.SR_TITLE
-         , TB.SR_VIEWS
-         , GROUP_CONCAT(DISTINCT(TB.ST_NAME_DESC)) AS ST_NAME_DESC 
-         , COUNT(DISTINCT TB.USER_ID_BKM) AS SRB_CNT
-         , COUNT(DISTINCT TB.USER_ID_SM) AS SM_CNT
-         , TB.SG_CATEGORY_DESC
+exports.getRecruitList = (memberUserId, bkmUserId) => `
+    SELECT TB.*
       FROM (
             SELECT A.SG_ID
                  , A.SG_NAME 
@@ -19,10 +9,10 @@ exports.getRecruitList = `
                  , A.SG_OPEN_YN
                  , B.SR_TITLE
                  , B.SR_VIEWS
-                 , F.USER_ID AS USER_ID_BKM
-                 , G.USER_ID AS USER_ID_SM
-                 , D.CC_DESC AS ST_NAME_DESC
                  , H.CC_DESC AS SG_CATEGORY_DESC
+                 , GROUP_CONCAT(DISTINCT(D.CC_DESC)) AS ST_NAME_DESC 
+                 , COUNT(DISTINCT F.USER_ID) AS SRB_CNT
+                 , COUNT(DISTINCT G.USER_ID) AS SM_CNT
               FROM STUDY_GROUP AS A
               LEFT JOIN STUDY_RCRTM AS B 
                 ON A.SG_ID = B.SG_ID
@@ -38,15 +28,25 @@ exports.getRecruitList = `
                 ON A.SG_CATEGORY = H.CC_NAME AND H.CGC_NAME = 'SG_CATEGORY' AND H.CC_DEL_YN = 'N'
              WHERE A.SG_DEL_YN = 'N'
                AND B.SR_DEL_YN = 'N'
+             GROUP BY A.SG_ID
+                    , A.SG_NAME 
+                    , A.SG_CATEGORY
+                    , A.SG_CNT
+                    , A.SG_OPEN_YN
+                    , B.SR_TITLE
+                    , B.SR_VIEWS
+                    , H.CC_DESC
       ) AS TB
-     GROUP BY TB.SG_ID
-            , TB.SG_NAME
-            , TB.SG_CATEGORY
-            , TB.SG_CNT
-            , TB.SG_OPEN_YN
-            , TB.SR_TITLE
-            , TB.SR_VIEWS
-            , TB.SG_CATEGORY_DESC
+    ${memberUserId ? `
+      LEFT JOIN STUDY_MEMBER AS I 
+        ON TB.SG_ID = I.SG_ID AND I.SM_DEL_YN = 'N'
+     WHERE I.USER_ID = ?
+    ` : ``}
+    ${bkmUserId ? `
+      LEFT JOIN STUDY_RCRTM_BKM AS J 
+        ON TB.SG_ID = J.SG_ID AND J.SRB_DEL_YN = 'N'
+     WHERE J.USER_ID = ?
+    ` : ``}
      ORDER BY TB.SG_OPEN_YN DESC
             , TB.SG_ID DESC
 `;
@@ -336,4 +336,3 @@ exports.getRecruitComCd = `
        AND A.CGC_DEL_YN = 'N'
        AND B.CC_DEL_YN = 'N'
 `;
-

@@ -1,8 +1,56 @@
 {% extends 'common/layout.html' %}
 
 {% block content %}
+<style>
+    .hover-color:hover {
+        background-color: #EEEEEE;
+    }
+    .alignRight {
+        text-align: right;
+    }
+    .closed {
+        opacity: 0.4;
+    }
+    .stNameStyle{
+        background-color: #F0EEE8;
+        padding: 4px 6px;
+        margin-right : 4px;
+        border-radius: 6px;
+    }
+    .radiusDiv {
+        border-radius: 10px;
+    }
+    .backColorGreen {
+        background-color: #00c292;
+    }
+    .active {
+        font-weight: bold;
+    }
+</style>
+
+<div class="contact-info-area mg-t-30">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="toggle-select-act fm-cmp-mg alignRight">
+                            <div class="nk-toggle-switch">
+                                <label for="openYn" class="ts-label">모집중인 글만 보기</label>
+                                <input id="openYn" type="checkbox" hidden="hidden" checked>
+                                <label for="openYn" class="ts-helper"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="studyBkmList">
 </div>
+
 {% endblock %}
 
 {% block script %}

@@ -2,22 +2,37 @@
 
 {% block content %}
 <style>
+    .margin0 {
+        margin: 0;
+    }
+    .backgroundColorWhite {
+        background-color: white;
+    }
     .dbContent {
         height: 250px;
     }
     .noVisible {
         display: none;
     }
+    .alignCenter {
+        text-align: center;
+    }
+    .active {
+        font-weight: bold;
+    }
+    .radiusDiv {
+        border-radius: 15px;
+    }
 </style>
 
-<div class="breadcomb-area" style="background-color: white;">
+<div class="breadcomb-area margin0" style="background-color: white;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="breadcomb-list">
                     <div class="row">
                         <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                            <div class="breadcomb-wp">
+                            <div class="alignCenter">
                                 <div class="breadcomb-ctn">
                                     <h1 id="sgName"></h1>
                                 </div>
@@ -30,35 +45,49 @@
     </div>
 </div>
 
-<div class="main-menu-area mg-tb-40">
+<div class="navbar">
+    <div class="navbar-inner backgroundColorWhite">
+        <div class="container-pro wizard-cts-st">
+            <ul class="nav nav-pills">
+                <li class="active">
+                    <a href="#" data-toggle="tab">대시보드</a>
+                </li>
+                <li class="">
+                    <a href="#" data-toggle="tab">일정</a>
+                </li>
+                <li class="">
+                    <a href="#" data-toggle="tab">게시판</a>
+                </li>
+                <li class="">
+                    <a href="#" data-toggle="tab">팀원목록</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="contact-info-area">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
-                    <li class="active"><a data-toggle="tab" href="#Home">메뉴1</a>
-                    </li>
-                    <li><a data-toggle="tab" href="#mailbox">메뉴2</a>
-                    </li>
-                    <li><a data-toggle="tab" href="#Interface">메뉴3</a>
-                    </li>
-                    <li><a data-toggle="tab" href="#Charts">메뉴4</a>
-                    </li>
-                    <li>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <button type="button" class="btn btn-default noVisible" id="scsnBtn" data-toggle="modal" data-target="#scsnModal">스터디 탈퇴하기</button>
                         <button type="button" class="btn btn-default noVisible" id="closeBtn" data-toggle="modal" data-target="#closeModal">스터디 폐쇄하기</button>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 <div id="dashboard">
     <input type="hidden" id="sgId" value="{{sgId}}">
     <div class="contact-info-area mg-t-30">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <div class="contact-inner dbContent">
+                    <div class="contact-inner radiusDiv dbContent">
                         <div class="contact-hd widget-ctn-hd">
                             <h2>스터디규칙</h2>
                             <button id="createRuleBtn" class="btn btn-success notika-btn-success waves-effect noVisible">등록</button>
@@ -76,7 +105,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 dbContent">
-                    <div class="contact-inner dbContent">
+                    <div class="contact-inner radiusDiv dbContent">
                         <div class="contact-hd widget-ctn-hd">
                             <h2>일정</h2>
                             <input type="hidden" id="ssId" value="">
@@ -104,7 +133,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 dbContent">
-                    <div class="contact-inner dbContent">
+                    <div class="contact-inner radiusDiv dbContent">
                         <div class="contact-hd widget-ctn-hd">
                             <h2>게시판</h2>
                             <button id="boardListBtn" class="btn btn-success notika-btn-success waves-effect">더보기</button>
@@ -115,7 +144,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 dbContent">
-                    <div class="contact-inner dbContent">
+                    <div class="contact-inner radiusDiv dbContent">
                         <div class="contact-hd widget-ctn-hd">
                             <h2>팀원목록</h2>
                             <button id="memberListBtn" class="btn btn-success notika-btn-success waves-effect">팀원상세</button>
