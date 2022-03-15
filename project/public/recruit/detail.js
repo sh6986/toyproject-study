@@ -151,16 +151,19 @@ function getRecruitDetail(sgId) {
     axios.get(`/recruit/detail/${sgId}`)
         .then(res => {
             const study = res.data;
+            document.getElementById('sgCategoryDesc').innerHTML = study.SG_CATEGORY_DESC;
             document.getElementById('srTitle').innerHTML = study.SR_TITLE;
             document.getElementById('userNickname').innerHTML = study.USER_NICKNAME;
             document.getElementById('sbRegDate').innerHTML = study.SG_REG_DATE;
             document.getElementById('sbViews').innerHTML = study.SR_VIEWS;
             document.getElementById('srbCnt').innerHTML = study.SRB_CNT;
-            document.getElementById('stNameDesc').innerHTML = common.innerStName(study.ST_NAME_DESC);
             document.getElementById('sMCnt').value = study.SM_CNT;
             document.getElementById('sgCnt').value = study.SG_CNT;
-            document.getElementById('cnt').innerHTML = study.SM_CNT + '/' + study.SG_CNT ;
+            document.getElementById('cnt').innerHTML = study.SM_CNT + '/' + study.SG_CNT;
             document.getElementById('srContent').innerHTML = study.SR_CONTENT;
+            if (study.SG_CATEGORY !== '004') {
+                document.getElementById('stNameDesc').innerHTML = common.innerStName(study.ST_NAME_DESC);
+            }
 
             // [TODO] async await 적용
             if (common.getSessionUserId()) {

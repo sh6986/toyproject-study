@@ -54,9 +54,9 @@ exports.createStudy = async (study) => {
         const result = await conn.query(recruitQuery.createStudyGroup, [sgName, sgCategory, sgCnt, userId, userId]);  // 스터디그룹
         sgId = result[0].insertId;
         await conn.query(recruitQuery.createStudyRcrtm, [sgId, srTitle, srContent, userId, userId]);                  // 스터디모집글
-        await conn.query(recruitQuery.createStudyMember, [sgId, userId, '001',  userId, userId]);                             // 스터디멤버
+        await conn.query(recruitQuery.createStudyMember, [sgId, userId, '001',  userId, userId]);                     // 스터디멤버
 
-        if (stCode.length) {    // 기술스택(stCode)을 하나 이상 선택했을때 -> 아무것도 선택하지 않으면 insert 안함
+        if (sgCategory !== '004') {    // 카테고리가 모각코일시 기술스택 선택안함
             stCode.forEach((item, index) => { 
                 insertValues += `
                     (?, '${item}', 'N', ?, NOW(), ?, NOW())
@@ -94,7 +94,7 @@ exports.createStudy = async (study) => {
         await conn.query(recruitQuery.modifyStudyRcrtm, [srTitle, srContent, userId, sgId]);
         await conn.query(recruitQuery.modifyStudyTchst, [userId, sgId]);
 
-        if (stCode.length) {    // 기술스택(stCode)을 하나 이상 선택했을때 -> 아무것도 선택하지 않으면 insert 안함
+        if (sgCategory !== '004') {    // 카테고리가 모각코일시 기술스택 선택안함
             stCode.forEach((item, index) => { 
                 insertValues += `
                     (?, '${item}', 'N', ?, NOW(), ?, NOW())

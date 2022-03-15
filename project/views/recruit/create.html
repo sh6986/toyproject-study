@@ -5,135 +5,163 @@
     .form-group {
         margin-bottom: 30px;
     }
+    .fontBold {
+        font-weight: bold;
+    }
+    .textRight {
+        text-align: right;
+    }
+    .noVisible {
+        display: none;
+    }
 </style>
 
-<div class="form-element-area">
+<div class="inbox-area">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="form-element-list mg-t-30">
-                    <input type="hidden" id="mode" value="{{mode}}">
-                    <input type="hidden" id="sgId" value="{{recruitDetail.SG_ID}}">
-                    <div class="basic-tb-hd">
-                        {% if mode === 'create' %}
-                            <h2>스터디 만들기</h2>
-                        {% else %}
-                            <h2>스터디 수정하기</h2>
-                        {% endif %}
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h2>모집글제목</h2>
-                            </div>
-                            <div class="form-group">
-                                <div class="nk-int-st">
-                                    <input type="text" id="srTitle" class="form-control input-lg" placeholder="" value="{{recruitDetail.SR_TITLE}}">
-                                </div>
-                            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mg-t-30">
+                <div class="view-mail-list sm-res-mg-t-30">
+                    <div class="view-mail-hd">
+                        <input type="hidden" id="mode" value="{{mode}}">
+                        <input type="hidden" id="sgId" value="{{recruitDetail.SG_ID}}">
+                        <div class="view-mail-hrd">
+                            {% if mode === 'create' %}
+                                <h2>스터디 만들기</h2>
+                            {% else %}
+                                <h2>스터디 수정하기</h2>
+                            {% endif %}
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h2>스터디명</h2>
-                            </div>
-                            <div class="form-group">
-                                <div class="nk-int-st">
-                                    <input type="text" id="sgName" class="form-control input-lg" placeholder="" value="{{recruitDetail.SG_NAME}}">
+                    <div class="cmp-int mg-t-20">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                <div class="cmp-int-lb cmp-int-lb1 text-right">
+                                    <span class="fontBold">모집글제목 </span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h2>인원</h2>
-                            </div>
-                            <div class="form-group">
-                                <div class="nk-int-st">
-                                    <div class="bootstrap-select fm-cmp-mg">
-                                        <select id="sgCnt" class="selectpicker">
-                                            {% set sgCnt = [2, 3, 4, 5, 6] %}
-                                            {% for cnt in sgCnt %}
-                                                <option value="{{cnt}}" 
-                                                    {% if recruitDetail.SG_CNT === cnt %}
-                                                        selected
-                                                    {% endif %}
-                                                >{{cnt}}</option>
-                                            {% endfor %}
-                                        </select>
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                <div class="form-group">
+                                    <div class="nk-int-st cmp-int-in cmp-email-over">
+                                        <input type="text" id="srTitle" class="form-control" value="{{recruitDetail.SR_TITLE}}" placeholder="" />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h2>카테고리</h2>
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                <div class="cmp-int-lb cmp-int-lb1 text-right">
+                                    <span class="fontBold">스터디명 </span>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <div class="nk-int-st">
-                                    <div class="bootstrap-select fm-cmp-mg" id="categorySelectDiv">
-                                        <select id="sgCategory" class="selectpicker">
-                                            {% for item in sgCategory %}
-                                            <option value="{{item.CC_NAME}}"
-                                                {% if recruitDetail.SG_CATEGORY === item.CC_NAME %}
-                                                    selected
-                                                {% endif %}
-                                            >{{item.CC_DESC}}</option>
-                                            {% endfor %}
-                                        </select>
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                <div class="form-group">
+                                    <div class="nk-int-st cmp-int-in cmp-email-over">
+                                        <input type="text" id="sgName" class="form-control" value="{{recruitDetail.SG_NAME}}" placeholder="" />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn sm-res-mg-t-10">
-                                <h2>기술스택</h2>
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                <div class="cmp-int-lb cmp-int-lb1 text-right">
+                                    <span class="fontBold">인원 </span>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <div class="nk-int-st">
-                                    <div class="chosen-select-act fm-cmp-mg">
-                                        <select id="stCode" class="chosen" multiple data-placeholder="기술스택">
-                                            {% for item in stName %}
-                                            <option value="{{item.CC_NAME}}"
-                                                {% for stName in recruitDetail.ST_NAME %}
-                                                    {% if stName === item.CC_NAME %}
-                                                        selected
-                                                    {% endif %}
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                <div class="form-group">
+                                    <div class="nk-int-st cmp-int-in cmp-email-over">
+                                        <div class="bootstrap-select fm-cmp-mg">
+                                            <select id="sgCnt" class="selectpicker">
+                                                {% set sgCnt = [2, 3, 4, 5, 6] %}
+                                                {% for cnt in sgCnt %}
+                                                    <option value="{{cnt}}" 
+                                                        {% if recruitDetail.SG_CNT === cnt %}
+                                                            selected
+                                                        {% endif %}
+                                                    >{{cnt}}</option>
                                                 {% endfor %}
-                                            >{{item.CC_DESC}}</option>
-                                            {% endfor %}
-                                        </select>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h2>스터디설명</h2>
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                <div class="cmp-int-lb cmp-int-lb1 text-right">
+                                    <span class="fontBold">카테고리 </span>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <div class="nk-int-st">
-                                    <textarea id="srContent" class="form-control" rows="5" placeholder="">{{recruitDetail.SR_CONTENT}}</textarea>
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                <div class="form-group">
+                                    <div class="nk-int-st cmp-int-in cmp-email-over">
+                                        <div class="bootstrap-select fm-cmp-mg" id="categorySelectDiv">
+                                            <select id="sgCategory" class="selectpicker">
+                                                {% for item in sgCategory %}
+                                                    <option value="{{item.CC_NAME}}"
+                                                        {% if recruitDetail.SG_CATEGORY === item.CC_NAME %}
+                                                            selected
+                                                        {% endif %}
+                                                >{{item.CC_DESC}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="form-example-int mg-t-15">
+                        <div id="techStack" class="row noVisible">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                <div class="cmp-int-lb cmp-int-lb1 text-right">
+                                    <span class="fontBold">기술스택 </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                <div class="form-group">
+                                    <div class="nk-int-st cmp-int-in cmp-email-over">
+                                        <div class="chosen-select-act fm-cmp-mg">
+                                            <select id="stCode" class="chosen" multiple data-placeholder="기술스택">
+                                                {% for item in stName %}
+                                                <option value="{{item.CC_NAME}}"
+                                                    {% for stName in recruitDetail.ST_NAME %}
+                                                        {% if stName === item.CC_NAME %}
+                                                            selected
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                >{{item.CC_DESC}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                <div class="cmp-int-lb cmp-int-lb1 text-right">
+                                    <span class="fontBold">스터디 설명 </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                <div class="form-group">
+                                    <div class="nk-int-st cmp-int-in cmp-email-over">
+                                        <textarea id="srContent" class="form-control" rows="10" placeholder="">{{recruitDetail.SR_CONTENT}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="validate" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 textRight">
                                 {% if mode === 'create' %}
-                                    <button id="createBtn" class="btn btn-success notika-btn-success">만들기</button>
+                                    <button id="createBtn" class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon notika-checked"></i> 만들기</button>
                                 {% else %}
-                                    <button id="updateBtn" class="btn btn-success notika-btn-success">수정하기</button>
+                                    <button id="updateBtn" class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon notika-checked"></i> 수정하기</button>
                                 {% endif %}
+                                <button id="cancelBtn" class="btn btn-default btn-icon-notika waves-effect">취소</button>
                             </div>
                         </div>
                     </div>

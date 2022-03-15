@@ -91,17 +91,18 @@ function getList(openYn, sgCategory) {
                             <input type="hidden" class="sgId" value="${item.SG_ID}">
                             <div class="contact-hd widget-ctn-hd">
                                 <a href="javascript:void(0);">
-                                    <h2>${item.SR_TITLE}</h2>
+                                    <span class="label label-info backColorGreen">${item.SG_CATEGORY_DESC}</span>
+                                    <h2 class="mg-t-10">${item.SR_TITLE}</h2>
                                     <p>${item.SG_NAME}</p>
                                     <p>
-                                        <i class="fas fa-user-friends"></i> ${item.SM_CNT} / ${item.SG_CNT}
+                                        <i class="fas fa-user-friends" style="color:gray;"></i> ${item.SM_CNT} / ${item.SG_CNT}
                                     </p>
                                     <p class="alignRight">
-                                        <i class="fas fa-eye"></i> ${item.SR_VIEWS}&nbsp;&nbsp;
-                                        <i class="fas fa-bookmark"></i> ${item.SRB_CNT}
+                                        <i class="fas fa-eye" style="color:gray;"></i> ${item.SR_VIEWS}&nbsp;&nbsp;
+                                        <i class="fas fa-bookmark" style="color:darkgreen;"></i> ${item.SRB_CNT}
                                     </p>
                                     <p>
-                                        ${common.innerStName(item.ST_NAME_DESC)}
+                                        ${item.SG_CATEGORY !== '004' ? common.innerStName(item.ST_NAME_DESC) : '&nbsp;'}
                                     </p>
                                 </a>
                             </div>

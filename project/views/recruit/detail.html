@@ -26,6 +26,12 @@
     .btn-default.btn-icon-notika, .marginBottom0 {
         margin-bottom: 0px;
     }
+    .backColorGreen {
+        background-color: #00c292;
+    }
+    .fontSizeInherit {
+        font-size: inherit;
+    }
 </style>
 
 <div class="typography-area">
@@ -37,7 +43,8 @@
                 <input type="hidden" id="sgCnt">
                 <div class="typography-heading typography-mgn mg-t-30">
                     <div id="studyDetail" class="typography-hd-cr-1">
-                        <h1 id="srTitle"></h1>
+                        <span id="sgCategoryDesc" class="label label-info backColorGreen fontSizeInherit"></span>
+                        <h1 id="srTitle" class="mg-t-10"></h1>
                         <h4>
                             <div id="userNickname" class="floatLeft">
                             </div>
@@ -47,8 +54,8 @@
                                 <i class="fas fa-eye"></i>
                                 <span id="sbViews"></span>&nbsp;&nbsp;
                                 
-                                <i class="far fa-bookmark" id="studyBkmN"></i>
-                                <i class="fas fa-bookmark noVisible" id="studyBkmY"></i>
+                                <i id="studyBkmN" class="far fa-bookmark" style="color:darkgreen;"></i>
+                                <i id="studyBkmY" class="fas fa-bookmark noVisible" style="color:darkgreen;"></i>
                                 <span id="srbCnt"></span>
                             </div>
                         </h4>

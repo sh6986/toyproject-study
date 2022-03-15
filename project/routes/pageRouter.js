@@ -57,7 +57,9 @@ router.get('/update/:sgId', isLoggedIn, async (req, res, next) => {
         const stName = await recruitService.getComCd('st_name');            // 공통코드 조회 - 기술스택
         const recruitDetail = await recruitService.getDetail(sgId);
 
-        recruitDetail[0].ST_NAME = recruitDetail[0].ST_NAME.split(',');
+        if (recruitDetail[0].SG_CATEGORY !== '004') {
+            recruitDetail[0].ST_NAME = recruitDetail[0].ST_NAME.split(',');
+        }
         
         res.render('recruit/create', {
             sgCategory,

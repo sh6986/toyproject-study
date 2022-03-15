@@ -7,9 +7,10 @@ exports.getRecruitList = `
          , TB.SG_OPEN_YN
          , TB.SR_TITLE
          , TB.SR_VIEWS
-         , GROUP_CONCAT(DISTINCT(TB.CC_DESC)) AS ST_NAME_DESC 
+         , GROUP_CONCAT(DISTINCT(TB.ST_NAME_DESC)) AS ST_NAME_DESC 
          , COUNT(DISTINCT TB.USER_ID_BKM) AS SRB_CNT
          , COUNT(DISTINCT TB.USER_ID_SM) AS SM_CNT
+         , TB.SG_CATEGORY_DESC
       FROM (
             SELECT A.SG_ID
                  , A.SG_NAME 
@@ -20,7 +21,8 @@ exports.getRecruitList = `
                  , B.SR_VIEWS
                  , F.USER_ID AS USER_ID_BKM
                  , G.USER_ID AS USER_ID_SM
-                 , D.CC_DESC 
+                 , D.CC_DESC AS ST_NAME_DESC
+                 , H.CC_DESC AS SG_CATEGORY_DESC
               FROM STUDY_GROUP AS A
               LEFT JOIN STUDY_RCRTM AS B 
                 ON A.SG_ID = B.SG_ID
@@ -32,6 +34,8 @@ exports.getRecruitList = `
                 ON B.SG_ID = F.SG_ID AND F.SRB_DEL_YN = 'N'
               LEFT JOIN STUDY_MEMBER AS G 
                 ON A.SG_ID = G.SG_ID AND G.SM_DEL_YN = 'N'
+              LEFT JOIN COM_CD AS H 
+                ON A.SG_CATEGORY = H.CC_NAME AND H.CGC_NAME = 'SG_CATEGORY' AND H.CC_DEL_YN = 'N'
              WHERE A.SG_DEL_YN = 'N'
                AND B.SR_DEL_YN = 'N'
       ) AS TB
@@ -42,6 +46,7 @@ exports.getRecruitList = `
             , TB.SG_OPEN_YN
             , TB.SR_TITLE
             , TB.SR_VIEWS
+            , TB.SG_CATEGORY_DESC
      ORDER BY TB.SG_OPEN_YN DESC
             , TB.SG_ID DESC
 `;
@@ -65,6 +70,7 @@ exports.getRecruitDetail = `
          , COUNT(DISTINCT F.USER_ID) AS SRB_CNT
          , COUNT(DISTINCT G.USER_ID) AS SM_CNT
          , H.USER_ID AS LEAD_USER_ID
+         , I.CC_DESC AS SG_CATEGORY_DESC
       FROM STUDY_GROUP AS A
       LEFT JOIN STUDY_RCRTM AS B 
         ON A.SG_ID = B.SG_ID
@@ -80,6 +86,8 @@ exports.getRecruitDetail = `
         ON A.SG_ID = G.SG_ID AND G.SM_DEL_YN = 'N'
       LEFT JOIN STUDY_MEMBER AS H 
         ON A.SG_ID = H.SG_ID AND H.SM_AUTH = '001' AND H.SM_DEL_YN = 'N'
+      LEFT JOIN COM_CD AS I 
+      	ON A.SG_CATEGORY = I.CC_NAME AND I.CGC_NAME = 'SG_CATEGORY' AND I.CC_DEL_YN = 'N'
      WHERE A.SG_ID = ?
        AND A.SG_DEL_YN = 'N'
        AND B.SR_DEL_YN = 'N'
