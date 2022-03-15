@@ -1,6 +1,6 @@
 <style>
-    .fontMedium {
-        font-size: medium;
+    .alignCenter {
+        text-align: center;
     }
 </style>
 
@@ -17,25 +17,40 @@
                     <ul class="nav navbar-nav notika-top-nav">
                         <input type="hidden" id="sessionUserId" value="{{user.USER_ID}}">
                         {% if user %}
-                        <li class="nav-item">
-                            <a href="/myStudy" role="button" aria-expanded="false" class="nav-link">
-                                <span class="fontMedium">내스터디</span>
+                        <li class="nav-item dropdown">
+                            <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
+                                {{user.USER_NICKNAME}}
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/bookmark" role="button" aria-expanded="false" class="nav-link">
-                                <span class="fontMedium">내북마크</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/auth/logout" role="button" aria-expanded="false" class="nav-link">
-                                <span class="fontMedium">로그아웃</span>
-                            </a>
+                            <div role="menu" class="dropdown-menu message-dd animated zoomIn alignCenter" style="padding: 0px; width: 170px;">
+                                <div class="hd-message-info">
+                                    <a href="/myStudy">
+                                        <div class="hd-message-sn">
+                                            <div class="hd-mg-ctn">
+                                                <h3>내 스터디</h3>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a href="/bookmark">
+                                        <div class="hd-message-sn">
+                                            <div class="hd-mg-ctn">
+                                                <h3>내 북마크</h3>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <a href="/auth/logout">
+                                        <div class="hd-message-sn">
+                                            <div class="hd-mg-ctn">
+                                                <h3>로그아웃</h3>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
                         </li>
                         {% else %}
                         <li class="nav-item">
                             <a href="/login" role="button" aria-expanded="false" class="nav-link">
-                                <span class="fontMedium">로그인</span>
+                                <span>로그인</span>
                             </a>
                         </li>
                         {% endif %}

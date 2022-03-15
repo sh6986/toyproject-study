@@ -65,6 +65,7 @@ exports.getRecruitDetail = `
          , B.SR_CONTENT
          , B.SR_VIEWS
          , E.USER_NICKNAME
+         , E.USER_EMAIL 
          , GROUP_CONCAT(DISTINCT(D.CC_NAME)) AS ST_NAME
          , GROUP_CONCAT(DISTINCT(D.CC_DESC)) AS ST_NAME_DESC 			
          , COUNT(DISTINCT F.USER_ID) AS SRB_CNT
@@ -103,6 +104,7 @@ exports.getRecruitDetail = `
             , B.SR_CONTENT
             , B.SR_VIEWS
             , E.USER_NICKNAME
+            , E.USER_EMAIL 
             , H.USER_ID
 `;
 

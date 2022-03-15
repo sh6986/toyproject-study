@@ -44,9 +44,13 @@ function setEventListener() {
          */
         document.getElementById('createBtn').addEventListener('click', async () => {
             study = getValue();
-
-            if (await checkStudy(study)) {
-                createRecruit(study);
+            
+            try {
+                if (await checkStudy(study)) {
+                    createRecruit(study);
+                }
+            } catch (err) {
+                console.error(err);
             }
         });
 
@@ -58,8 +62,12 @@ function setEventListener() {
             study = getValue();
             study.sgId = document.getElementById('sgId').value;
 
-            if (await checkStudy(study)) {
-                modifyRecruit(study);
+            try {
+                if (await checkStudy(study)) {
+                    modifyRecruit(study);
+                }
+            } catch (err) {
+                console.error(err);
             }
         });
     }
@@ -107,32 +115,27 @@ async function checkStudy(study) {
     // 입력하지 않은 값이 있을때
     for (let k of Object.keys(study)) {
         if (common.isEmpty(study[k])) {
-            document.getElementById('validate').innerHTML = `
-                <div class="alert alert-success alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="notika-icon notika-close"></i></span></button> 빈칸 없이 입력해 주세요.
-                </div>
-            `;
+            document.getElementById('validate').innerHTML = common.validateEm('빈칸 없이 입력해 주세요.');
             return result;
         }
     }
     
     if (mode === 'modify') {
-        const sgId = document.getElementById('sgId').value;
-        const detail = await getRecruitDetail(sgId);
+        try {
+            const sgId = document.getElementById('sgId').value;
+            const detail = await getRecruitDetail(sgId);
 
-        if (study.sgCnt < detail.SM_CNT) {      // 수정시 수정하려는 인원수가 현재 스터디원보다 적을때
-            document.getElementById('validate').innerHTML = `
-                <div class="alert alert-success alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="notika-icon notika-close"></i></span></button> 변경하려는 스터디인원이 현재 스터디인원보다 적습니다.
-                </div>
-            `;
-            return result;
+            if (study.sgCnt < detail.SM_CNT) {      // 수정시 수정하려는 인원수가 현재 스터디원보다 적을때
+                document.getElementById('validate').innerHTML = common.validateEm('변경하려는 스터디인원이 현재 스터디인원보다 적습니다.');
+                return result;
 
-        } else if (Number(study.sgCnt) === detail.SM_CNT) {     // 현재 스터디원이랑 같은값으로 변경시 openyn을 n으로 변경
-            await modifyComplete(sgId);
-            location.href = `/`;
-
-            return true;
+            } else if (Number(study.sgCnt) === detail.SM_CNT) {     // 현재 스터디원이랑 같은값으로 변경시 openyn을 n으로 변경
+                await common.modifyComplete(sgId);  // 스터디 모집완료
+                location.href = `/`;
+                return true;
+            }
+        } catch (err) {
+            console.error(err);
         }
     } 
     return true;
@@ -145,17 +148,6 @@ async function getRecruitDetail(sgId) {
     try {
         const result = await axios.get(`/recruit/detail/${sgId}`);
         return result.data;
-    } catch (err) {
-        console.error(err);
-    }
-}
-
-/**
- * 스터디 모집완료
- */
-async function modifyComplete(sgId) {
-    try {
-        await axios.put(`/recruit/complete/${sgId}`);
     } catch (err) {
         console.error(err);
     }

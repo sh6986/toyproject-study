@@ -40,8 +40,13 @@ function setEventListener() {
     /**
      * 모집완료 모달창 - 확인버튼 클릭시
      */
-    document.getElementById('completeOkBtn').addEventListener('click', () => {
-        modifyComplete(sgId)
+    document.getElementById('completeOkBtn').addEventListener('click', async () => {
+        try {
+            await common.modifyComplete(sgId);      // 스터디 모집완료
+            btnVisibleYn(true);
+        } catch (err) {
+            console.error(err);
+        }
     });
 
     /**
@@ -91,7 +96,9 @@ function setEventListener() {
         const comment = {sgId, srcContent};
     
         if (common.getSessionUserId()) {
-            createRecruitComment(comment);
+            if (checkComment(comment)) {
+                createRecruitComment(comment);
+            }
         } else {
             location.href = `/login`;
         }
@@ -117,9 +124,11 @@ function setEventListener() {
         // 수정 폼 - 수정버튼 클릭시
         if (targetClassName.contains('modifyBtn')) {
             const modifySrcContent = commentDtlElement.querySelector('.modifySrcContent').value;
-            
             comment.srcContent = modifySrcContent;
-            modifyRecruitComment(comment);
+
+            if (checkComment(comment)) {
+                modifyRecruitComment(comment);
+            }
         }
 
         // 수정 폼 - 취소버튼 클릭시
@@ -153,7 +162,7 @@ function getRecruitDetail(sgId) {
             const study = res.data;
             document.getElementById('sgCategoryDesc').innerHTML = study.SG_CATEGORY_DESC;
             document.getElementById('srTitle').innerHTML = study.SR_TITLE;
-            document.getElementById('userNickname').innerHTML = study.USER_NICKNAME;
+            document.getElementById('userInfo').innerHTML = `${study.USER_NICKNAME} (${study.USER_EMAIL})`;
             document.getElementById('sbRegDate').innerHTML = study.SG_REG_DATE;
             document.getElementById('sbViews').innerHTML = study.SR_VIEWS;
             document.getElementById('srbCnt').innerHTML = study.SRB_CNT;
@@ -211,17 +220,6 @@ function btnVisibleYn(allNoVisible, regUserYn) {
             document.getElementById('completeBtn').classList.add('noVisible');      // 모집완료버튼
         }
     }
-}
-
-/**
- * 스터디 모집완료
- */
-function modifyComplete(sgId) {
-    axios.put(`/recruit/complete/${sgId}`)
-        .then(() => btnVisibleYn(true))
-        .catch(err => {
-            console.error(err);
-        });
 }
 
 /**
@@ -309,6 +307,8 @@ function getRecruitComment(sgId, srcId) {
                             <div class="nk-int-st mg-b-15">
                                 <textarea class="form-control modifySrcContent" rows="5" placeholder="내용을 입력해 주세요.">${item.SRC_CONTENT}</textarea>
                             </div>
+                            <div class="modifyValidate">
+                            </div>
                             <div class="commentModifyBtnDiv">
                                 <button class="btn btn-default btn-icon-notika waves-effect modifyCancleBtn">취소</button>
                                 <button class="btn btn-default btn-icon-notika waves-effect modifyBtn"><i class="notika-icon notika-checked"></i> 수정</button>
@@ -323,6 +323,42 @@ function getRecruitComment(sgId, srcId) {
         .catch(err => {
             console.error(err);
         });
+}
+
+/**
+ * 댓글 유효성 검사
+ */
+function checkComment(comment) {
+    let result = false;
+
+    if (comment.srcId) {        // 수정일때
+        if (common.isEmpty(comment.srcContent)) {
+            const srcIdList = document.querySelectorAll('.srcId');
+
+            srcIdList.forEach(item => {
+                if (item.value === comment.srcId) {
+                    item.closest('.commentDtl').querySelector('.modifyValidate').innerHTML = common.validateEm('내용을 입력해 주세요.');
+                    return result;
+                }
+            });
+        } else {
+            document.getElementById('createValidate').innerHTML = ``;
+            document.querySelectorAll('.modifyValidate').forEach(item => {  
+                item.innerHTML = '';
+            });
+            
+            return true;
+        }
+
+    } else {                    // 등록일때
+        if (common.isEmpty(comment.srcContent)) {
+            document.getElementById('createValidate').innerHTML = common.validateEm('내용을 입력해 주세요.');
+            return result;
+        } else {
+            document.getElementById('createValidate').innerHTML = ``;
+            return true;
+        }
+    }
 }
 
 /**

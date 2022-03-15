@@ -30,5 +30,29 @@ const common = {
         }
         
         return false;
+    },
+
+    /**
+     * 스터디 모집완료
+     */
+    modifyComplete: async (sgId) => {
+        try {
+            await axios.put(`/recruit/complete/${sgId}`);
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+    /**
+     * 유효성 검사 메세지
+     */
+    validateEm: (message) => {
+        return `
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="notika-icon notika-close"></i></span></button> ${message}
+            </div>
+        `;
     }
+
+
 };
