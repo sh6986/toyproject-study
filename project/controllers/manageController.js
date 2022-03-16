@@ -189,6 +189,21 @@ exports.modifyScheduleAtndn = async (req, res, next) => {
 };
 
 /**
+ * 대시보드 게시판 목록 조회
+ */
+exports.getDashBordBoardList = async (req, res, next) => {
+    const sgId = req.params.sgId;
+
+    try {
+        const result = await manageService.getDashBordBoardList(sgId);
+        res.json(result);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
+
+/**
  * 게시판 목록 조회
  */
 exports.getBoardList = async (req, res, next) => {

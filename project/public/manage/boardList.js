@@ -14,6 +14,9 @@ function initPage() {
 
     // 게시판 목록 조회
     getBoardList(sgId);
+
+    // 대시보드 제목
+    common.dashBoardTitle(sgId);
 };
 
 /**
@@ -28,6 +31,13 @@ function setEventListener() {
     document.getElementById('createBtn').addEventListener('click', (e) => {
         location.href = `/board/create/${sgId}`;
     });
+
+    /**
+     * 대시보드 버튼 클릭 -> 대시보드로 이동
+     */
+    document.getElementById('goDashBoard').addEventListener('click', () => {
+        location.href = `/dashboard/${sgId}`;
+    });
 }
 
 /**
@@ -41,13 +51,14 @@ function getBoardList(sgId) {
             res.data.forEach((item, index) => {
                 innerHtml += `
                     <tr>
+                        <td>${item.SB_NOTICE_YN}</td>
+                        <td>0</td>
                         <td>
                             <a href="/board/detail/${item.SG_ID}/${item.SB_ID}">${item.SB_TITLE}</a>
                         </td>
                         <td>${item.USER_NICKNAME}</td>
                         <td>${item.SB_REG_DATE}</td>
                         <td>${item.SB_VIEWS}</td>
-                        <td>${item.SB_NOTICE_YN}</td>
                     </tr>
                 `;
             });

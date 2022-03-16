@@ -162,11 +162,24 @@ exports.modifyScheduleAtndn = async (scheduleAtndn) => {
 };
 
 /**
+ * 대시보드 게시판 목록 조회
+ */
+exports.getDashBordBoardList = async (sgId) => {
+    try {
+        const result = await pool.query(manageQuery.getBoardList(true), sgId);
+        return result[0];
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};
+
+/**
  * 게시판 목록 조회
  */
 exports.getBoardList = async (sgId) => {
     try {
-        const result = await pool.query(manageQuery.getBoardList, [sgId]);
+        const result = await pool.query(manageQuery.getBoardList(), [sgId]);
         return result[0];
     } catch (err) {
         console.error(err);
@@ -179,7 +192,7 @@ exports.getBoardList = async (sgId) => {
  */
 exports.getBoardDetail = async (sbId) => {
     try {
-        const result = await pool.query(manageQuery.getBoardDetail, [sbId]);
+        const result = await pool.query(manageQuery.getBoardList(false, sbId), [sbId]);
         return result[0];
     } catch (err) {
         console.error(err);

@@ -31,6 +31,8 @@ router.post('/scheduleAtndn', isLoggedIn, manageController.createScheduleAtndn);
 // 일정 출결 투표 수정
 router.put('/scheduleAtndn', isLoggedIn, manageController.modifyScheduleAtndn);
 
+// 대시보드 게시판 목록 조회
+router.get('/dashBoard/boardList/:sgId', isLoggedIn, manageController.getDashBordBoardList);
 // 게시판 목록 조회
 router.get('/boardList/:sgId', isLoggedIn, manageController.getBoardList);
 // 게시판 상세 조회

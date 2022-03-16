@@ -9,8 +9,9 @@ window.onload = () => {
 /**
  * 화면 초기화
  */
-function initPage() {
+async function initPage() {
     const mode = document.getElementById('mode').value;
+    const sgId = document.getElementById('sgId').value;
 
     if (mode === 'modify') {    // 수정일때
         const sbId = document.getElementById('sbId').value;
@@ -18,6 +19,20 @@ function initPage() {
         // 게시판 상세 조회
         getBoardDetail(sbId);
     } 
+
+    // 대시보드 제목
+    common.dashBoardTitle(sgId);
+
+    try {
+        // 스터디모집글 상세 조회
+        const study = await common.getDetail(sgId);
+
+        if (common.getSessionUserId() === String(study.LEAD_USER_ID)) {         // 현재 사용자가 팀장일때
+            document.getElementById('noticeYn').classList.remove('noVisible');  // 공지등록 체크박스
+        }
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 /**
@@ -48,6 +63,16 @@ function setEventListener() {
             modifyBoard(board);
         });
     }
+
+    /**
+     * 취소버튼 클릭시 -> 생성 - 리스트로 이동, 수정 - 해당글 상세로 이동
+     */
+    document.getElementById('cancelBtn').addEventListener('click', () => {
+        const sgId = document.getElementById('sgId').value;
+        const sbId = document.getElementById('sbId').value;
+
+        location.href = mode === 'create' ? `/boardList/${sgId}` : `/board/detail/${sgId}/${sbId}`;
+    });
 }
 
 /**
@@ -57,13 +82,8 @@ function getValue() {
     const sgId = document.getElementById('sgId').value;
     const sbTitle = document.getElementById('sbTitle').value;
     const sbContent = document.getElementById('sbContent').value;
-    const sbNoticeYn = 'N';     // [TODO] 게시판 글 생성시 공지여부 체크박스
-    const board = {
-        sgId,
-        sbTitle,
-        sbContent,
-        sbNoticeYn
-    };
+    const sbNoticeYn = document.getElementById('sbNoticeYn').checked ? 'Y' : 'N';
+    const board = {sgId, sbTitle, sbContent, sbNoticeYn};
 
     return board;
 }
@@ -75,8 +95,10 @@ function getBoardDetail(sbId) {
     axios.get(`/manage/boardDetail/${sbId}`)
         .then(res => {
             const board = res.data;
-            document.getElementById('sbTitle').value = board.SB_TITLE;      // 제목
-            document.getElementById('sbContent').value = board.SB_CONTENT;  // 본문
+
+            document.getElementById('sbNoticeYn').checked = board.SB_NOTICE_YN === 'Y';     // 공지등록
+            document.getElementById('sbTitle').value = board.SB_TITLE;                      // 제목
+            document.getElementById('sbContent').value = board.SB_CONTENT;                  // 본문
         })
         .catch(err => {
             console.error(err);

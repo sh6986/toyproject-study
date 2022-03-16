@@ -5,11 +5,20 @@
     .margin0 {
         margin: 0;
     }
+    .marginBottom10 {
+        margin-bottom: 10px;
+    }
+    .padding0 {
+        padding: 0;
+    }
+    .padding10 {
+        padding: 10;
+    }
     .backgroundColorWhite {
         background-color: white;
     }
     .dbContent {
-        height: 250px;
+        height: 290px;
     }
     .noVisible {
         display: none;
@@ -17,32 +26,24 @@
     .alignCenter {
         text-align: center;
     }
+    .alignLeft {
+        text-align: left;
+    }
+    .alignRight {
+        text-align: right;
+    }
     .active {
         font-weight: bold;
     }
     .radiusDiv {
         border-radius: 15px;
     }
+    .floatLeft {
+        float: left;
+    }
 </style>
 
-<div class="breadcomb-area margin0" style="background-color: white;">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="breadcomb-list">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                            <div class="alignCenter">
-                                <div class="breadcomb-ctn">
-                                    <h1 id="sgName"></h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div id="dashBoardTitle">
 </div>
 
 <div class="navbar">
@@ -66,7 +67,7 @@
     </div>
 </div>
 
-<div class="contact-info-area">
+<!-- <div class="contact-info-area">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -79,7 +80,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <div id="dashboard">
     <input type="hidden" id="sgId" value="{{sgId}}">
@@ -134,12 +135,29 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 dbContent">
                     <div class="contact-inner radiusDiv dbContent">
-                        <div class="contact-hd widget-ctn-hd">
-                            <h2>게시판</h2>
-                            <button id="boardListBtn" class="btn btn-success notika-btn-success waves-effect">더보기</button>
-                            <p>테스트글1</p>
-                            <p>테스트글2</p>
-                            <p>테스트글3</p>
+                        <div class="normal-table-list padding0">
+                            <div class="basic-tb-hd marginBottom10">
+                                <div class="floatLeft">
+                                    <h2>게시판 목록</h2>
+                                </div>
+                                <div class="alignRight">
+                                    <button id="boardListBtn" class="btn btn-success notika-btn-success waves-effect">더보기</button>
+                                </div>
+                            </div>
+                            <div class="bsc-tbl-hvr">
+                                <table class="table table-hover alignCenter">
+                                    <thead>
+                                        <tr>
+                                            <th style="padding: 10px 10px; width: 5%;"></th>
+                                            <th class="alignCenter" style="padding: 10px 5px; width: 8%;">번호</th>
+                                            <th class="alignCenter" style="padding: 10px 20px; width: 57%;">제목</th>
+                                            <th class="alignCenter" style="padding: 10px 20px; width: 30%;">작성자</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="boardList">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -10,10 +10,14 @@ window.onload = () => {
  * 화면 초기화
  */
 function initPage() {
+    const sgId = document.getElementById('sgId').value;
     const sbId = document.getElementById('sbId').value;
 
     // 게시판 상세 조회
     getBoardDetail(sbId);
+
+    // 대시보드 제목
+    common.dashBoardTitle(sgId);
 }
 
 /**
@@ -26,15 +30,22 @@ function setEventListener() {
     /**
      * 수정 버튼 클릭시
      */
-    document.getElementById('modifyBtn').addEventListener('click', (e) => {
+    document.getElementById('modifyBtn').addEventListener('click', () => {
         location.href = `/board/modify/${sgId}/${sbId}`;
     });
 
     /**
      * 게시글 삭제확인 모달창 - 확인버튼 클릭시
      */
-    document.getElementById('removeOkBtn').addEventListener('click', (e) => {
+    document.getElementById('removeOkBtn').addEventListener('click', () => {
         removeBoard(sgId, sbId);
+    });
+
+    /**
+     * 대시보드 버튼 클릭 -> 대시보드로 이동
+     */
+    document.getElementById('goList').addEventListener('click', () => {
+        location.href = `/boardList/${sgId}`;
     });
 };
 
@@ -46,7 +57,7 @@ function getBoardDetail(sbId) {
         .then(res => {
             const board = res.data;
             document.getElementById('sbTitle').innerHTML = board.SB_TITLE;              // 제목
-            document.getElementById('userNickname').innerHTML = board.USER_NICKNAME;    // 닉네임
+            document.getElementById('userInfo').innerHTML = `${board.USER_NICKNAME} (${board.USER_EMAIL})`;    // 닉네임 (이메일)
             document.getElementById('sbRegDate').innerHTML = board.SB_REG_DATE;         // 등록일시
             document.getElementById('sbViews').innerHTML = board.SB_VIEWS;              // 조회수
             document.getElementById('sbContent').innerHTML = board.SB_CONTENT;          // 내용

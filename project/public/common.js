@@ -109,4 +109,51 @@ const common = {
 
         return innerHtml;
     },
-};
+
+    /**
+     * 스터디모집글 상세 조회
+     */
+    getDetail: async (sgId) => {
+        try {
+            const result = await axios.get(`/recruit/detail/${sgId}`)
+            return result.data;
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+    /**
+     * 대시보드 제목
+     */
+    dashBoardTitle: (sgId) => {
+        axios.get(`/recruit/detail/${sgId}`)
+            .then(res => {
+                const innerHtml = `
+                    <div class="breadcomb-area margin0" style="background-color: white;">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="breadcomb-list">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                                <div class="alignCenter">
+                                                    <div class="breadcomb-ctn">
+                                                        <h1 id="sgName">${res.data.SG_NAME}</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('dashBoardTitle').innerHTML = innerHtml;
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+}

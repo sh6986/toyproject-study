@@ -18,8 +18,14 @@ function initPage() {
     // 최근 일정1건 조회
     getScheduleNewOne(sgId);
 
+    // 게시판 목록 조회
+    getDashBordBoardList(sgId);
+
     // 팀원 목록 조회
     getMemberList(sgId);
+
+    // 대시보드 제목
+    common.dashBoardTitle(sgId);
 }
 
 /**
@@ -179,7 +185,6 @@ function getDetail(sgId) {
     axios.get(`/recruit/detail/${sgId}`)
         .then(res => {
             const study = res.data;
-            document.getElementById('sgName').innerHTML = study.SG_NAME;        // 스터디명
 
             if (common.getSessionUserId() === String(study.LEAD_USER_ID)) {    // 현재 사용자가 팀장일때
                 if (study.SG_RULE) {        // 규칙 수정
@@ -316,6 +321,34 @@ function voteYn(voteYn, ssaId, voteResult) {
         document.getElementById('voteResult').classList.add('noVisible');
         document.getElementById('reVoteBtn').classList.add('noVisible');
     }
+}
+
+/**
+ * 게시판 목록 조회
+ */
+function getDashBordBoardList(sgId) {
+    axios.get(`/manage/dashBoard/boardList/${sgId}`)
+        .then(res => {
+            let innerHtml = ``;
+
+            res.data.forEach((item, index) => {
+                innerHtml += `
+                    <tr>
+                        <td style="padding: 10px 10px;">${item.SB_NOTICE_YN}</td>
+                        <td style="padding: 10px 5px;">1</td>
+                        <td class="alignLeft" style="padding: 10px 20px;">
+                            <a href="/board/detail/${item.SG_ID}/${item.SB_ID}">${item.SB_TITLE}</a>
+                        </td>
+                        <td style="padding: 10px 20px;">${item.USER_NICKNAME}</td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('boardList').innerHTML = innerHtml;
+        })
+        .catch(err => {
+            console.error(err);
+        });
 }
 
 /**

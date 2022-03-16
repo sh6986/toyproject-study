@@ -215,35 +215,24 @@ exports.modifyScheduleAtndn = `
 `;
 
 // 게시판 목록 조회
-exports.getBoardList = `
+exports.getBoardList = (dashBoardYn, sbId) => `
     SELECT A.SG_ID
          , A.SB_ID
          , A.SB_TITLE 
-         , A.SB_VIEWS
-         , A.SB_NOTICE_YN
-         , B.USER_NICKNAME
-         , DATE_FORMAT(A.SB_REG_DATE,'%Y-%m-%d %H:%i:%s') AS SB_REG_DATE
-      FROM STUDY_BOARD AS A
-      LEFT JOIN USER AS B
-        ON A.SB_REG_ID = B.USER_ID AND B.USER_DEL_YN = 'N' AND B.USER_SCSN_YN = 'N'
-     WHERE A.SG_ID = ? 
-       AND A.SB_DEL_YN = 'N'
-`;
-
-// 게시판 상세 조회
-exports.getBoardDetail = `
-    SELECT A.SB_TITLE 
          , A.SB_CONTENT 
          , A.SB_VIEWS
          , A.SB_NOTICE_YN
          , A.SB_REG_ID 
          , B.USER_NICKNAME
+         , B.USER_EMAIL
          , DATE_FORMAT(A.SB_REG_DATE,'%Y-%m-%d %H:%i:%s') AS SB_REG_DATE
       FROM STUDY_BOARD AS A
       LEFT JOIN USER AS B
         ON A.SB_REG_ID = B.USER_ID AND B.USER_DEL_YN = 'N' AND B.USER_SCSN_YN = 'N'
-     WHERE A.SB_ID = ?
-       AND A.SB_DEL_YN = 'N'
+     WHERE A.SB_DEL_YN = 'N'
+     ${sbId ? `AND A.SB_ID = ?` : `AND A.SG_ID = ?`}
+     ORDER BY A.SB_ID DESC
+     ${dashBoardYn ? `LIMIT 4` : ``}
 `;
 
 // 게시판 조회수 증가
