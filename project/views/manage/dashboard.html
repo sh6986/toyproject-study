@@ -23,15 +23,6 @@
     .noVisible {
         display: none;
     }
-    .alignCenter {
-        text-align: center;
-    }
-    .alignLeft {
-        text-align: left;
-    }
-    .alignRight {
-        text-align: right;
-    }
     .active {
         font-weight: bold;
     }
@@ -40,6 +31,12 @@
     }
     .floatLeft {
         float: left;
+    }
+    .fontWeightBold {
+        font-weight: bold;
+    }
+    #calenderTb tr td {
+        border: none;
     }
 </style>
 
@@ -108,22 +105,47 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 dbContent">
                     <div class="contact-inner radiusDiv dbContent">
                         <div class="contact-hd widget-ctn-hd">
-                            <h2>일정</h2>
+                            <div class="floatLeft">
+                                <h2>최근 일정</h2>
+                            </div>
                             <input type="hidden" id="ssId" value="">
-                            <button id="scheduleDetail" class="btn btn-success notika-btn-success waves-effect">상세보기</button>
-                            <button id="createScheduleBtn" class="btn btn-success notika-btn-success waves-effect">일정만들기</button>
-                            <button id="scheduleList" class="btn btn-success notika-btn-success waves-effect">모든일정보기</button>
-                            <p id="ssTopic"></p>
-                            <p id="ssPlace"></p>
-                            <p id="ssDate"></p>
-                            <p id="ssDateTime"></p>
-                            <button id="attendBtn" class="btn btn-success notika-btn-success waves-effect noVisible">참석</button>
-                            <button id="absenceBtn" class="btn btn-success notika-btn-success waves-effect noVisible">불참</button>
-                            <button id="beingLateBtn" class="btn btn-success notika-btn-success waves-effect noVisible">지각</button>
-                            
-                            <input type="hidden" id="ssaId" value="">
-                            <span id="voteResult" class="noVisible"></span>
-                            <button id="reVoteBtn" class="btn btn-success notika-btn-success waves-effect noVisible">다시투표하기</button>
+
+                            <!-- 최근일정없을시 -->
+                            <div id="scheduleN" class="noVisible">
+                                <div class="text-right">
+                                    <button id="createScheduleBtn" class="btn btn-success notika-btn-success waves-effect">일정등록</button>
+                                </div>
+                                <div class="text-center mg-t-30">
+                                    <p>최근 일정이 없습니다.</p>
+                                </div>
+                            </div>
+                            <!-- /최근일정없을시 -->
+
+                            <!-- 일정있을시 -->
+                            <div id="scheduleY" class="noVisible">
+                                <div class="text-right">
+                                    <button id="scheduleDetail" class="btn btn-success notika-btn-success waves-effect">상세보기</button>
+                                    <button id="scheduleList" class="btn btn-success notika-btn-success waves-effect">모든일정보기</button>
+                                </div>
+                                <div id="scheduleDiv"></div>
+
+                                <!-- 해당일정 투표기록 없을시 -->
+                                <div id="voteN" class="text-center noVisible">
+                                    <button id="attendBtn" class="btn btn-default btn-icon-notika waves-effect">참석</button>
+                                    <button id="beingLateBtn" class="btn btn-default btn-icon-notika waves-effect">지각</button>
+                                    <button id="absenceBtn" class="btn btn-default btn-icon-notika waves-effect">불참</button>
+                                </div>
+                                <!-- /해당일정 투표기록 없을시 -->
+                                
+                                <!-- 해당일정 투표기록 있을시 -->
+                                <div id="voteY" class="text-center noVisible">
+                                    <input type="hidden" id="ssaId" value="">
+                                    <span id="voteResult" class=" fontWeightBold"></span>&nbsp;&nbsp;
+                                    <button id="reVoteBtn" class="btn btn-default btn-icon-notika waves-effect">다시투표하기</button>
+                                </div>
+                                <!-- /해당일정 투표기록 있을시 -->
+                            </div>
+                            <!-- /일정있을시 -->
                         </div>
                     </div>
                 </div>
@@ -133,25 +155,25 @@
     <div class="contact-info-area mg-t-30">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 dbContent">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="contact-inner radiusDiv dbContent">
                         <div class="normal-table-list padding0">
                             <div class="basic-tb-hd marginBottom10">
                                 <div class="floatLeft">
-                                    <h2>게시판 목록</h2>
+                                    <h2>게시판</h2>
                                 </div>
-                                <div class="alignRight">
+                                <div class="text-right">
                                     <button id="boardListBtn" class="btn btn-success notika-btn-success waves-effect">더보기</button>
                                 </div>
                             </div>
                             <div class="bsc-tbl-hvr">
-                                <table class="table table-hover alignCenter">
+                                <table class="table table-hover text-center">
                                     <thead>
                                         <tr>
                                             <th style="padding: 10px 10px; width: 5%;"></th>
-                                            <th class="alignCenter" style="padding: 10px 5px; width: 8%;">번호</th>
-                                            <th class="alignCenter" style="padding: 10px 20px; width: 57%;">제목</th>
-                                            <th class="alignCenter" style="padding: 10px 20px; width: 30%;">작성자</th>
+                                            <th class="text-center" style="padding: 10px 5px; width: 8%;">번호</th>
+                                            <th class="text-center" style="padding: 10px 20px; width: 57%;">제목</th>
+                                            <th class="text-center" style="padding: 10px 20px; width: 30%;">작성자</th>
                                         </tr>
                                     </thead>
                                     <tbody id="boardList">

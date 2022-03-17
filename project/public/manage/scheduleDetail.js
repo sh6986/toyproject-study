@@ -11,12 +11,16 @@ window.onload = () => {
  */
 function initPage() {
     const ssId = document.getElementById('ssId').value;
+    const sgId = document.getElementById('sgId').value;
 
     // 일정 상세 조회
     getScheduleDetail(ssId);
 
     // 일정 출결 상세 조회
     getScheduleAtndn(ssId);
+
+    // 대시보드 제목
+    common.dashBoardTitle(sgId);
 }
 
 /**
@@ -64,9 +68,16 @@ function setEventListener() {
     /**
      * 일정 - 다시투표하기
      */
-     document.getElementById('reVoteBtn').addEventListener('click', (e) => {
-        voteYn(false);
+    document.getElementById('reVoteBtn').addEventListener('click', (e) => {
+        common.voteYn(false);
     }); 
+
+    /**
+     * 목록 버튼 클릭 -> 일정 목록으로 이동
+     */
+    document.getElementById('goList').addEventListener('click', () => {
+        location.href = `/scheduleList/${sgId}`;
+    });
 }
 
 /**
@@ -77,13 +88,10 @@ function getScheduleDetail(ssId) {
     axios.get(`/manage/schedule/${ssId}`)
         .then(res => {
             const schedule = res.data;
-            const hour = `${Number(schedule.SS_DATE_HOUR) < 12 ? '오전' : '오후'}${schedule.SS_DATE_HOUR}시 ~ ${Number(schedule.SS_END_DATE_HOUR) < 12 ? '오전' : '오후'}${schedule.SS_END_DATE_HOUR}시`
-            
+
             document.getElementById('ssTopic').innerHTML = schedule.SS_TOPIC;
             document.getElementById('ssContent').innerHTML = '내용 : ' + schedule.SS_CONTENT;
-            document.getElementById('ssPlace').innerHTML = '장소 : ' + schedule.SS_PLACE;
-            document.getElementById('ssDate').innerHTML = '날짜 : ' + schedule.SS_DATE;
-            document.getElementById('ssDateTime').innerHTML = '시간 : ' + hour;
+            document.getElementById('scheduleDiv').innerHTML = common.gridSchedule(schedule);
 
 
             // 현재 진행중인 투표인지 아닌지 여부 검사
@@ -106,9 +114,9 @@ function getScheduleDetail(ssId) {
                         res.data.forEach((item, index) => {
                             if (common.getSessionUserId() === String(item.USER_ID)) {
                                 if (item.SSA_STATUS) {  // 이미 한 투표일때
-                                    voteYn(true, item.SSA_ID, item.CC_DESC);
+                                    common.voteYn(true, item.SSA_ID, item.CC_DESC);
                                 } else {                // 투표 안했을시
-                                    voteYn(false);
+                                    common.voteYn(false);
                                 }
                             }
                         });
@@ -121,29 +129,6 @@ function getScheduleDetail(ssId) {
         .catch(err => {
             console.error(err);
         });
-}
-
-/**
- * 일정 투표 여부
- */
-function voteYn(voteYn, ssaId, voteResult) {
-    if (voteYn) {   // 이미 투표 했을시
-        document.getElementById('attendBtn').classList.add('noVisible');
-        document.getElementById('absenceBtn').classList.add('noVisible');
-        document.getElementById('beingLateBtn').classList.add('noVisible');
-
-        document.getElementById('ssaId').value = ssaId;
-        document.getElementById('voteResult').innerHTML = '[' + voteResult + ' 예정]';
-        document.getElementById('voteResult').classList.remove('noVisible');
-        document.getElementById('reVoteBtn').classList.remove('noVisible');
-    } else  {   // 아직 안했을시, 다시투표하기일시
-        document.getElementById('attendBtn').classList.remove('noVisible');
-        document.getElementById('absenceBtn').classList.remove('noVisible');
-        document.getElementById('beingLateBtn').classList.remove('noVisible');
-
-        document.getElementById('voteResult').classList.add('noVisible');
-        document.getElementById('reVoteBtn').classList.add('noVisible');
-    }
 }
 
 /**
@@ -169,10 +154,10 @@ function getScheduleAtndn(ssId) {
                 }
             });
 
-            document.getElementById('attend').innerHTML = '참석 : ' + attendArr.join(', ');
-            document.getElementById('absence').innerHTML = '블참 : ' + absenceArr.join(', ');
-            document.getElementById('beingLate').innerHTML = '지각 : ' + beingLateArr.join(', ');
-            document.getElementById('noVote').innerHTML = '미투표 : ' + noVoteArr.join(', ');
+            document.getElementById('attend').innerHTML = attendArr.join(', ');
+            document.getElementById('absence').innerHTML = absenceArr.join(', ');
+            document.getElementById('beingLate').innerHTML = beingLateArr.join(', ');
+            document.getElementById('noVote').innerHTML = noVoteArr.join(', ');
         })
         .catch(err => {
             console.error(err);

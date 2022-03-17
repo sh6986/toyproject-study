@@ -42,7 +42,7 @@ function setEventListener() {
     });
 
     /**
-     * 대시보드 버튼 클릭 -> 대시보드로 이동
+     * 목록 버튼 클릭 -> 게시글 목록으로 이동
      */
     document.getElementById('goList').addEventListener('click', () => {
         location.href = `/boardList/${sgId}`;

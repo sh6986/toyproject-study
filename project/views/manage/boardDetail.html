@@ -11,9 +11,6 @@
     .backgroundColorWhite {
         background-color: white;
     }
-    .alignCenter {
-        text-align: center;
-    }
     .active {
         font-weight: bold;
     }
@@ -22,9 +19,6 @@
     }
     .floatLeft {
         float: left;
-    }
-    .textRight {
-        text-align: right;
     }
     .fontLarge {
         font-size: large;
@@ -58,14 +52,14 @@
 <div class="typography-area">
     <div class="container">
         <div class="row">
-            <div id="recruitDetail" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <input type="hidden" id="sbId" value="{{sbId}}">
                 <input type="hidden" id="sgId" value="{{sgId}}">
                 <div class="typography-heading typography-mgn mg-t-30">
                     <div id="boardDetail" class="typography-hd-cr-1">
                         <h1 id="sbTitle" class="mg-t-10"></h1>
                         <div id="userInfo" class="floatLeft fontLarge"></div>
-                        <div class="textRight fontLarge mg-b-15">
+                        <div class="text-right fontLarge mg-b-15">
                             <span id="sbRegDate"></span>&nbsp;&nbsp;
 
                             <i class="fas fa-eye"></i>
@@ -73,10 +67,9 @@
                         </div>
                     </div>
                     <div class="typography-hd-cr-2">
-                        <p class="whiteSpace" id="sbContent">
-                        </p>
+                        <p class="whiteSpace" id="sbContent"></p>
                     </div>
-                    <div class="textRight">
+                    <div class="text-right">
                         <button id="modifyBtn" class="btn btn-default btn-icon-notika waves-effect noVisible">수정</button>
                         <button id="removeBtn" class="btn btn-default btn-icon-notika waves-effect noVisible" data-toggle="modal" data-target="#removeModal"><i class="notika-icon notika-checked"></i>&nbsp;삭제</button>
                         <button id="goList" class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon notika-menus"></i>&nbsp;목록</button>

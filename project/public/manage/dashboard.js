@@ -96,17 +96,18 @@ function setEventListener() {
     });
 
     /**
+     * 일정 - 일정만들기 버튼 클릭시
+     */
+     document.getElementById('createScheduleBtn').addEventListener('click', (e) => {
+        const sgId = document.getElementById('sgId').value;
+        location.href = `/schedule/create/${sgId}`;
+    });
+
+    /**
      * 일정 - 모든일정보기
      */
     document.getElementById('scheduleList').addEventListener('click', (e) => {
         location.href = `/scheduleList/${sgId}`;
-    });
-
-    /**
-     * 일정 - 일정만들기 버튼 클릭시
-     */
-    document.getElementById('createScheduleBtn').addEventListener('click', (e) => {
-        location.href = `/schedule/create/${sgId}`;
     });
 
     /**
@@ -134,7 +135,7 @@ function setEventListener() {
      * 일정 - 다시투표하기
      */
     document.getElementById('reVoteBtn').addEventListener('click', (e) => {
-        voteYn(false);
+        common.voteYn(false);
     }); 
 
     /**
@@ -185,7 +186,7 @@ function getDetail(sgId) {
     axios.get(`/recruit/detail/${sgId}`)
         .then(res => {
             const study = res.data;
-
+            
             if (common.getSessionUserId() === String(study.LEAD_USER_ID)) {    // 현재 사용자가 팀장일때
                 if (study.SG_RULE) {        // 규칙 수정
                     ruleYn(study.SG_RULE);
@@ -207,6 +208,7 @@ function getDetail(sgId) {
 /**
  * 규칙 등록 여부에 따라 요소 활성/비활성
  */
+// [TODO] DIV 사용해서 묶어가지고 리팩토링 해보기
 function ruleYn(sgRule, inputYn) {
     if (inputYn) {      // 입력 폼 일때
         document.getElementById('createRuleBtn').classList.add('noVisible');            // 등록 버튼
@@ -260,67 +262,47 @@ function getScheduleNewOne(sgId) {
     axios.get(`/manage/scheduleList/${sgId}`)
         .then(res => {
             const schedule = res.data[0];
-            const hour = `${Number(schedule.SS_DATE_HOUR) < 12 ? '오전' : '오후'}${schedule.SS_DATE_HOUR}시 ~ ${Number(schedule.SS_END_DATE_HOUR) < 12 ? '오전' : '오후'}${schedule.SS_END_DATE_HOUR}시`;
 
-            document.getElementById('ssId').value = schedule.SS_ID;
-            document.getElementById('ssTopic').innerHTML = '주제 : ' + schedule.SS_TOPIC;
-            document.getElementById('ssPlace').innerHTML = '장소 : ' + schedule.SS_PLACE;
-            document.getElementById('ssDate').innerHTML = '날짜 : ' + schedule.SS_DATE;
-            document.getElementById('ssDateTime').innerHTML = '시간 : ' + hour;
+            if (!schedule) {     // 최근일정 없을시
+                document.getElementById('scheduleN').classList.remove('noVisible');
+                document.getElementById('scheduleY').classList.add('noVisible');
+            } else {
+                document.getElementById('ssId').value = schedule.SS_ID;
+                document.getElementById('scheduleDiv').innerHTML = common.gridSchedule(schedule);
 
-            
-            // 현재 진행중인 투표인지 아닌지 여부 검사
-            const today = new Date();
-            const dateArr = schedule.SS_DATE.split('-');
-            const ssDate = new Date(dateArr[0], Number(dateArr[1]) - 1, dateArr[2], schedule.SS_DATE_HOUR);
-            schedule.ssDate = ssDate;
+                // 현재 진행중인 투표인지 아닌지 여부 검사
+                const today = new Date();
+                const dateArr = schedule.SS_DATE.split('-');
+                const ssDate = new Date(dateArr[0], Number(dateArr[1]) - 1, dateArr[2], schedule.SS_DATE_HOUR);
+                schedule.ssDate = ssDate;
 
-            if (today < ssDate) {       // 현재 투표진행중 일정
-                // [TODO] async await 적용
-                // 일정 투표 여부 조회
-                axios.get(`/manage/scheduleAtndn/${schedule.SS_ID}`)
-                    .then(res => {
-                        res.data.forEach((item, index) => {
-                            if (common.getSessionUserId() === String(item.USER_ID)) {
-                                if (item.SSA_STATUS) {  // 이미 한 투표일때
-                                    voteYn(true, item.SSA_ID, item.CC_DESC);
-                                } else {                // 투표 안했을시
-                                    voteYn(false);
+                if (today < ssDate) {       // 현재 투표진행중 일정
+                    // [TODO] async await 적용
+                    // 일정 투표 여부 조회
+                    axios.get(`/manage/scheduleAtndn/${schedule.SS_ID}`)
+                        .then(res => {
+                            res.data.forEach((item, index) => {
+                                if (common.getSessionUserId() === String(item.USER_ID)) {
+                                    if (item.SSA_STATUS) {  // 이미 한 투표일때
+                                        common.voteYn(true, item.SSA_ID, item.CC_DESC);
+                                    } else {                // 투표 안했을시
+                                        common.voteYn(false);
+                                    }
                                 }
-                            }
+                            });
+                        })
+                        .catch(err => {
+                            console.error(err);
                         });
-                    })
-                    .catch(err => {
-                        console.error(err);
-                    });
+                }
+
+                document.getElementById('scheduleN').classList.add('noVisible');
+                document.getElementById('scheduleY').classList.remove('noVisible');
             }
         })
         .catch(err => {
             console.error(err);
         });
-}
-
-/**
- * 일정 투표 여부
- */
-function voteYn(voteYn, ssaId, voteResult) {
-    if (voteYn) {   // 이미 투표 했을시
-        document.getElementById('attendBtn').classList.add('noVisible');
-        document.getElementById('absenceBtn').classList.add('noVisible');
-        document.getElementById('beingLateBtn').classList.add('noVisible');
-
-        document.getElementById('ssaId').value = ssaId;
-        document.getElementById('voteResult').innerHTML = '[' + voteResult + ' 예정]';
-        document.getElementById('voteResult').classList.remove('noVisible');
-        document.getElementById('reVoteBtn').classList.remove('noVisible');
-    } else  {   // 아직 안했을시, 다시투표하기일시
-        document.getElementById('attendBtn').classList.remove('noVisible');
-        document.getElementById('absenceBtn').classList.remove('noVisible');
-        document.getElementById('beingLateBtn').classList.remove('noVisible');
-
-        document.getElementById('voteResult').classList.add('noVisible');
-        document.getElementById('reVoteBtn').classList.add('noVisible');
-    }
 }
 
 /**
@@ -336,7 +318,7 @@ function getDashBordBoardList(sgId) {
                     <tr>
                         <td style="padding: 10px 10px;">${item.SB_NOTICE_YN}</td>
                         <td style="padding: 10px 5px;">1</td>
-                        <td class="alignLeft" style="padding: 10px 20px;">
+                        <td class="text-left" style="padding: 10px 20px;">
                             <a href="/board/detail/${item.SG_ID}/${item.SB_ID}">${item.SB_TITLE}</a>
                         </td>
                         <td style="padding: 10px 20px;">${item.USER_NICKNAME}</td>

@@ -26,11 +26,14 @@ function setEventListener() {
      */
     document.getElementById('category').addEventListener('click', (e) => {
         const sgCategory = e.target.getAttribute('data-sgCategory');
-        const openYn = document.getElementById('openYn').checked;
-        document.getElementById('sgCategory').value = sgCategory;
+       
+        if (sgCategory) {
+            const openYn = document.getElementById('openYn').checked;
+            document.getElementById('sgCategory').value = sgCategory;
 
-        // 스터디모집글 조회
-        getList(openYn, sgCategory);
+            // 스터디모집글 조회
+            getList(openYn, sgCategory);
+        }
     });
 
     /**

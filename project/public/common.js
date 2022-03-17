@@ -1,3 +1,4 @@
+
 const common = {
     /**
      * 세션에 저장된 사용자ID 가져오기
@@ -84,7 +85,7 @@ const common = {
                                     <i class="fas fa-user-friends" style="color:gray;"></i> ${item.SM_CNT} / ${item.SG_CNT}
                                 </p>
                                 ${myStudyListYn ? `` : `
-                                    <p class="alignRight">
+                                    <p class="text-right">
                                         <i class="fas fa-eye" style="color:gray;"></i> ${item.SR_VIEWS}&nbsp;&nbsp;
                                         <i class="fas fa-bookmark" style="color:darkgreen;"></i> ${item.SRB_CNT}
                                     </p>
@@ -136,7 +137,7 @@ const common = {
                                     <div class="breadcomb-list">
                                         <div class="row">
                                             <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="alignCenter">
+                                                <div class="text-center">
                                                     <div class="breadcomb-ctn">
                                                         <h1 id="sgName">${res.data.SG_NAME}</h1>
                                                     </div>
@@ -155,5 +156,51 @@ const common = {
             .catch(err => {
                 console.error(err);
             });
+    },
+
+    /**
+     * 일정그리기
+     */
+    gridSchedule: (schedule) => {
+        const hour = `${Number(schedule.SS_DATE_HOUR) < 12 ? '오전' : '오후'}${schedule.SS_DATE_HOUR}시 ~ ${Number(schedule.SS_END_DATE_HOUR) < 12 ? '오전' : '오후'}${schedule.SS_END_DATE_HOUR}시`;
+        const innerHtml = `
+            <table id="calenderTb" class="table" style="border: none; margin-bottom: 5px; margin-top: 10px;">
+                <tbody>
+                    <tr class="fontWeightBold">
+                        <td style="width: 35%; text-align: right;"><i class="notika-icon notika-checked"></i></td>
+                        <td id="ssTopic" style="width: 65%;">${schedule.SS_TOPIC}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"><i class="fas fa-map-marker-alt"></i></td>
+                        <td id="ssPlace">${schedule.SS_PLACE}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"><i class="fas fa-calendar-check"></i></td>
+                        <td id="ssDate">${schedule.SS_DATE}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"><i class="fas fa-clock"></i></td>
+                        <td id="ssDateTime">${hour}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+
+        return innerHtml;
+    },
+    
+    /**
+     * 일정 투표 여부
+     */
+    voteYn: (voteYn, ssaId, voteResult) => {
+        if (voteYn) {   // 이미 투표 했을시
+            document.getElementById('voteN').classList.add('noVisible');
+            document.getElementById('ssaId').value = ssaId;
+            document.getElementById('voteResult').innerHTML = voteResult + ' 예정';
+            document.getElementById('voteY').classList.remove('noVisible');
+        } else  {   // 아직 안했을시, 다시투표하기일시
+            document.getElementById('voteN').classList.remove('noVisible');
+            document.getElementById('voteY').classList.add('noVisible');
+        }
     }
 }

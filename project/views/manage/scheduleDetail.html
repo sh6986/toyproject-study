@@ -5,105 +5,108 @@
     .noVisible {
         display: none;
     }
+    .margin0 {
+        margin: 0px;
+    }
+    .backgroundColorWhite {
+        background-color: white;
+    }
+    .active {
+        font-weight: bold;
+    }
+    .whiteSpace {
+        white-space: pre;
+    }
+    .floatLeft {
+        float: left;
+    }
+    .fontLarge {
+        font-size: large;
+    }
+    .fontWeightBold {
+        font-weight: bold;
+    }
+    #calenderTb tr td {
+        border: none;
+    }
 </style>
 
-<div class="breadcomb-area" style="background-color: white;">
+<div id="dashBoardTitle">
+</div>
+
+<div class="navbar">
+    <div class="navbar-inner backgroundColorWhite">
+        <div class="container-pro wizard-cts-st">
+            <ul class="nav nav-pills">
+                <li class="active">
+                    <a href="#" data-toggle="tab">대시보드</a>
+                </li>
+                <li class="">
+                    <a href="#" data-toggle="tab">일정</a>
+                </li>
+                <li class="">
+                    <a href="#" data-toggle="tab">게시판</a>
+                </li>
+                <li class="">
+                    <a href="#" data-toggle="tab">팀원목록</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="typography-area">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="breadcomb-list">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                            <div class="breadcomb-wp">
-                                <div class="breadcomb-ctn">
-                                    <h1>제목test</h1>
-                                </div>
-                            </div>
-                        </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <input type="hidden" id="ssId" value="{{ssId}}">
+                <input type="hidden" id="sgId" value="{{sgId}}">
+                <div class="tpgp-helper mg-t-30">
+                    <div class="tpgp-hp-hd typography-mgn">
+                        <h2 id="ssTopic" class="mn-hd-s"></h2>
+                    </div>
+                    <div class="tpgp-al-cl">
+                        <p id="ssContent" class="whiteSpace"></p>
+                    </div>
+                    <div id="scheduleDiv"></div>
+
+                    <!-- 해당일정 투표기록 없을시 -->
+                    <div id="voteN" class="text-center noVisible">
+                        <button id="attendBtn" class="btn btn-default btn-icon-notika waves-effect">참석</button>
+                        <button id="beingLateBtn" class="btn btn-default btn-icon-notika waves-effect">지각</button>
+                        <button id="absenceBtn" class="btn btn-default btn-icon-notika waves-effect">불참</button>
+                    </div>
+                    <!-- /해당일정 투표기록 없을시 -->
+                    
+                    <!-- 해당일정 투표기록 있을시 -->
+                    <div id="voteY" class="text-center noVisible">
+                        <input type="hidden" id="ssaId" value="">
+                        <span id="voteResult" class=" fontWeightBold"></span>&nbsp;&nbsp;
+                        <button id="reVoteBtn" class="btn btn-default btn-icon-notika waves-effect">다시투표하기</button>
+                    </div>
+                    <!-- /해당일정 투표기록 있을시 -->
+
+                    <div class="text-right">
+                        <button id="modifyBtn" class="btn btn-default btn-icon-notika waves-effect noVisible">수정</button>
+                        <button id="removeBtn" class="btn btn-default btn-icon-notika waves-effect noVisible" data-toggle="modal" data-target="#removeModal"><i class="notika-icon notika-checked"></i>&nbsp;삭제</button>
+                        <button id="goList" class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon notika-menus"></i>&nbsp;목록</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="main-menu-area mg-tb-40">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
-                    <li class="active"><a data-toggle="tab" href="#Home">메뉴1</a>
-                    </li>
-                    <li><a data-toggle="tab" href="#mailbox">메뉴2</a>
-                    </li>
-                    <li><a data-toggle="tab" href="#Interface">메뉴3</a>
-                    </li>
-                    <li><a data-toggle="tab" href="#Charts">메뉴4</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="form-element-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <input type="hidden" id="ssId" value="{{ssId}}">
-                <input type="hidden" id="sgId" value="{{sgId}}">
-                <div class="form-element-list mg-t-30">
-                    <div id="boardDetail">
-                        <div class="basic-tb-hd">
-                            <h1 id="ssTopic"></h1>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="nk-int-mk sl-dp-mn">
-                                    <h2 id="ssContent"></h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="nk-int-mk sl-dp-mn">
-                                    <h2 id="ssPlace"></h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="nk-int-mk sl-dp-mn">
-                                    <h2 id="ssDate"></h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="nk-int-mk sl-dp-mn">
-                                    <h2 id="ssDateTime"></h2>
-                                </div>
-                            </div>
-                        </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="tpgp-helper mg-t-30">
+                    <div class="tpgp-hp-hd typography-mgn">
+                        <h2 class="mn-hd-s">출석여부</h2>
                     </div>
-                    <button type="button" class="btn btn-default noVisible" id="modifyBtn" data-dismiss="modal">수정</button>
-                    <button type="button" class="btn btn-default noVisible" id="removeBtn" data-toggle="modal" data-target="#removeModal">삭제</button>
-                    <button id="attendBtn" class="btn btn-success notika-btn-success waves-effect noVisible">참석</button>
-                    <button id="absenceBtn" class="btn btn-success notika-btn-success waves-effect noVisible">불참</button>
-                    <button id="beingLateBtn" class="btn btn-success notika-btn-success waves-effect noVisible">지각</button>
-                    <input type="hidden" id="ssaId" value="">
-                    <span id="voteResult" class="noVisible"></span>
-                    <button id="reVoteBtn" class="btn btn-success notika-btn-success waves-effect noVisible">다시투표하기</button>
-                    <hr>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h2 id="attend"></h2>
-                                <h2 id="absence"></h2>
-                                <h2 id="beingLate"></h2>
-                                <h2 id="noVote"></h2>
-                            </div>
-                        </div>
+                    <div class="tpgp-al-cl">
+                        <h3>참석</h3>
+                        <p id="attend"></p>
+                        <h3>지각</h3>
+                        <p id="beingLate"></p>
+                        <h3>불참</h3>
+                        <p id="absence"></p>
+                        <h3>미정</h3>
+                        <p id="noVote"></p>
                     </div>
                 </div>
             </div>
