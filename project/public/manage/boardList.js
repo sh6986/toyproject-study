@@ -51,9 +51,9 @@ function getBoardList(sgId) {
             res.data.forEach((item, index) => {
                 innerHtml += `
                     <tr>
-                        <td>${item.SB_NOTICE_YN}</td>
-                        <td>0</td>
-                        <td>
+                        <td>${item.ROWNUM}</td>
+                        <td>${item.SB_NOTICE_YN === 'Y' ? `<span class="label label-warning">공지</span>` : ''}</td>
+                        <td class="text-left">
                             <a href="/board/detail/${item.SG_ID}/${item.SB_ID}">${item.SB_TITLE}</a>
                         </td>
                         <td>${item.USER_NICKNAME}</td>

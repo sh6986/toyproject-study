@@ -153,7 +153,7 @@ exports.getComment = async (req, res, next) => {
 
     try {
         await recruitService.createComment(comment);
-        res.json({});   // [TODO] 조회아닌 등록이나 수정시 리턴값 고려해보기
+        res.json({});
     } catch (err) {
         console.error(err);
         next(err);
@@ -169,7 +169,7 @@ exports.modifyComment = async (req, res, next) => {
 
     try {
         await recruitService.modifyComment(comment);
-        res.json({});   // [TODO] 조회아닌 등록이나 수정시 리턴값 고려해보기
+        res.json({});
     } catch (err) {
         console.error(err);
         next(err);
@@ -185,7 +185,7 @@ exports.removeComment = async (req, res, next) => {
 
     try {
         await recruitService.removeComment(userId, srcId);
-        res.json({});   // [TODO] 조회아닌 등록이나 수정시 리턴값 고려해보기
+        res.json({});
     } catch (err) {
         console.error(err);
         next(err);

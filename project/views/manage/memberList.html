@@ -5,42 +5,31 @@
     .noVisible {
         display: none;
     }
+    .margin0 {
+        margin: 0px;
+    }
+    .backgroundColorWhite {
+        background-color: white;
+    }
+    .active {
+        font-weight: bold;
+    }
 </style>
 
-<div class="breadcomb-area" style="background-color: white;">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="breadcomb-list">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                            <div class="breadcomb-wp">
-                                <div class="breadcomb-ctn">
-                                    <h1>제목test</h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div id="dashBoardTitle">
 </div>
 
-<div class="main-menu-area mg-tb-40">
+<div class="contact-info-area">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
-                    <li class="active"><a data-toggle="tab" href="#Home">메뉴1</a>
-                    </li>
-                    <li><a data-toggle="tab" href="#mailbox">메뉴2</a>
-                    </li>
-                    <li><a data-toggle="tab" href="#Interface">메뉴3</a>
-                    </li>
-                    <li><a data-toggle="tab" href="#Charts">메뉴4</a>
-                    </li>
-                </ul>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                        <button id="scsnBtn" class="btn btn-default btn-icon-notika waves-effect noVisible" data-toggle="modal" data-target="#scsnModal" style="margin-bottom: 0;">스터디 탈퇴하기</button>
+                        <button id="closeBtn" class="btn btn-default btn-icon-notika waves-effect noVisible" data-toggle="modal" data-target="#closeModal" style="margin-bottom: 0;">스터디 폐쇄하기</button>
+                        <button id="goDashBoard" class="btn btn-default btn-icon-notika waves-effect" style="margin: 0px;"><i class="notika-icon notika-menus"></i>&nbsp;대시보드</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -55,19 +44,19 @@
                     <div class="basic-tb-hd">
                         <h2>팀원 상세</h2>
                     </div>
-                    <button type="button" class="btn btn-default noVisible" id="modifyLeaderBtn" data-toggle="modal" data-target="#modifyLeaderModal">팀장 변경</button>
+                    <button type="button" id="modifyLeaderBtn" class="btn btn-default btn-icon-notika waves-effect noVisible" data-toggle="modal" data-target="#modifyLeaderModal">팀장 변경</button>
                     <div class="bsc-tbl-hvr">
-                        <table class="table table-hover">
+                        <table class="table table-hover text-center">
                             <thead>
                                 <tr>
-                                    <th id="radioBtn" class="noVisible"></th>
-                                    <th>닉네임</th>
-                                    <th>이메일</th>
-                                    <th>권한</th>
-                                    <th>스터디가입일</th>
-                                    <th>참석</th>
-                                    <th>불참</th>
-                                    <th>지각</th>
+                                    <th id="radioBtn" class="noVisible text-center"></th>
+                                    <th class="text-center">닉네임</th>
+                                    <th class="text-center">이메일</th>
+                                    <th class="text-center">권한</th>
+                                    <th class="text-center">스터디가입일</th>
+                                    <th class="text-center">참석</th>
+                                    <th class="text-center">지각</th>
+                                    <th class="text-center">불참</th>
                                 </tr>
                             </thead>
                             <tbody id="memberList">
@@ -98,6 +87,44 @@
     </div>
 </div>
 <!-- /팀장 변경 확인 모달창 -->
+
+<!-- 스터디 탈퇴 확인 모달창 -->
+<div class="modal fade scsnModal" id="scsnModal" role="dialog">
+    <div class="modal-dialog modals-default">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h2>정말로 스터디를 탈퇴하시겠습니까?</h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="scsnOkBtn" data-dismiss="modal">확인</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /스터디 탈퇴 확인 모달창 -->
+
+<!-- 스터디 폐쇄 확인 모달창 -->
+<div class="modal fade closeModal" id="closeModal" role="dialog">
+    <div class="modal-dialog modals-default">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h2>정말로 스터디를 폐쇄하시겠습니까?</h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="closeOkBtn" data-dismiss="modal">확인</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /스터디 폐쇄 확인 모달창 -->
 {% endblock %}
 
 {% block script %}

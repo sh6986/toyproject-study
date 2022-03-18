@@ -7,7 +7,7 @@ const recruitQuery = require('../queries/recruitQuery');
 exports.getList = async () => {
     try {
         const result = await pool.query(recruitQuery.getRecruitList());
-        return result[0];   // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고
+        return result[0];
     } catch (err) {
         console.error(err);
         throw Error(err);
@@ -20,7 +20,7 @@ exports.getList = async () => {
 exports.getDetail = async (sgId) => {
     try {
         const result = await pool.query(recruitQuery.getRecruitDetail, [sgId]);
-        return result[0];   // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고
+        return result[0];
     } catch (err) {
         console.error(err);
         throw Error(err);
@@ -177,7 +177,7 @@ exports.modifyStudyBkm = async (userId, sgId) => {
 exports.getComment = async (sgId) => {
     try {
         const result = await pool.query(recruitQuery.getRecruitComment, [sgId]);
-        return result[0];   // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고
+        return result[0];
     } catch (err) {
         console.error(err);
         throw Error(err);
@@ -229,7 +229,6 @@ exports.removeComment = async (userId, srcId) => {
  */
 exports.getComCd = async (cgcName) => {
     try {
-        // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고
         const result = await pool.query(recruitQuery.getRecruitComCd, [cgcName]);
         return result[0];   
     } catch (err) {

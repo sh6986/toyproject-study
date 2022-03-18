@@ -7,7 +7,7 @@ const recruitQuery = require('../queries/recruitQuery');
 exports.getMyStudyList = async (userId) => {
     try {
         const result = await pool.query(recruitQuery.getRecruitList(userId), [userId]);
-        return result[0];   // [TODO] 결과값 반환 어떤식으로 하는지.. result[0]말고
+        return result[0];
     } catch (err) {
         console.error(err);
         throw Error(err);

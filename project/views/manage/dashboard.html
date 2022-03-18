@@ -38,46 +38,19 @@
     #calenderTb tr td {
         border: none;
     }
+    .whiteSpace {
+        white-space: pre;
+    }
+    .stNameStyle{
+        background-color: #F0EEE8;
+        padding: 4px 6px;
+        margin-right : 4px;
+        border-radius: 6px;
+    }
 </style>
 
 <div id="dashBoardTitle">
 </div>
-
-<div class="navbar">
-    <div class="navbar-inner backgroundColorWhite">
-        <div class="container-pro wizard-cts-st">
-            <ul class="nav nav-pills">
-                <li class="active">
-                    <a href="#" data-toggle="tab">대시보드</a>
-                </li>
-                <li class="">
-                    <a href="#" data-toggle="tab">일정</a>
-                </li>
-                <li class="">
-                    <a href="#" data-toggle="tab">게시판</a>
-                </li>
-                <li class="">
-                    <a href="#" data-toggle="tab">팀원목록</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<!-- <div class="contact-info-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <button type="button" class="btn btn-default noVisible" id="scsnBtn" data-toggle="modal" data-target="#scsnModal">스터디 탈퇴하기</button>
-                        <button type="button" class="btn btn-default noVisible" id="closeBtn" data-toggle="modal" data-target="#closeModal">스터디 폐쇄하기</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
 
 <div id="dashboard">
     <input type="hidden" id="sgId" value="{{sgId}}">
@@ -87,18 +60,46 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="contact-inner radiusDiv dbContent">
                         <div class="contact-hd widget-ctn-hd">
-                            <h2>스터디규칙</h2>
-                            <button id="createRuleBtn" class="btn btn-success notika-btn-success waves-effect noVisible">등록</button>
-                            <button id="modifyRuleBtn" class="btn btn-success notika-btn-success waves-effect noVisible">수정</button>
-                            <button type="button" class="btn btn-default noVisible" id="removeRuleBtn" data-toggle="modal" data-target="#removeRuleModal">삭제</button>
-                            <div class="nk-int-st">
-                                <textarea id="ruleText" class="form-control noVisible" rows="5" placeholder=""></textarea>
+                            <div id="ruleTitle" class="floatLeft">
+                                <h2>스터디규칙</h2>
                             </div>
-                            <div class="nk-int-mk sl-dp-mn" id="ruleY">
-                                <h2 id="ruleContent"></h2>
+
+                            <!-- 규칙없을시 -->
+                            <div id="ruleY" class="noVisible">
+                                <div class="text-right">
+                                    <button id="createRuleBtn" class="btn btn-success notika-btn-success waves-effect">등록</button>
+                                </div>
+                                <div class="text-center mg-t-30">
+                                    <p>스터디 규칙을 등록해 주세요.</p>
+                                </div>
                             </div>
-                            <button id="confirmBtn" class="btn btn-success notika-btn-success waves-effect noVisible">확인</button>
-                            <button id="cancelBtn" class="btn btn-success notika-btn-success waves-effect noVisible">취소</button>
+                            <!-- /규칙없을시 -->
+
+                            <!-- 규칙있을시 -->
+                            <div id="ruleN" class="noVisible">
+                                <div class="text-right">
+                                    <button id="modifyRuleBtn" class="btn btn-success notika-btn-success waves-effect">수정</button>
+                                    <button id="removeRuleBtn" class="btn btn-success notika-btn-success waves-effect" data-toggle="modal" data-target="#removeRuleModal">삭제</button>
+                                </div>
+                                <div style="margin: 20px;">
+                                    <p class="whiteSpace" id="ruleContent"></p>
+                                </div>
+                            </div>
+                            <!-- /규칙있을시 -->
+
+                            <!-- 규칙 등록/수정 폼 -->
+                            <div id="createRule" class="noVisible">
+                                <div class="text-center">
+                                    <div class="nk-int-st">
+                                        <textarea id="ruleText" class="form-control" rows="7" placeholder=""></textarea>
+                                    </div>
+                                </div>
+                                <div class="text-right mg-t-10">
+                                    <button id="confirmBtn" class="btn btn-success notika-btn-success waves-effect">확인</button>
+                                    <button id="cancelBtn" class="btn btn-success notika-btn-success waves-effect">취소</button>
+                                </div>
+                            </div>
+                            <!-- /규칙 등록/수정 폼 -->
                         </div>
                     </div>
                 </div>
@@ -127,7 +128,7 @@
                                     <button id="scheduleDetail" class="btn btn-success notika-btn-success waves-effect">상세보기</button>
                                     <button id="scheduleList" class="btn btn-success notika-btn-success waves-effect">모든일정보기</button>
                                 </div>
-                                <div id="scheduleDiv"></div>
+                                <div id="scheduleDiv" style="margin: 30px 20px 20px 40px;"></div>
 
                                 <!-- 해당일정 투표기록 없을시 -->
                                 <div id="voteN" class="text-center noVisible">
@@ -144,6 +145,12 @@
                                     <button id="reVoteBtn" class="btn btn-default btn-icon-notika waves-effect">다시투표하기</button>
                                 </div>
                                 <!-- /해당일정 투표기록 있을시 -->
+
+                                <!-- 이미 지난 일정일떄 -->
+                                <div id="pastVote" class="text-center noVisible">
+                                    <p>이미 지난 일정입니다.</p>
+                                </div>
+                                <!-- /이미 지난 일정일떄 -->
                             </div>
                             <!-- /일정있을시 -->
                         </div>
@@ -170,8 +177,8 @@
                                 <table class="table table-hover text-center">
                                     <thead>
                                         <tr>
-                                            <th style="padding: 10px 10px; width: 5%;"></th>
                                             <th class="text-center" style="padding: 10px 5px; width: 8%;">번호</th>
+                                            <th class="text-center" style="padding: 10px 10px; width: 5%;"></th>
                                             <th class="text-center" style="padding: 10px 20px; width: 57%;">제목</th>
                                             <th class="text-center" style="padding: 10px 20px; width: 30%;">작성자</th>
                                         </tr>
@@ -183,12 +190,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 dbContent">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="contact-inner radiusDiv dbContent">
                         <div class="contact-hd widget-ctn-hd">
-                            <h2>팀원목록</h2>
-                            <button id="memberListBtn" class="btn btn-success notika-btn-success waves-effect">팀원상세</button>
-                            <div id="memberList"></div>
+                            <div id="ruleTitle" class="floatLeft">
+                                <h2>팀원 목록</h2>
+                            </div>
+                            <div class="text-right">
+                                <button id="memberListBtn" class="btn btn-success notika-btn-success waves-effect">팀원상세</button>
+                            </div>
+                            <div class="mg-t-10">
+                                <div class="tpgp-al-cl">
+                                    <h3>팀장</h3>
+                                    <p id="leaderNick"></p>
+                                    <hr style="border-top: 1px solid #eee;">
+                                    <h3>팀원</h3>
+                                    <p id="memberNick"></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -215,45 +234,6 @@
     </div>
 </div>
 <!-- /규칙삭제확인 모달창 -->
-
-<!-- 스터디 탈퇴 확인 모달창 -->
-<div class="modal fade scsnModal" id="scsnModal" role="dialog">
-    <div class="modal-dialog modals-default">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <h2>정말로 스터디를 탈퇴하시겠습니까?</h2>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" id="scsnOkBtn" data-dismiss="modal">확인</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /스터디 탈퇴 확인 모달창 -->
-
-<!-- 스터디 폐쇄 확인 모달창 -->
-<div class="modal fade closeModal" id="closeModal" role="dialog">
-    <div class="modal-dialog modals-default">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <h2>정말로 스터디를 폐쇄하시겠습니까?</h2>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" id="closeOkBtn" data-dismiss="modal">확인</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /스터디 폐쇄 확인 모달창 -->
-
 {% endblock %}
 
 {% block script %}

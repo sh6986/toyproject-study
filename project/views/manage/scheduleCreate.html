@@ -5,167 +5,192 @@
     .marginBtm15 {
         margin-bottom: 15px;
     }
+    .margin0 {
+        margin: 0px;
+    }
+    .active {
+        font-weight: bold;
+    }
+    .backgroundColorWhite {
+        background-color: white;
+    }
+    .form-group {
+        margin-bottom: 30px;
+    }
+    .fontBold {
+        font-weight: bold;
+    }
+    .noVisible {
+        display: none;
+    }
+    .validateEm {
+        background-color: #00c292;
+    }
 </style>
 
-<div class="breadcomb-area" style="background-color: white;">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="breadcomb-list">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                            <div class="breadcomb-wp">
-                                <div class="breadcomb-ctn">
-                                    <h1>제목test</h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div id="dashBoardTitle">
 </div>
 
-<div class="form-element-area">
+<div class="inbox-area">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <input type="hidden" id="mode" value="{{mode}}">
-                {% if mode === 'create' %}
-                    <input type="hidden" id="sgId" value="{{sgId}}">
-                {% else %}
-                    <input type="hidden" id="ssId" value="{{scheduleDetail.SS_ID}}">
-                    <input type="hidden" id="sgId" value="{{scheduleDetail.SG_ID}}">
-                {% endif %}
-                <div class="form-element-list mg-t-30">
-                    <div class="basic-tb-hd">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mg-t-30">
+                <div class="view-mail-list sm-res-mg-t-30">
+                    <div class="view-mail-hd">
+                        <input type="hidden" id="mode" value="{{mode}}">
                         {% if mode === 'create' %}
-                            <h2>일정 등록</h2>
+                            <input type="hidden" id="sgId" value="{{sgId}}">
                         {% else %}
-                            <h2>일정 수정</h2>
+                            <input type="hidden" id="ssId" value="{{scheduleDetail.SS_ID}}">
+                            <input type="hidden" id="sgId" value="{{scheduleDetail.SG_ID}}">
                         {% endif %}
+                        <div class="view-mail-hrd">
+                            {% if mode === 'create' %}
+                                <h2>일정 등록</h2>
+                            {% else %}
+                                <h2>일정 수정</h2>
+                            {% endif %}
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h2>주제</h2>
-                            </div>
-                            <div class="form-group">
-                                <div class="nk-int-st">
-                                    <input type="text" id="ssTopic" class="form-control input-lg" placeholder="" value="{{scheduleDetail.SS_TOPIC}}">
+                    <div class="cmp-int mg-t-20">
+                        <div class="row" style="margin-right: 40px;">
+                            <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12">
+                                <div class="cmp-int-lb cmp-int-lb1 text-right">
+                                    <span class="fontBold">주제 </span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h2>내용</h2>
-                            </div>
-                            <div class="form-group">
-                                <div class="nk-int-st">
-                                    <input type="text" id="ssContent" class="form-control input-lg" placeholder="" value="{{scheduleDetail.SS_CONTENT}}">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h2>장소</h2>
-                            </div>
-                            <div class="form-group">
-                                <div class="nk-int-st">
-                                    <input type="text" id="ssPlace" class="form-control input-lg" placeholder="" value="{{scheduleDetail.SS_PLACE}}">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row marginBtm15">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h2>날짜</h2>
-                            </div>
-                            <div class="form-group nk-datapk-ctm form-elet-mg scheduleDate" id="data_1">
-                                <div class="input-group date nk-int-st">
-                                    <span class="input-group-addon"></span>
-                                    {% if mode === 'create' %}
-                                        <input type="text" id="calender" class="form-control ssDate" value="{{calVal}}">
-                                    {% else %}
-                                        <input type="text" id="calender" class="form-control ssDate" value="{{scheduleDetail.SS_DATE}}">
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn sm-res-mg-t-10">
-                                <h2>오전/오후</h2>
-                            </div>
-                            <div class="bootstrap-select fm-cmp-mg">
-                                <select class="selectpicker ssDate">
-                                    <option value="AM"
-                                        {% if scheduleDetail.SS_DATE_HOUR < 12 %}
-                                            selected
-                                        {% endif %}
-                                    >오전</option>
-                                    <option value="PM"
-                                        {% if scheduleDetail.SS_DATE_HOUR >= 12 %}
-                                            selected
-                                        {% endif %}
-                                    >오후</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn sm-res-mg-t-10">
-                                <h2>시간</h2>
-                            </div>
-                            <div class="bootstrap-select fm-cmp-mg">
-                                <select class="selectpicker ssDate">
-                                    {% set ssDateHour = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] %}
-                                    {% for i in ssDateHour %}
-                                        <option value="{{i}}"
-                                            {% if scheduleDetail.SS_DATE_HOUR_12 === i %}
-                                                selected
-                                            {% endif %}
-                                        >{{i}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="nk-int-mk sl-dp-mn">
-                                <h2>시간</h2>
-                            </div>
-                            <div class="form-group">
-                                <div class="nk-int-st">
-                                    <div class="bootstrap-select fm-cmp-mg">
-                                        <select class="selectpicker" id="ssTime">
-                                            {% set ssTime = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] %}
-                                            {% for j in ssTime %}
-                                                <option value="{{j}}"
-                                                    {% if scheduleDetail.SS_TIME === j %}
-                                                        selected
-                                                    {% endif %}
-                                                >{{j}}</option>
-                                            {% endfor %}
-                                        </select>
+                            <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12">
+                                <div class="form-group">
+                                    <div class="nk-int-st cmp-int-in cmp-email-over">
+                                        <input type="text" id="ssTopic" class="form-control" value="{{scheduleDetail.SS_TOPIC}}" placeholder="" />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="form-example-int mg-t-15">
+                        <div class="row" style="margin-right: 40px;">
+                            <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12">
+                                <div class="cmp-int-lb cmp-int-lb1 text-right">
+                                    <span class="fontBold">장소 </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12">
+                                <div class="form-group">
+                                    <div class="nk-int-st cmp-int-in cmp-email-over">
+                                        <input type="text" id="ssPlace" class="form-control" value="{{scheduleDetail.SS_PLACE}}" placeholder="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-right: 40px;">
+                            <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12">
+                                <div class="cmp-int-lb cmp-int-lb1 text-right">
+                                    <span class="fontBold">일시 </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-10 col-sm-10 col-xs-12">
+                                <div class="form-group">
+                                    <div class="nk-int-st cmp-int-in cmp-email-over">
+                                        <div class="form-group nk-datapk-ctm form-elet-mg" id="data_1">
+                                            <div class="input-group date nk-int-st">
+                                                <span class="input-group-addon"></span>
+                                                {% if mode === 'create' %}
+                                                    <input type="text" id="calender" class="form-control ssDate" value="{{calVal}}">
+                                                {% else %}
+                                                    <input type="text" id="calender" class="form-control ssDate" value="{{scheduleDetail.SS_DATE}}">
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-10 col-sm-10 col-xs-12">
+                                <div class="form-group">
+                                    <div class="nk-int-st cmp-int-in cmp-email-over">
+                                        <div class="bootstrap-select fm-cmp-mg">
+                                            <select class="selectpicker ssDate">
+                                                <option value="AM"
+                                                    {% if scheduleDetail.SS_DATE_HOUR < 12 %}
+                                                        selected
+                                                    {% endif %}
+                                                >오전</option>
+                                                <option value="PM"
+                                                    {% if scheduleDetail.SS_DATE_HOUR >= 12 %}
+                                                        selected
+                                                    {% endif %}
+                                                >오후</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-10 col-sm-10 col-xs-12">
+                                <div class="form-group">
+                                    <div class="nk-int-st cmp-int-in cmp-email-over">
+                                        <div class="bootstrap-select fm-cmp-mg">
+                                            <select class="selectpicker ssDate">
+                                                {% set ssDateHour = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] %}
+                                                {% for i in ssDateHour %}
+                                                    <option value="{{i}}"
+                                                        {% if scheduleDetail.SS_DATE_HOUR_12 === i %}
+                                                            selected
+                                                        {% endif %}
+                                                    >{{i}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12">
+                                <div class="cmp-int-lb cmp-int-lb1 text-right">
+                                    <span class="fontBold">시간 </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-10 col-sm-10 col-xs-12">
+                                <div class="form-group">
+                                    <div class="nk-int-st cmp-int-in cmp-email-over">
+                                        <div class="bootstrap-select fm-cmp-mg">
+                                            <select id="ssTime" class="selectpicker ssDate">
+                                                {% set ssTime = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] %}
+                                                {% for j in ssTime %}
+                                                    <option value="{{j}}"
+                                                        {% if scheduleDetail.SS_TIME === j %}
+                                                            selected
+                                                        {% endif %}
+                                                    >{{j}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-right: 40px;">
+                            <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12">
+                                <div class="cmp-int-lb cmp-int-lb1 text-right">
+                                    <span class="fontBold">내용 </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-11 col-md-10 col-sm-10 col-xs-12">
+                                <div class="form-group">
+                                    <div class="nk-int-st cmp-int-in cmp-email-over">
+                                        <textarea id="ssContent" class="form-control" rows="5" placeholder="">{{scheduleDetail.SS_CONTENT}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-right: 40px; margin-left: 20px;">
+                            <div id="validate" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
                                 {% if mode === 'create' %}
-                                    <button id="createBtn" class="btn btn-success notika-btn-success">만들기</button>
+                                    <button id="createBtn" class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon notika-checked"></i> 등록하기</button>
                                 {% else %}
-                                    <button id="updateBtn" class="btn btn-success notika-btn-success">수정하기</button>
+                                    <button id="updateBtn" class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon notika-checked"></i> 수정하기</button>
                                 {% endif %}
+                                <button id="cancelBtn" class="btn btn-default btn-icon-notika waves-effect">취소</button>
                             </div>
                         </div>
                     </div>

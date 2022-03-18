@@ -67,13 +67,13 @@ function getList(openYn, sgCategory) {
             let studyList = res.data;
 
             if (openYn) {   // 모집중인 글만 보기
-                studyList = studyList.filter((item, index) => {
+                studyList = studyList.filter(item => {
                     return item.SG_OPEN_YN === 'Y';
                 });
             }
 
             if (sgCategory !== 'all') {     // 전체아닌 카테고리 선택시
-                studyList = studyList.filter((item, index) => {
+                studyList = studyList.filter(item => {
                     return item.SG_CATEGORY === sgCategory;
                 });
             }

@@ -29,28 +29,29 @@
     #calenderTb tr td {
         border: none;
     }
+    .stNameStyle{
+        background-color: #F0EEE8;
+        padding: 4px 6px;
+        margin-right : 4px;
+        border-radius: 6px;
+    }
 </style>
 
 <div id="dashBoardTitle">
 </div>
 
-<div class="navbar">
-    <div class="navbar-inner backgroundColorWhite">
-        <div class="container-pro wizard-cts-st">
-            <ul class="nav nav-pills">
-                <li class="active">
-                    <a href="#" data-toggle="tab">대시보드</a>
-                </li>
-                <li class="">
-                    <a href="#" data-toggle="tab">일정</a>
-                </li>
-                <li class="">
-                    <a href="#" data-toggle="tab">게시판</a>
-                </li>
-                <li class="">
-                    <a href="#" data-toggle="tab">팀원목록</a>
-                </li>
-            </ul>
+<div class="contact-info-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                        <button id="modifyBtn" class="btn btn-default btn-icon-notika waves-effect noVisible" style="margin-bottom: 0;">수정</button>
+                        <button id="removeBtn" class="btn btn-default btn-icon-notika waves-effect noVisible" data-toggle="modal" data-target="#removeModal" style="margin-bottom: 0;">삭제</button>
+                        <button id="goList" class="btn btn-default btn-icon-notika waves-effect" style="margin-bottom: 0;"><i class="notika-icon notika-menus"></i>&nbsp;목록</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -65,10 +66,13 @@
                     <div class="tpgp-hp-hd typography-mgn">
                         <h2 id="ssTopic" class="mn-hd-s"></h2>
                     </div>
-                    <div class="tpgp-al-cl">
+                    <div id="scheduleDiv"></div>
+                    <div style="margin-top: 7px;">
+                        <div style="float: left; width: 25px;">
+                            <i class="fas fa-clock"></i>
+                        </div> 
                         <p id="ssContent" class="whiteSpace"></p>
                     </div>
-                    <div id="scheduleDiv"></div>
 
                     <!-- 해당일정 투표기록 없을시 -->
                     <div id="voteN" class="text-center noVisible">
@@ -86,11 +90,11 @@
                     </div>
                     <!-- /해당일정 투표기록 있을시 -->
 
-                    <div class="text-right">
-                        <button id="modifyBtn" class="btn btn-default btn-icon-notika waves-effect noVisible">수정</button>
-                        <button id="removeBtn" class="btn btn-default btn-icon-notika waves-effect noVisible" data-toggle="modal" data-target="#removeModal"><i class="notika-icon notika-checked"></i>&nbsp;삭제</button>
-                        <button id="goList" class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon notika-menus"></i>&nbsp;목록</button>
+                    <!-- 이미 지난 일정일떄 -->
+                    <div id="pastVote" class="text-center noVisible">
+                        <p>이미 지난 일정입니다.</p>
                     </div>
+                    <!-- /이미 지난 일정일떄 -->
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -101,10 +105,13 @@
                     <div class="tpgp-al-cl">
                         <h3>참석</h3>
                         <p id="attend"></p>
+                        <hr style="border-top: 1px solid #eee;">
                         <h3>지각</h3>
                         <p id="beingLate"></p>
+                        <hr style="border-top: 1px solid #eee;">
                         <h3>불참</h3>
                         <p id="absence"></p>
+                        <hr style="border-top: 1px solid #eee;">
                         <h3>미정</h3>
                         <p id="noVote"></p>
                     </div>

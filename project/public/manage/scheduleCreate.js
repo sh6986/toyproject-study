@@ -18,7 +18,11 @@ function initPage() {
  */
 function setEventListener() {
     const mode = document.getElementById('mode').value;
+    const sgId = document.getElementById('sgId').value;
     let schedule = {};
+
+    // 대시보드 제목
+    common.dashBoardTitle(sgId);
 
     if (mode == 'create') {     // 생성일때
         /**
@@ -26,7 +30,9 @@ function setEventListener() {
          */
         document.getElementById('createBtn').addEventListener('click', (e) => {
             schedule = getValue();
-            createSchedule(schedule);
+            if (checkSchedule(schedule)) {
+                createSchedule(schedule);
+            }
         });
         
     } else {                    // 수정일때
@@ -36,9 +42,18 @@ function setEventListener() {
         document.getElementById('updateBtn').addEventListener('click', (e) => {
             schedule = getValue();
             schedule.ssId = document.getElementById('ssId').value;
-            modifySchedule(schedule);
+            if (checkSchedule(schedule)) {
+                modifySchedule(schedule);
+            }
         });
     }
+
+    /**
+     * 취소버튼 클릭시 -> 생성 - 리스트로 이동, 수정 - 해당글 상세로 이동
+     */
+    document.getElementById('cancelBtn').addEventListener('click', () => {
+        location.href = mode === 'create' ? `/scheduleList/${sgId}` : `/schedule/detail/${sgId}/${ssId}`;
+    });
 }
 
 /**
@@ -57,11 +72,26 @@ function getValue() {
     ssDate = new Date(dateArr[2], dateArr[0] - 1, dateArr[1], hour);
     ssDate = `${ssDate.getFullYear()}-${ssDate.getMonth() + 1}-${ssDate.getDate()} ${ssDate.getHours().length === 1 ? ('0' + ssDate.getHours()) : ssDate.getHours()}:00:00`;
     
-    const schedule = {
-        sgId, ssTopic, ssContent, ssPlace, ssDate, ssTime
-    };
+    const schedule = {sgId, ssTopic, ssContent, ssPlace, ssDate, ssTime};
 
     return schedule;
+}
+
+/**
+ * 유효성 검사
+ */
+function checkSchedule(schedule) {
+    const result = false;
+
+    // 입력하지 않은 값이 있을때
+    for (let k of Object.keys(schedule)) {
+        if (common.isEmpty(schedule[k])) {
+            document.getElementById('validate').innerHTML = common.validateEm('빈칸 없이 입력해 주세요.');
+            return result;
+        }
+    }
+
+    return true;
 }
 
 /**

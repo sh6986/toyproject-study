@@ -12,6 +12,9 @@ window.onload = () => {
 function initPage() {
     const sgId = document.getElementById('sgId').value;
 
+    // 대시보드 제목
+    common.dashBoardTitle(sgId);
+
     // 팀원 목록 조회
     getMemberList(sgId);
 }
@@ -36,6 +39,27 @@ function setEventListener() {
             }
         });
     });
+
+    /**
+     * 대시보드 버튼 클릭 -> 대시보드로 이동
+     */
+    document.getElementById('goDashBoard').addEventListener('click', () => {
+        location.href = `/dashboard/${sgId}`;
+    });
+
+    /**
+     * 스터디 탈퇴 확인 모달 - 확인 버튼 클릭시
+     */
+    document.getElementById('scsnOkBtn').addEventListener('click', () => {
+        removeStudyMember(sgId);
+    }); 
+
+    /**
+     * 스터디 폐쇄 확인 모달 - 확인 버튼 클릭시
+     */
+    document.getElementById('closeOkBtn').addEventListener('click', () => {
+        removeSchedule(sgId);
+    }); 
 }
 
 /**
@@ -55,6 +79,9 @@ function getMemberList(sgId) {
                     if (common.getSessionUserId() === String(leadUserID)) {
                         document.getElementById('modifyLeaderBtn').classList.remove('noVisible');
                         document.getElementById('radioBtn').classList.remove('noVisible');
+                        document.getElementById('closeBtn').classList.remove('noVisible');   // 스터디 폐쇄하기 버튼
+                    } else {
+                        document.getElementById('scsnBtn').classList.remove('noVisible');    // 스터디 탈퇴하기 버튼
                     }
 
                     memberList.data.forEach((item, index) => {
@@ -70,8 +97,8 @@ function getMemberList(sgId) {
                                 <td>${item.SM_AUTH_DESC}</td>
                                 <td>${item.SM_REG_DATE}</td>
                                 <td>${item.ATTEND}</td>
-                                <td>${item.ABSENCE}</td>
                                 <td>${item.BEINGLATE}</td>
+                                <td>${item.ABSENCE}</td>
                             </tr>
                         `;
                     });
@@ -94,6 +121,32 @@ function modifyModifyAuth(member) {
     axios.put(`/manage/memberAuth`, member)
         .then(res => {
             location.reload();
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+/**
+ * 스터디 멤버 삭제
+ */
+ function removeStudyMember(sgId) {
+    axios.delete(`/manage/member/${sgId}`)
+        .then(res => {
+            location.href = `/myStudy`;
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+/**
+ * 스터디 삭제 (폐쇄)
+ */
+ function removeSchedule(sgId) {
+    axios.delete(`/manage/study/${sgId}`)
+        .then(res => {
+            location.href = `/myStudy`;
         })
         .catch(err => {
             console.error(err);

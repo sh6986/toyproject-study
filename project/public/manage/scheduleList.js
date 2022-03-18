@@ -79,26 +79,7 @@ function getScheduleList(sgId) {
                             <input type="hidden" class="ssId" value="${item.SS_ID}">    
                             <div class="contact-hd widget-ctn-hd">
                                 <a href="javascript:void(0);">
-                                    <table id="calenderTb" class="table" style="border: none; margin-bottom: 5px; margin-top: 10px;">
-                                        <tbody>
-                                            <tr class="fontWeightBold">
-                                                <td style="width: 20%; text-align: right;"><i class="notika-icon notika-checked"></i></td>
-                                                <td style="width: 80%;">${item.SS_TOPIC}</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: right;"><i class="fas fa-map-marker-alt"></i></td>
-                                                <td>${item.SS_PLACE}</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: right;"><i class="fas fa-calendar-check"></i></td>
-                                                <td>${item.SS_DATE}</td>
-                                            </tr>
-                                            <tr>
-                                                <td style="text-align: right;"><i class="fas fa-clock"></i></td>
-                                                <td>${Number(item.SS_DATE_HOUR) < 12 ? '오전' : '오후'}${item.SS_DATE_HOUR}시 ~ ${Number(item.SS_END_DATE_HOUR) < 12 ? '오전' : '오후'}${item.SS_END_DATE_HOUR}시</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    ${common.gridSchedule(item)}
                                 </a>
                             </div>
                         </div>

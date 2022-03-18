@@ -16,27 +16,6 @@
 <div id="dashBoardTitle">
 </div>
 
-<div class="navbar">
-    <div class="navbar-inner backgroundColorWhite">
-        <div class="container-pro wizard-cts-st">
-            <ul class="nav nav-pills">
-                <li class="active">
-                    <a href="#" data-toggle="tab">대시보드</a>
-                </li>
-                <li class="">
-                    <a href="#" data-toggle="tab">일정</a>
-                </li>
-                <li class="">
-                    <a href="#" data-toggle="tab">게시판</a>
-                </li>
-                <li class="">
-                    <a href="#" data-toggle="tab">팀원목록</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-
 <div class="normal-table-area">
     <input type="hidden" id="sgId" value="{{sgId}}">
     <div class="container">
@@ -51,15 +30,15 @@
                         <button id="createBtn" class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon notika-checked"></i>&nbsp;글쓰기</button>
                     </div>
                     <div class="bsc-tbl-hvr">
-                        <table class="table table-hover">
+                        <table class="table table-hover text-center">
                             <thead>
                                 <tr>
-                                    <th>공지여부</th>
-                                    <th>번호</th>
-                                    <th>제목</th>
-                                    <th>작성자</th>
-                                    <th>작성일자</th>
-                                    <th>조회수</th>
+                                    <th class="text-center" style="width: 7%;">번호</th>
+                                    <th class="text-center" style="width: 7%;">공지</th>
+                                    <th class="text-center" style="width: 39%;">제목</th>
+                                    <th class="text-center" style="width: 20%;">작성자</th>
+                                    <th class="text-center" style="width: 20%;">작성일자</th>
+                                    <th class="text-center" style="width: 7%;">조회수</th>
                                 </tr>
                             </thead>
                             <tbody id="boardList">

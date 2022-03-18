@@ -13,15 +13,15 @@ async function initPage() {
     const mode = document.getElementById('mode').value;
     const sgId = document.getElementById('sgId').value;
 
+    // 대시보드 제목
+    common.dashBoardTitle(sgId);
+
     if (mode === 'modify') {    // 수정일때
         const sbId = document.getElementById('sbId').value;
         
         // 게시판 상세 조회
         getBoardDetail(sbId);
     } 
-
-    // 대시보드 제목
-    common.dashBoardTitle(sgId);
 
     try {
         // 스터디모집글 상세 조회
@@ -48,7 +48,10 @@ function setEventListener() {
          */
         document.getElementById('createBtn').addEventListener('click', (e) => {
             board = getValue();
-            createBoard(board);
+            
+            if (checkBoard(board)) {
+                createBoard(board);
+            }
         });
     } else {                    // 수정일때
         /**
@@ -60,7 +63,9 @@ function setEventListener() {
             board = getValue();
             board.sbId = sbId;
 
-            modifyBoard(board);
+            if (checkBoard(board)) {
+                modifyBoard(board);
+            }
         });
     }
 
@@ -86,6 +91,21 @@ function getValue() {
     const board = {sgId, sbTitle, sbContent, sbNoticeYn};
 
     return board;
+}
+
+/**
+ * 유효성 검사
+ */
+function checkBoard(board) {
+    const result = false;
+
+    // 제목또는 내용을 입력하지 않았을 때
+    if (common.isEmpty(board.sbTitle) || common.isEmpty(board.sbContent)) {
+        document.getElementById('validate').innerHTML = common.validateEm('빈칸 없이 입력해 주세요.');
+        return result;
+    }
+
+    return true;
 }
 
 /**
