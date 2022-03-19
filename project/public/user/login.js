@@ -76,6 +76,8 @@ function login() {
  */
 function checkUser(user) {
     const result = false;
+    const emailRegex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/;
 
     // 입력하지 않은 값이 있을때
     for (let k of Object.keys(user)) {
@@ -84,6 +86,20 @@ function checkUser(user) {
             document.getElementById('joinMessageBox').classList.remove('noVisible');
             return result;
         }
+    }
+
+    // 이메일 정규식검사
+    if (!emailRegex.test(user.userEmail)) {
+        document.getElementById('joinMessageBox').innerHTML = '이메일 형식을 확인해 주세요';
+        document.getElementById('joinMessageBox').classList.remove('noVisible');
+        return result;
+    }
+
+    // 비밀번호 정규식검사
+    if (!passwordRegex.test(user.userPassword)) {
+        document.getElementById('joinMessageBox').innerHTML = `비밀번호는 8 ~ 10자 영문, 숫자 조합만 가능합니다.`;
+        document.getElementById('joinMessageBox').classList.remove('noVisible');
+        return result;
     }
 
     return true;
