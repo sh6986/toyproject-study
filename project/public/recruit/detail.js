@@ -155,7 +155,6 @@ function setEventListener() {
 /**
  * 스터디모집글 상세 조회
  */
-// [TODO] axios 2번이상 부를때 결과값 변수 둘다 res로 받음.. 수정필요
 function getRecruitDetail(sgId) {
     axios.get(`/recruit/detail/${sgId}`)
         .then(res => {
@@ -174,7 +173,6 @@ function getRecruitDetail(sgId) {
                 document.getElementById('stNameDesc').innerHTML = common.innerStName(study.ST_NAME_DESC);
             }
 
-            // [TODO] async await 적용
             if (common.getSessionUserId()) {
                 axios.get(`/manage/getMemberList/${sgId}`)
                     .then(res => {
@@ -290,7 +288,7 @@ function getRecruitComment(sgId, srcId) {
         .then(res => {
             let innerHtml = ``;
 
-            res.data.forEach((item, index, arr) => {
+            res.data.forEach(item => {
                 innerHtml += `
                     <blockquote class="commentDtl">
                         <input type="hidden" class="srcId" value="${item.SRC_ID}">

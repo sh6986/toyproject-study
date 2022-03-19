@@ -82,6 +82,22 @@ exports.modifyComplete = async (req, res, next) => {
 };
 
 /**
+ * 스터디 모집열기
+ */
+exports.modifyOpen = async (req, res, next) => {
+    const userId = req.user.USER_ID;
+    const sgId = req.params.sgId;
+
+    try {   
+        await recruitService.modifyOpen(userId, sgId);
+        res.json({});
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
+
+/**
  * 스터디 멤버 생성
  */
 exports.createMember = async (req, res, next) => {

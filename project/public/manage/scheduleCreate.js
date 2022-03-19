@@ -51,8 +51,14 @@ function setEventListener() {
     /**
      * 취소버튼 클릭시 -> 생성 - 리스트로 이동, 수정 - 해당글 상세로 이동
      */
-    document.getElementById('cancelBtn').addEventListener('click', () => {
-        location.href = mode === 'create' ? `/scheduleList/${sgId}` : `/schedule/detail/${sgId}/${ssId}`;
+    document.getElementById('cancelBtn').addEventListener('click', async () => {
+        const scheduleList = await getScheduleList(sgId);
+        
+        if (scheduleList.length) {      
+            location.href = mode === 'create' ? `/scheduleList/${sgId}` : `/schedule/detail/${sgId}/${ssId}`;
+        } else {        // 일정이 아예 없을때 -> 취소버튼 클릭시 대시보드로 이동
+            location.href = `/dashboard/${sgId}`;
+        }     
     });
 }
 
@@ -112,10 +118,22 @@ function createSchedule(schedule) {
  */
 function modifySchedule(schedule) {
     axios.put(`/manage/schedule`, schedule)
-        .then(res => {
+        .then(() => {
             location.href = `/schedule/detail/${schedule.sgId}/${schedule.ssId}`;
         })
         .catch(err => {
             console.error(err);
         });
+}
+
+/**
+ * 일정 목록 조회
+ */
+async function getScheduleList(sgId) {
+    try {
+        const result = await axios.get(`/manage/scheduleList/${sgId}`);
+        return result.data;
+    } catch (err) {
+        console.error(err);
+    }
 }

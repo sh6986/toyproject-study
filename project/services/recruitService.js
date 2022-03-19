@@ -120,7 +120,19 @@ exports.createStudy = async (study) => {
  */
 exports.modifyComplete = async (userId, sgId) => {
     try {
-        await pool.query(recruitQuery.modifyComplete, [userId, sgId]);
+        await pool.query(recruitQuery.modifyComplete, ['N', userId, sgId]);
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};
+
+/**
+ * 스터디 모집열기
+ */
+exports.modifyOpen = async (userId, sgId) => {
+    try {
+        await pool.query(recruitQuery.modifyComplete, ['Y', userId, sgId]);
     } catch (err) {
         console.error(err);
         throw Error(err);
@@ -139,7 +151,7 @@ exports.createMember = async (study) => {
 
         // 스터디 참가 후 인원이 다 찼을 시 - 모집중여부를 N 으로 변경
         if (Number(sMCnt) === (sgCnt - 1)) {
-            await pool.query(recruitQuery.modifyComplete, [userId, sgId]);
+            await pool.query(recruitQuery.modifyComplete, ['N', userId, sgId]);
         }
     } catch (err) {
         console.error(err);

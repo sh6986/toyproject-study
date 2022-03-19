@@ -231,10 +231,10 @@ exports.modifyStudyTchst = `
      WHERE SG_ID = ?
 `;
 
-// 스터디 모집중여부 수정 (모집완료)
+// 스터디 모집중여부 수정
 exports.modifyComplete = `
     UPDATE STUDY_GROUP 
-       SET SG_OPEN_YN ='N'
+       SET SG_OPEN_YN = ? 
          , SG_UDT_ID = ?
          , SG_UDT_DATE = NOW()
      WHERE SG_ID = ?

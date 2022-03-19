@@ -12,7 +12,6 @@ exports.createUser = async (user) => {
         // 이메일 중복조회
         const dupResult = await pool.query(authQuery.getEmailDup, [userEmail]);
 
-        // [TODO] 상태랑 메세지 따로 정리, 관리 필요
         if (dupResult[0][0]) {  
             if (dupResult[0][0].USER_SCSN_YN === 'Y') {     // 탈퇴한 회원
                 return {
@@ -31,7 +30,7 @@ exports.createUser = async (user) => {
             const nextId = result[0][0].AUTO_INCREMENT;
             const hashPassword = await bcrypt.hash(userPassword, 12);
 
-            await pool.query(authQuery.createUser, [userEmail, hashPassword, userNickname, nextId, nextId]);
+            await pool.query(authQuery.createUser, [userEmail, hashPassword, userNickname, 'local', null, nextId, nextId]);
 
             return {
                 status: '003',
@@ -43,3 +42,22 @@ exports.createUser = async (user) => {
         throw Error(err);
     }
 };  
+
+/**
+ * 카카오로그인시 회원가입
+ */
+exports.createKaKaoUser = async (user) => {
+    const {userEmail, userNickname, snsId} = user;
+
+    try {
+        const result = await pool.query(authQuery.getNextId, ['USER']);
+        const nextId = result[0][0].AUTO_INCREMENT;
+        const user = await pool.query(authQuery.createUser, [userEmail, null, userNickname, 'kakao', snsId, nextId, nextId]);
+        userId = user[0].insertId;
+        
+        return userId;
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};

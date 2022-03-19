@@ -274,6 +274,14 @@ function getDashBordBoardList(sgId) {
                 `;
             });
 
+            if (!res.data.length) {
+                innerHtml = `
+                    <tr>
+                        <td colspan="4">게시글이 없습니다.</td>
+                    </tr>
+                `;
+            }
+
             document.getElementById('boardList').innerHTML = innerHtml;
         })
         .catch(err => {

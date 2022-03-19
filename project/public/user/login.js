@@ -33,11 +33,20 @@ function setEventListener() {
 }
 
 /**
- * 패스워드 입력창에서 엔터키누를시 login
+ * 로그인 - 패스워드 입력창에서 엔터키누를시 login
  */
-function enterKey() {
+function loginEnterKey() {
     if (window.event.keyCode == 13) {
         login();
+    }
+}
+
+/**
+ * 회원가입 - 닉네임 입력창에서 엔터키누를시 join
+ */
+function joinEnterKey() {
+    if (window.event.keyCode == 13) {
+        join();
     }
 }
 
@@ -47,10 +56,7 @@ function enterKey() {
 function login() {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPwd').value;
-    const loginUser = {
-        email,
-        password
-    };
+    const loginUser = {email, password};
 
     axios.post(`/auth/login`, loginUser)
         .then(res => {

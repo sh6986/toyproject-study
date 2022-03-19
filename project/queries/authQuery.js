@@ -45,6 +45,8 @@ exports.createUser = `
            USER_EMAIL 
          , USER_PASSWORD 
          , USER_NICKNAME 
+         , USER_PROVIDER
+         , USER_SNS_ID
          , USER_SCSN_YN 
          , USER_SCSN_DATE 
          , USER_DEL_YN 
@@ -56,6 +58,8 @@ exports.createUser = `
            ?
          , ?
          , ?
+         , ?
+         , ?
          , 'N'
          , NULL
          , 'N'
@@ -64,4 +68,16 @@ exports.createUser = `
          , ?
          , NOW()
     )
+`;
+
+// 카카오 로그인
+exports.kakaoLogin = `
+    SELECT USER_ID
+         , USER_EMAIL
+         , USER_NICKNAME
+      FROM USER
+     WHERE USER_PROVIDER = 'kakao'
+       AND USER_SNS_ID = ?
+       AND USER_DEL_YN = 'N'
+       AND USER_SCSN_YN = 'N'
 `;

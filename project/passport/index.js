@@ -2,6 +2,7 @@ const passport = require('passport');
 const pool = require('../lib/db');
 const authQuery = require('../queries/authQuery');
 const local = require('./localStrategy');
+const kakao = require('./kakaoStrategy');
 
 module.exports = () => {
     passport.serializeUser((user, done) => {
@@ -21,5 +22,6 @@ module.exports = () => {
     });
 
     local();
+    kakao();
 };
 

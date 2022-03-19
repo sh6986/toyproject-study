@@ -14,6 +14,8 @@ router.post('/', isLoggedIn, recruitController.createStudy);
 router.put('/', isLoggedIn, recruitController.modifyStudy);
 // 스터디 모집완료
 router.put('/complete/:sgId', isLoggedIn, recruitController.modifyComplete);
+// 스터디 모집열기
+router.put('/open/:sgId', isLoggedIn, recruitController.modifyOpen);
 // 스터디 멤버 생성
 router.post('/member', isLoggedIn, recruitController.createMember);
 // 스터디 북마크 등록

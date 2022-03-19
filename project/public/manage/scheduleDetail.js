@@ -100,9 +100,8 @@ function getScheduleDetail(ssId) {
         .then(async (res) => {
             const schedule = res.data;
 
-            document.getElementById('ssTopic').innerHTML = schedule.SS_TOPIC;
-            document.getElementById('ssContent').innerHTML = '내용 : ' + schedule.SS_CONTENT;
             document.getElementById('scheduleDiv').innerHTML = common.gridSchedule(schedule);
+            document.getElementById('ssContent').innerHTML = '      ' + schedule.SS_CONTENT;
 
             try {
                 // 일정 출결 상세 조회

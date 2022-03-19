@@ -63,6 +63,14 @@ function getBoardList(sgId) {
                 `;
             });
 
+            if (!res.data.length) {
+                innerHtml = `
+                    <tr>
+                        <td colspan="6">게시글이 없습니다.</td>
+                    </tr>
+                `;
+            }
+
             document.getElementById('boardList').innerHTML = innerHtml;
         })
         .catch(err => {

@@ -16,7 +16,6 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
         }
 
         // 로그인 실패시
-        // [TODO] 상태랑 메세지 따로 정리, 관리 필요
         if (!user) {
             return res.json({
                 status: '001',
@@ -32,7 +31,6 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
                 return next(loginError);
             }
 
-            // [TODO] 상태랑 메세지 따로 정리, 관리 필요
             return res.json({
                 status: '002',
                 message: '로그인 성공'
@@ -55,5 +53,19 @@ router.get('/logout', isLoggedIn, (req, res) => {
  * 회원가입
  */
 router.post('/join', isNotLoggedIn, authController.createUser);
+
+/**
+ * 카카오 로그인하기 누를시
+ */
+router.get(`/kakao`, passport.authenticate('kakao'));
+
+/**
+ * 카카오 로그인페이지에서 로그인버튼 눌렀을 때
+ */
+router.get(`/kakao/callback`, passport.authenticate('kakao', {
+    failureRedirect: '/',
+}), (req, res) => {
+    res.redirect('/');
+});
 
 module.exports = router;
