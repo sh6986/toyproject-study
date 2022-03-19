@@ -62,7 +62,7 @@ function setEventListener() {
     /**
      * 스터디 규칙 등록 / 수정 - 취소 버튼 클릭시
      */
-    document.getElementById('cancelBtn').addEventListener('click', (e) => {
+    document.getElementById('cancelBtn').addEventListener('click', () => {
         getDetail(sgId);
     });
 
@@ -156,7 +156,7 @@ function setEventListener() {
  * 스터디모집글 상세 조회
  */
 function getDetail(sgId) {
-    axios.get(`/recruit/detail/${sgId}`)
+    axios.get(`/manage/detail/${sgId}`)
         .then(res => {
             const study = res.data;
             

@@ -116,7 +116,7 @@ const common = {
      */
     getDetail: async (sgId) => {
         try {
-            const result = await axios.get(`/recruit/detail/${sgId}`)
+            const result = await axios.get(`/manage/detail/${sgId}`)
             return result.data;
         } catch (err) {
             console.error(err);
@@ -126,25 +126,24 @@ const common = {
     /**
      * 대시보드 제목
      */
-    dashBoardTitle: (sgId) => {
-        axios.get(`/recruit/detail/${sgId}`)
-            .then(res => {
-                // const pathName = document.location.pathname;
-                // const menuName = pathName.split('/')[1];
-                const innerHtml = `
-                    <div class="breadcomb-area margin0" style="background-color: white;">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="breadcomb-list">
-                                        <div class="row">
-                                            <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="text-center">
-                                                    <div class="breadcomb-ctn">
-                                                        <a href="/dashboard/${sgId}" style="color: black;">
-                                                            <h1 id="sgName">${res.data.SG_NAME}</h1>
-                                                        </a>
-                                                    </div>
+    dashBoardTitle: async (sgId) => {
+        try {
+            // const pathName = document.location.pathname;
+            // const menuName = pathName.split('/')[1];
+            const result = await common.getDetail(sgId);
+            const innerHtml = `
+                <div class="breadcomb-area margin0" style="background-color: white;">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="breadcomb-list">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                            <div class="text-center">
+                                                <div class="breadcomb-ctn">
+                                                    <a href="/dashboard/${sgId}" style="color: black;">
+                                                        <h1 id="sgName">${result.SG_NAME}</h1>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -153,33 +152,34 @@ const common = {
                             </div>
                         </div>
                     </div>
-                    <div class="navbar">
-                        <div class="navbar-inner backgroundColorWhite">
-                            <div class="container-pro wizard-cts-st">
-                                <ul class="nav nav-pills">
-                                    <li>
-                                        <a href="/dashboard/${sgId}">대시보드</a>
-                                    </li>
-                                    <li>
-                                        <a href="/scheduleList/${sgId}">일정</a>
-                                    </li>
-                                    <li>
-                                        <a href="/boardList/${sgId}">게시판</a>
-                                    </li>
-                                    <li>
-                                        <a href="/memberList/${sgId}">팀원목록</a>
-                                    </li>
-                                </ul>
-                            </div>
+                </div>
+                <div class="navbar">
+                    <div class="navbar-inner backgroundColorWhite">
+                        <div class="container-pro wizard-cts-st">
+                            <ul class="nav nav-pills">
+                                <li>
+                                    <a href="/dashboard/${sgId}">대시보드</a>
+                                </li>
+                                <li>
+                                    <a href="/scheduleList/${sgId}">일정</a>
+                                </li>
+                                <li>
+                                    <a href="/boardList/${sgId}">게시판</a>
+                                </li>
+                                <li>
+                                    <a href="/memberList/${sgId}">팀원목록</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                `;
+                </div>
+            `;
 
-                document.getElementById('dashBoardTitle').innerHTML = innerHtml;
-            })
-            .catch(err => {
-                console.error(err);
-            });
+            document.getElementById('dashBoardTitle').innerHTML = innerHtml;
+
+        } catch (err) {
+            console.error(err);
+        }
     },
 
     /**

@@ -145,6 +145,8 @@ exports.getMemberList = `
                 ON A.SM_AUTH = F.CC_NAME AND F.CGC_NAME = 'sm_auth' AND F.CC_DEL_YN = 'N'
              WHERE A.SG_ID = ?
                AND A.SM_DEL_YN = 'N'
+               AND B.USER_SCSN_YN = 'N'
+               AND B.USER_DEL_YN = 'N'
              GROUP BY A.USER_ID
                     , A.SM_AUTH
                     , A.SM_REG_DATE
@@ -232,7 +234,7 @@ exports.getBoardList = (dashBoardYn, sbId) => `
               FROM (SELECT @ROWNUM:=0) AS TMP
                   , STUDY_BOARD AS A
               LEFT JOIN USER AS B
-                ON A.SB_REG_ID = B.USER_ID AND B.USER_DEL_YN = 'N' AND B.USER_SCSN_YN = 'N'
+                ON A.SB_REG_ID = B.USER_ID
              WHERE A.SB_DEL_YN = 'N'
              ${sbId ? `AND A.SB_ID = ?` : `AND A.SG_ID = ?`}
              ORDER BY A.SB_ID DESC

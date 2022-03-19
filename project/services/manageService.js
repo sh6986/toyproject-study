@@ -1,5 +1,19 @@
 const pool = require('../lib/db');
 const manageQuery = require('../queries/manageQuery');
+const recruitQuery = require('../queries/recruitQuery');
+
+/**
+ * 스터디모집글 상세 조회
+ */
+exports.getDetail = async (sgId) => {
+    try {
+        const result = await pool.query(recruitQuery.getRecruitDetail, [sgId]);
+        return result[0];
+    } catch (err) {
+        console.error(err);
+        throw Error(err);
+    }
+};
 
 /**
  * 스터디 멤버 삭제

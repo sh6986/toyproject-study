@@ -24,7 +24,7 @@ function setEventListener() {
     // 대시보드 제목
     common.dashBoardTitle(sgId);
 
-    if (mode == 'create') {     // 생성일때
+    if (mode === 'create') {     // 생성일때
         /**
          * 만들기 버튼 클릭시
          */
@@ -34,7 +34,6 @@ function setEventListener() {
                 createSchedule(schedule);
             }
         });
-        
     } else {                    // 수정일때
         /**
          * 수정하기 버튼 클릭시

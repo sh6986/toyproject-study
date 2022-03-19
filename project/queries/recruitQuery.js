@@ -26,8 +26,16 @@ exports.getRecruitList = (memberUserId, bkmUserId) => `
                 ON A.SG_ID = G.SG_ID AND G.SM_DEL_YN = 'N'
               LEFT JOIN COM_CD AS H 
                 ON A.SG_CATEGORY = H.CC_NAME AND H.CGC_NAME = 'SG_CATEGORY' AND H.CC_DEL_YN = 'N'
+              LEFT JOIN USER AS I 
+              	ON A.SG_REG_ID = I.USER_ID 
+              LEFT JOIN USER AS J
+              	ON G.USER_ID = J.USER_ID 
              WHERE A.SG_DEL_YN = 'N'
                AND B.SR_DEL_YN = 'N'
+               AND I.USER_DEL_YN = 'N'
+               AND I.USER_SCSN_YN = 'N'
+               AND J.USER_SCSN_YN = 'N' 
+               AND J.USER_DEL_YN = 'N'
              GROUP BY A.SG_ID
                     , A.SG_NAME 
                     , A.SG_CATEGORY
@@ -80,7 +88,7 @@ exports.getRecruitDetail = `
       LEFT JOIN COM_CD AS D 
         ON C.ST_CODE = D.CC_NAME AND D.CGC_NAME = 'ST_NAME' AND D.CC_DEL_YN = 'N'
       LEFT JOIN USER AS E 
-        ON A.SG_REG_ID = E.USER_ID AND E.USER_DEL_YN = 'N' AND E.USER_SCSN_YN = 'N'
+        ON A.SG_REG_ID = E.USER_ID
       LEFT JOIN STUDY_RCRTM_BKM AS F 
         ON B.SG_ID = F.SG_ID AND F.SRB_DEL_YN = 'N'
       LEFT JOIN STUDY_MEMBER AS G 
@@ -89,9 +97,13 @@ exports.getRecruitDetail = `
         ON A.SG_ID = H.SG_ID AND H.SM_AUTH = '001' AND H.SM_DEL_YN = 'N'
       LEFT JOIN COM_CD AS I 
       	ON A.SG_CATEGORY = I.CC_NAME AND I.CGC_NAME = 'SG_CATEGORY' AND I.CC_DEL_YN = 'N'
+      LEFT JOIN USER AS J 
+      	ON G.USER_ID = J.USER_ID 
      WHERE A.SG_ID = ?
        AND A.SG_DEL_YN = 'N'
        AND B.SR_DEL_YN = 'N'
+       AND J.USER_SCSN_YN = 'N'
+       AND J.USER_DEL_YN = 'N'
      GROUP BY A.SG_ID
             , A.SG_NAME 
             , A.SG_CATEGORY
@@ -280,7 +292,7 @@ exports.getRecruitComment = `
          , DATE_FORMAT(A.SRC_REG_DATE, '%Y-%m-%d %H:%i:%s') AS SRC_REG_DATE
       FROM STUDY_RCRTM_CMNTS AS A
       LEFT JOIN USER AS B 
-        ON A.SRC_REG_ID = B.USER_ID AND B.USER_SCSN_YN = 'N' AND B.USER_DEL_YN = 'N'
+        ON A.SRC_REG_ID = B.USER_ID
      WHERE A.SG_ID = ? 
        AND A.SRC_DEL_YN = 'N'
      ORDER BY A.SRC_ID

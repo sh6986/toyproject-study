@@ -146,7 +146,7 @@ async function checkStudy(study) {
  */
 async function getRecruitDetail(sgId) {
     try {
-        const result = await axios.get(`/recruit/detail/${sgId}`);
+        const result = await axios.get(`/manage/detail/${sgId}`);
         return result.data;
     } catch (err) {
         console.error(err);

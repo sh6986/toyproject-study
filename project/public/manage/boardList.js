@@ -48,7 +48,7 @@ function getBoardList(sgId) {
         .then(res => {
             let innerHtml = ``;
 
-            res.data.forEach((item, index) => {
+            res.data.forEach(item => {
                 innerHtml += `
                     <tr>
                         <td>${item.ROWNUM}</td>

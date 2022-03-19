@@ -81,3 +81,22 @@ exports.kakaoLogin = `
        AND USER_DEL_YN = 'N'
        AND USER_SCSN_YN = 'N'
 `;
+
+// 닉네임 수정
+exports.modifyNickname = `
+    UPDATE USER
+       SET USER_NICKNAME = ?
+         , USER_UDT_ID = ?
+         , USER_UDT_DATE = NOW()
+     WHERE USER_ID = ?
+`;
+
+// 회원 탈퇴
+exports.modifyScsn = `
+    UPDATE USER
+       SET USER_SCSN_YN = 'Y'
+         , USER_SCSN_DATE = NOW()
+         , USER_UDT_ID = ?
+         , USER_UDT_DATE = NOW()
+     WHERE USER_ID = ?
+`;

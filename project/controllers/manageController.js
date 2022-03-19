@@ -1,6 +1,22 @@
 const manageService = require('../services/manageService');
 
 /**
+ * 스터디모집글 상세 조회
+ */
+exports.getDetail = async (req, res, next) => {
+    const sgId = req.params.sgId;
+
+    try {
+        // 상세조회
+        const result = await manageService.getDetail(sgId);
+        res.json(result[0]);    
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
+
+/**
  * 스터디 멤버 삭제
  */
 exports.removeStudyMember = async (req, res, next) => {

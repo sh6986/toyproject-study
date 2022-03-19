@@ -1,0 +1,93 @@
+{% extends 'common/layout.html' %}
+
+{% block content %}
+<style>
+    .margin0 {
+        margin: 0px;
+    }
+    .active {
+        font-weight: bold;
+    }
+    .backgroundColorWhite {
+        background-color: white;
+    }
+    .form-group {
+        margin-bottom: 30px;
+    }
+    .fontBold {
+        font-weight: bold;
+    }
+    .noVisible {
+        display: none;
+    }
+    .validateEm {
+        background-color: #00c292;
+    }
+</style>
+
+<div class="inbox-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mg-t-30">
+                <div class="view-mail-list sm-res-mg-t-30">
+                    <div class="view-mail-hd">
+                        <div class="view-mail-hrd">
+                            <h2>내 정보</h2>
+                        </div>
+                    </div>
+                    <div class="cmp-int mg-t-20">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-2 col-sm-2 col-xs-12">
+                                <div class="cmp-int-lb cmp-int-lb1 text-right">
+                                    <span class="fontBold">닉네임 </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-9 col-md-10 col-sm-10 col-xs-12">
+                                <div class="form-group">
+                                    <div class="nk-int-st cmp-int-in cmp-email-over">
+                                        <input type="text" id="nickname" class="form-control" value="{{user.USER_NICKNAME}}" placeholder="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="validate" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                                <button id="updateBtn" class="btn btn-default btn-icon-notika waves-effect"><i class="notika-icon notika-checked"></i> 수정하기</button>
+                                <button id="scsnBtn" class="btn btn-default btn-icon-notika waves-effect" data-toggle="modal" data-target="#scsnModal"><i class="notika-icon notika-checked"></i> 회원탈퇴</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 회원 탈퇴 확인 모달창 -->
+<div class="modal fade scsnModal" id="scsnModal" role="dialog">
+    <div class="modal-dialog modals-default">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h2>정말로 탈퇴하시겠습니까?</h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="scsnOkBtn" data-dismiss="modal">확인</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /회원 탈퇴 확인 모달창 -->
+
+{% endblock %}
+
+{% block script %}
+<script src="./user/myPage.js"></script>
+{% endblock %}

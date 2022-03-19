@@ -3,6 +3,8 @@ const manageController = require('../controllers/manageController');
 const {isLoggedIn} = require('./middlewares');
 const router = express.Router();
 
+// 스터디 상세 조회
+router.get('/detail/:sgId', manageController.getDetail);
 // 스터디 멤버 삭제
 router.delete('/member/:sgId', isLoggedIn, manageController.removeStudyMember);
 // 스터디 삭제 (폐쇄)

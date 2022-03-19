@@ -102,6 +102,13 @@ router.get('/bookmark', isLoggedIn, (req, res) => {
 });
 
 /**
+ * 내 정보 페이지
+ */
+router.get('/myPage', isLoggedIn, (req, res) => {
+    res.render('user/myPage');
+});
+
+/**
  * 스터디관리 - 대시보드 페이지
  */
 router.get('/dashboard/:sgId', isLoggedIn, (req, res) => {

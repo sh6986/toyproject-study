@@ -9,4 +9,9 @@ router.get('/myStudy', isLoggedIn, userController.getMyStudyList);
 // 내 북마크 목록 조회
 router.get('/studyBkm', isLoggedIn, userController.getStudyBkmList);
 
+// 닉네임 수정
+router.put('/nickName', isLoggedIn, userController.modifyNickname);
+// 회원 탈퇴
+router.delete('/', isLoggedIn, userController.modifyScsn);
+
 module.exports = router;
