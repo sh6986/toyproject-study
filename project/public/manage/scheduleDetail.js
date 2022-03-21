@@ -101,7 +101,7 @@ function getScheduleDetail(ssId) {
             const schedule = res.data;
 
             document.getElementById('scheduleDiv').innerHTML = common.gridSchedule(schedule);
-            document.getElementById('ssContent').innerHTML = '      ' + schedule.SS_CONTENT;
+            document.getElementById('ssContent').innerHTML = '' + schedule.SS_CONTENT;
 
             try {
                 // 일정 출결 상세 조회
