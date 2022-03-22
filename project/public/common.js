@@ -1,4 +1,3 @@
-const logger = require('../logger');
 const common = {
     /**
      * 세션에 저장된 사용자ID 가져오기
@@ -40,7 +39,7 @@ const common = {
         try {
             await axios.put(`/recruit/complete/${sgId}`);
         } catch (err) {
-            logger.error(err);
+            console.error(err);
         }
     },
 
@@ -119,7 +118,7 @@ const common = {
             const result = await axios.get(`/manage/detail/${sgId}`)
             return result.data;
         } catch (err) {
-            logger.error(err);
+            console.error(err);
         }
     },
 
@@ -178,7 +177,7 @@ const common = {
             document.getElementById('dashBoardTitle').innerHTML = innerHtml;
 
         } catch (err) {
-            logger.error(err);
+            console.error(err);
         }
     },
 
@@ -240,7 +239,7 @@ const common = {
             const result = await axios.get(`/manage/scheduleAtndn/${ssId}`);
             return result.data;
         } catch (err) {
-            logger.error(err);
+            console.error(err);
         }
     },
 
@@ -298,7 +297,7 @@ const common = {
                 }
             }
         } catch (err) {
-            logger.error(err);
+            console.error(err);
         }
     }
 }
