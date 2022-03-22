@@ -1,3 +1,4 @@
+const logger = require('../logger');
 const pool = require('../lib/db');
 const recruitQuery = require('../queries/recruitQuery');
 
@@ -9,7 +10,7 @@ exports.getList = async () => {
         const result = await pool.query(recruitQuery.getRecruitList());
         return result[0];
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -22,7 +23,7 @@ exports.getDetail = async (sgId) => {
         const result = await pool.query(recruitQuery.getRecruitDetail, [sgId]);
         return result[0];
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -34,7 +35,7 @@ exports.modifyView = async (sgId) => {
     try {
         await pool.query(recruitQuery.modifyStudyRcrmViews, [sgId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -71,7 +72,7 @@ exports.createStudy = async (study) => {
 
         return sgId;
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         await conn.rollback();
         throw Error(err);
     } finally {
@@ -107,7 +108,7 @@ exports.createStudy = async (study) => {
         
         await conn.commit();
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         await conn.rollback();
         throw Error(err);
     } finally {
@@ -122,7 +123,7 @@ exports.modifyComplete = async (userId, sgId) => {
     try {
         await pool.query(recruitQuery.modifyComplete, ['N', userId, sgId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -134,7 +135,7 @@ exports.modifyOpen = async (userId, sgId) => {
     try {
         await pool.query(recruitQuery.modifyComplete, ['Y', userId, sgId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -154,7 +155,7 @@ exports.createMember = async (study) => {
             await pool.query(recruitQuery.modifyComplete, ['N', userId, sgId]);
         }
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -166,7 +167,7 @@ exports.createStudyBkm = async (userId, sgId) => {
     try {
         await pool.query(recruitQuery.createStudyBkm, [userId, sgId, userId, userId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -178,7 +179,7 @@ exports.modifyStudyBkm = async (userId, sgId) => {
     try {
         await pool.query(recruitQuery.modifyStudyBkm, [userId, userId, sgId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -191,7 +192,7 @@ exports.getComment = async (sgId) => {
         const result = await pool.query(recruitQuery.getRecruitComment, [sgId]);
         return result[0];
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -205,7 +206,7 @@ exports.createComment = async (comment) => {
     try {
         await pool.query(recruitQuery.createRecruitComment, [sgId, srcContent, userId, userId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -219,7 +220,7 @@ exports.modifyComment = async (comment) => {
     try {
         await pool.query(recruitQuery.modifyRecruitComment, [srcContent, userId, srcId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -231,7 +232,7 @@ exports.removeComment = async (userId, srcId) => {
     try {
         await pool.query(recruitQuery.removeRecruitComment, [userId, srcId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -244,7 +245,7 @@ exports.getComCd = async (cgcName) => {
         const result = await pool.query(recruitQuery.getRecruitComCd, [cgcName]);
         return result[0];   
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };

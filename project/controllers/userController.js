@@ -1,3 +1,4 @@
+const logger = require('../logger');
 const userService = require('../services/userService');
 
 /**
@@ -10,7 +11,7 @@ exports.getMyStudyList = async (req, res, next) => {
         const result = await userService.getMyStudyList(userId);
         res.json(result);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -25,7 +26,7 @@ exports.getStudyBkmList = async (req, res, next) => {
         const result = await userService.getStudyBkmList(userId);
         res.json(result);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -41,7 +42,7 @@ exports.modifyNickname = async (req, res, next) => {
         await userService.modifyNickname(user);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -58,7 +59,7 @@ exports.modifyScsn = async (req, res, next) => {
         req.session.destroy();
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };

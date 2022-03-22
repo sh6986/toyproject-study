@@ -1,3 +1,4 @@
+const logger = require('../logger');
 const express = require('express');
 const passport = require('passport');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
@@ -11,7 +12,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
     passport.authenticate('local', (authError, user, info) => {
         // 서버에러
         if (authError) {
-            console.error(authError);
+            logger.error(authError);
             return next(authError);
         }
 
@@ -27,7 +28,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
         return req.login(user, (loginError) => {
             // 에러시
             if (loginError) {
-                console.error(loginError);
+                logger.error(loginError);
                 return next(loginError);
             }
 

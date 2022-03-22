@@ -1,3 +1,4 @@
+const logger = require('../logger');
 const express = require('express');
 const recruitService = require('../services/recruitService');
 const manageService = require('../services/manageService');
@@ -41,7 +42,7 @@ router.get('/create', isLoggedIn, async (req, res, next) => {
             mode: 'create'
         });   
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 });
@@ -68,7 +69,7 @@ router.get('/update/:sgId', isLoggedIn, async (req, res, next) => {
             mode: 'modify'
         });   
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 });
@@ -210,7 +211,7 @@ router.get('/schedule/modify/:ssId', isLoggedIn, async (req, res, next) => {
             scheduleDetail: scheduleDetail[0]
         });
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 });

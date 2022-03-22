@@ -1,3 +1,4 @@
+const logger = require('../logger');
 const recruitService = require('../services/recruitService');
 
 /**
@@ -8,7 +9,7 @@ exports.getList = async (req, res, next) => {
         const result = await recruitService.getList();
         res.json(result);    
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -26,7 +27,7 @@ exports.getDetail = async (req, res, next) => {
         const result = await recruitService.getDetail(sgId);
         res.json(result[0]);    
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -42,7 +43,7 @@ exports.createStudy = async (req, res, next) => {
         const sgId = await recruitService.createStudy(study);
         res.json({sgId});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -60,7 +61,7 @@ exports.createStudy = async (req, res, next) => {
             sgId: study.sgId
         });
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -76,7 +77,7 @@ exports.modifyComplete = async (req, res, next) => {
         await recruitService.modifyComplete(userId, sgId);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -92,7 +93,7 @@ exports.modifyOpen = async (req, res, next) => {
         await recruitService.modifyOpen(userId, sgId);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -108,7 +109,7 @@ exports.createMember = async (req, res, next) => {
         await recruitService.createMember(study);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -124,7 +125,7 @@ exports.createStudyBkm = async (req, res, next) => {
         await recruitService.createStudyBkm(userId, sgId);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -140,7 +141,7 @@ exports.modifyStudyBkm = async (req, res, next) => {
         await recruitService.modifyStudyBkm(userId, sgId);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -155,7 +156,7 @@ exports.getComment = async (req, res, next) => {
         const result = await recruitService.getComment(sgId);
         res.json(result);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -171,7 +172,7 @@ exports.getComment = async (req, res, next) => {
         await recruitService.createComment(comment);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -187,7 +188,7 @@ exports.modifyComment = async (req, res, next) => {
         await recruitService.modifyComment(comment);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -203,7 +204,7 @@ exports.removeComment = async (req, res, next) => {
         await recruitService.removeComment(userId, srcId);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -218,7 +219,7 @@ exports.getComCd = async (req, res, next) => {
         const result = await recruitService.getComCd(cgcName);
         res.json(result);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };

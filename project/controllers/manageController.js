@@ -1,3 +1,4 @@
+const logger = require('../logger');
 const manageService = require('../services/manageService');
 
 /**
@@ -11,7 +12,7 @@ exports.getDetail = async (req, res, next) => {
         const result = await manageService.getDetail(sgId);
         res.json(result[0]);    
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -27,7 +28,7 @@ exports.removeStudyMember = async (req, res, next) => {
         await manageService.removeStudyMember(sgId, userId);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -43,7 +44,7 @@ exports.removeStudy = async (req, res, next) => {
         await manageService.removeStudy(sgId, userId);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -59,7 +60,7 @@ exports.modifyStudyRule = async (req, res, next) => {
         await manageService.modifyStudyRule(study);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -74,7 +75,7 @@ exports.getScheduleList = async (req, res, next) => {
         const result = await manageService.getScheduleList(sgId);
         res.json(result);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -89,7 +90,7 @@ exports.getScheduleDetail = async (req, res, next) => {
         const result = await manageService.getScheduleDetail(ssId);
         res.json(result[0]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -105,7 +106,7 @@ exports.createSchedule = async (req, res, next) => {
         const ssId = await manageService.createSchedule(schedule);
         res.json({ssId});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -121,7 +122,7 @@ exports.modifySchedule = async (req, res, next) => {
         await manageService.modifySchedule(schedule);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -137,7 +138,7 @@ exports.removeSchedule = async (req, res, next) => {
         await manageService.removeSchedule(userId, ssId);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -152,7 +153,7 @@ exports.getMemberList = async (req, res, next) => {
         const result = await manageService.getMemberList(sgId);
         res.json(result);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -167,7 +168,7 @@ exports.getScheduleAtndn = async (req, res, next) => {
         const result = await manageService.getScheduleAtndn(ssId);
         res.json(result);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -183,7 +184,7 @@ exports.createScheduleAtndn = async (req, res, next) => {
         await manageService.createScheduleAtndn(scheduleAtndn);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -199,7 +200,7 @@ exports.modifyScheduleAtndn = async (req, res, next) => {
         await manageService.modifyScheduleAtndn(scheduleAtndn);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -214,7 +215,7 @@ exports.getDashBordBoardList = async (req, res, next) => {
         const result = await manageService.getDashBordBoardList(sgId);
         res.json(result);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -229,7 +230,7 @@ exports.getBoardList = async (req, res, next) => {
         const result = await manageService.getBoardList(sgId);
         res.json(result);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -247,7 +248,7 @@ exports.getBoardDetail = async (req, res, next) => {
         const result = await manageService.getBoardDetail(sbId);
         res.json(result[0]);
     } catch (err) {
-        console.error(err)
+        logger.error(err);
         next(err);
     }
 };
@@ -263,7 +264,7 @@ exports.createBoard = async (req, res, next) => {
         const sbId = await manageService.createBoard(board);
         res.json({sbId});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -279,7 +280,7 @@ exports.modifyBoard = async (req, res, next) => {
         await manageService.modifyBoard(board);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -295,7 +296,7 @@ exports.removeBoard = async (req, res, next) => {
         await manageService.removeBoard(userId, sbId);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
@@ -311,7 +312,7 @@ exports.modifyModifyAuth = async (req, res, next) => {
         await manageService.modifyModifyAuth(member);
         res.json({});
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };

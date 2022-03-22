@@ -1,3 +1,4 @@
+const logger = require('../logger');
 const pool = require('../lib/db');
 const authQuery = require('../queries/authQuery');
 const bcrypt = require('bcrypt');
@@ -38,7 +39,7 @@ exports.createUser = async (user) => {
             };
         }
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };  
@@ -57,7 +58,7 @@ exports.createKaKaoUser = async (user) => {
         
         return userId;
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };

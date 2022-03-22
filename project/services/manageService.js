@@ -1,3 +1,4 @@
+const logger = require('../logger');
 const pool = require('../lib/db');
 const manageQuery = require('../queries/manageQuery');
 const recruitQuery = require('../queries/recruitQuery');
@@ -10,7 +11,7 @@ exports.getDetail = async (sgId) => {
         const result = await pool.query(recruitQuery.getRecruitDetail, [sgId]);
         return result[0];
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -22,7 +23,7 @@ exports.removeStudyMember = async (sgId, userId) => {
     try {
         await pool.query(manageQuery.removeStudyMember, [userId, sgId, userId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -34,7 +35,7 @@ exports.removeStudy = async (sgId, userId) => {
     try {
         await pool.query(manageQuery.removeStudy, [userId, sgId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 }
@@ -48,7 +49,7 @@ exports.modifyStudyRule = async (study) => {
     try {
         await pool.query(manageQuery.modifyStudyRule, [sgRule, userId, sgId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -61,7 +62,7 @@ exports.getScheduleList = async (sgId) => {
         const result = await pool.query(manageQuery.getScheduleList, [sgId]);
         return result[0];
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -74,7 +75,7 @@ exports.getScheduleDetail = async (ssId) => {
         const result = await pool.query(manageQuery.getScheduleDetail, [ssId]);
         return result[0];
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -90,7 +91,7 @@ exports.createSchedule = async (schedule) => {
         ssId = result[0].insertId;
         return ssId;
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -104,7 +105,7 @@ exports.modifySchedule = async (schedule) => {
     try {
         await pool.query(manageQuery.modifySchedule, [ssTopic, ssContent, ssPlace, ssDate, ssTime, userId, ssId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -116,7 +117,7 @@ exports.removeSchedule = async (userId, ssId) => {
     try {
         await pool.query(manageQuery.removeSchedule, [userId, ssId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -129,7 +130,7 @@ exports.getMemberList = async (sgId) => {
         const result = await pool.query(manageQuery.getMemberList, [sgId]);
         return result[0];
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -142,7 +143,7 @@ exports.getScheduleAtndn = async (ssId) => {
         const result = await pool.query(manageQuery.getScheduleAtndn, [ssId]);
         return result[0];
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -156,7 +157,7 @@ exports.createScheduleAtndn = async (scheduleAtndn) => {
     try {
         await pool.query(manageQuery.createScheduleAtndn, [ssId, ssaStatus, userId, userId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     } 
 };
@@ -170,7 +171,7 @@ exports.modifyScheduleAtndn = async (scheduleAtndn) => {
     try {
         await pool.query(manageQuery.modifyScheduleAtndn, [ssaStatus, userId, ssaId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -183,7 +184,7 @@ exports.getDashBordBoardList = async (sgId) => {
         const result = await pool.query(manageQuery.getBoardList(true), sgId);
         return result[0];
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -196,7 +197,7 @@ exports.getBoardList = async (sgId) => {
         const result = await pool.query(manageQuery.getBoardList(), [sgId]);
         return result[0];
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -209,7 +210,7 @@ exports.getBoardDetail = async (sbId) => {
         const result = await pool.query(manageQuery.getBoardList(false, sbId), [sbId]);
         return result[0];
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -221,7 +222,7 @@ exports.modifyBoardViews = async (sbId) => {
     try {
         await pool.query(manageQuery.modifyBoardViews, [sbId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -237,7 +238,7 @@ exports.createBoard = async (board) => {
         sbId = result[0].insertId;
         return sbId;
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -251,7 +252,7 @@ exports.modifyBoard = async (board) => {
     try {
         await pool.query(manageQuery.modifyBoard, [sbTitle, sbContent, sbNoticeYn, userId, sbId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -263,7 +264,7 @@ exports.removeBoard = async (userId, sbId) => {
     try {
         await pool.query(manageQuery.removeBoard, [userId, sbId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -283,7 +284,7 @@ exports.modifyModifyAuth = async (member) => {
         
         await conn.commit();
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         await conn.rollback();
         throw Error(err);
     } finally {

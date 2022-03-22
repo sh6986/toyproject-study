@@ -1,3 +1,4 @@
+const logger = require('../logger');
 const passport = require('passport');
 const pool = require('../lib/db');
 const authQuery = require('../queries/authQuery');
@@ -16,7 +17,7 @@ module.exports = () => {
             
             done(null, user);
         } catch (err) {
-            console.error(err);
+            logger.error(err);
             done(err);
         }
     });

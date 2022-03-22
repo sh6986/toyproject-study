@@ -1,3 +1,4 @@
+const logger = require('../logger');
 const pool = require('../lib/db');
 const recruitQuery = require('../queries/recruitQuery');
 const authQuery = require('../queries/authQuery');
@@ -10,7 +11,7 @@ exports.getMyStudyList = async (userId) => {
         const result = await pool.query(recruitQuery.getRecruitList(userId), [userId]);
         return result[0];
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -23,7 +24,7 @@ exports.getStudyBkmList = async (userId) => {
         const result = await pool.query(recruitQuery.getRecruitList(false, userId), [userId]);
         return result[0];
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -37,7 +38,7 @@ exports.modifyNickname = async (user) => {
     try {
         await pool.query(authQuery.modifyNickname, [userNickname, userId, userId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };
@@ -49,7 +50,7 @@ exports.modifyScsn = async (userId) => {
     try {
         await pool.query(authQuery.modifyScsn, [userId, userId]);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         throw Error(err);
     }
 };

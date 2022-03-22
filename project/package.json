@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production PORT=80 pm2 start app.js",
-    "dev": "cross-env NODE_ENV=production PORT=80 nodemon app"
+    "dev": "nodemon app"
   },
   "author": "",
   "license": "ISC",

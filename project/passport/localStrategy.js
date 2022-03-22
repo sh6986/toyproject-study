@@ -1,3 +1,4 @@
+const logger = require('../logger');
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const authQuery = require('../queries/authQuery');
@@ -26,7 +27,7 @@ module.exports = () => {
                 done(null, false, {message: '가입되지 않은 회원입니다.'});
             }
         } catch (err) {
-            console.error(err);
+            logger.error(err);
             done(err);
         }
     }));

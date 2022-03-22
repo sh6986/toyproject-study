@@ -1,3 +1,4 @@
+const logger = require('../logger');
 const authService = require('../services/authService');
 
 /**
@@ -10,7 +11,7 @@ exports.createUser = async (req, res, next) => {
         const result = await authService.createUser(user);
         res.json(result);
     } catch (err) {
-        console.error(err);
+        logger.error(err);
         next(err);
     }
 };
