@@ -27,10 +27,10 @@ exports.createUser = async (user) => {
         } else {                // 정상 회원가입
             // 회원가입
             const result = await pool.query(authQuery.getNextId, ['USER']);
-            const nextId = result[0][0].AUTO_INCREMENT;
+            // const nextId = result[0][0].AUTO_INCREMENT;
             const hashPassword = await bcrypt.hash(userPassword, 12);
 
-            await pool.query(authQuery.createUser, [userEmail, hashPassword, userNickname, 'local', null, nextId, nextId]);
+            await pool.query(authQuery.createUser, [userEmail, hashPassword, userNickname, 'local', null, 1, 1]);
 
             return {
                 status: '003',
@@ -51,8 +51,8 @@ exports.createKaKaoUser = async (user) => {
 
     try {
         const result = await pool.query(authQuery.getNextId, ['USER']);
-        const nextId = result[0][0].AUTO_INCREMENT;
-        const user = await pool.query(authQuery.createUser, [userEmail, null, userNickname, 'kakao', snsId, nextId, nextId]);
+        // const nextId = result[0][0].AUTO_INCREMENT;
+        const user = await pool.query(authQuery.createUser, [userEmail, null, userNickname, 'kakao', snsId, 1, 1]);
         userId = user[0].insertId;
         
         return userId;
