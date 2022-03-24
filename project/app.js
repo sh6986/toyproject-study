@@ -77,5 +77,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(app.get('port'), () => {
-    logger.log(app.get('port'), '번 포트에서 대기중');
+    logger.info(`${app.get('port')}번 포트에서 대기중`);
 });
