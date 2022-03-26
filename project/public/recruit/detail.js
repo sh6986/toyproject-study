@@ -9,11 +9,12 @@ window.onload = () => {
 /**
  * 화면 초기화
  */
-function initPage() {
+async function initPage() {
     const sgId = document.getElementById('sgId').value;
 
     // 스터디모집글 상세 조회
-    getRecruitDetail(sgId);
+    const study = await getRecruitDetail(sgId);
+    gridDetail(study);
 
     // 스터디모집글 상세 댓글 조회
     getRecruitComment(sgId);
@@ -153,50 +154,55 @@ function setEventListener() {
 };
 
 /**
- * 스터디모집글 상세 조회
+ * 스터디모집글 상세 조회 (조회수 증가)
  */
-function getRecruitDetail(sgId) {
-    axios.get(`/recruit/detail/${sgId}`)
-        .then(res => {
-            const study = res.data;
-            document.getElementById('sgCategoryDesc').innerHTML = study.SG_CATEGORY_DESC;
-            document.getElementById('srTitle').innerHTML = study.SR_TITLE;
-            document.getElementById('userInfo').innerHTML = `${study.USER_NICKNAME} (${study.USER_EMAIL})`;
-            document.getElementById('sbRegDate').innerHTML = study.SG_REG_DATE;
-            document.getElementById('sbViews').innerHTML = study.SR_VIEWS;
-            document.getElementById('srbCnt').innerHTML = study.SRB_CNT;
-            document.getElementById('sMCnt').value = study.SM_CNT;
-            document.getElementById('sgCnt').value = study.SG_CNT;
-            document.getElementById('cnt').innerHTML = study.SM_CNT + '/' + study.SG_CNT;
-            document.getElementById('srContent').innerHTML = study.SR_CONTENT;
-            if (study.SG_CATEGORY !== '004') {
-                document.getElementById('stNameDesc').innerHTML = common.innerStName(study.ST_NAME_DESC);
-            }
+async function getRecruitDetail(sgId) {
+    try {
+        const result = await axios.get(`/recruit/detail/${sgId}`);
+        return result.data;
+    } catch (err) {
+        console.error(err);
+    }
+}
 
-            if (common.getSessionUserId()) {
-                axios.get(`/manage/getMemberList/${sgId}`)
-                    .then(res => {
-                        const memberIdArr = res.data.map(item => String(item.USER_ID));
-                        let allNoVisible;
+/**
+ * 스터디 상세 그리기
+ */
+function gridDetail(study) {
+    document.getElementById('sgCategoryDesc').innerHTML = study.SG_CATEGORY_DESC;
+    document.getElementById('srTitle').innerHTML = study.SR_TITLE;
+    document.getElementById('userInfo').innerHTML = `${study.USER_NICKNAME} (${study.USER_EMAIL})`;
+    document.getElementById('sbRegDate').innerHTML = study.SG_REG_DATE;
+    document.getElementById('sbViews').innerHTML = study.SR_VIEWS;
+    document.getElementById('srbCnt').innerHTML = study.SRB_CNT;
+    document.getElementById('sMCnt').value = study.SM_CNT;
+    document.getElementById('sgCnt').value = study.SG_CNT;
+    document.getElementById('cnt').innerHTML = study.SM_CNT + '/' + study.SG_CNT;
+    document.getElementById('srContent').innerHTML = study.SR_CONTENT;
+    if (study.SG_CATEGORY !== '004') {
+        document.getElementById('stNameDesc').innerHTML = common.innerStName(study.ST_NAME_DESC);
+    }
 
-                        if (common.getSessionUserId() === String(study.SG_REG_ID)) {  // 작성자일때 
-                            allNoVisible = study.SG_OPEN_YN === 'N';
-                            btnVisibleYn(allNoVisible, true);
-                        } else {    // 작성자아닐때 
-                            allNoVisible = memberIdArr.indexOf(common.getSessionUserId()) > -1;
-                            btnVisibleYn(allNoVisible, false);
-                        }
-                    })
-                    .catch(err => {
-                        console.error(err);
-                    })
-            } else {
-                document.getElementById('joinBtn').classList.remove('noVisible');   // 스터디참여하기버튼 - 로그인하지 않아도 보이게
-            }
-        })
-        .catch(err => {
-            console.error(err);
-        });
+    if (common.getSessionUserId()) {
+        axios.get(`/manage/getMemberList/${study.SG_ID}`)
+            .then(res => {
+                const memberIdArr = res.data.map(item => String(item.USER_ID));
+                let allNoVisible;
+
+                if (common.getSessionUserId() === String(study.SG_REG_ID)) {  // 작성자일때 
+                    allNoVisible = study.SG_OPEN_YN === 'N';
+                    btnVisibleYn(allNoVisible, true);
+                } else {    // 작성자아닐때 
+                    allNoVisible = memberIdArr.indexOf(common.getSessionUserId()) > -1;
+                    btnVisibleYn(allNoVisible, false);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+            })
+    } else {
+        document.getElementById('joinBtn').classList.remove('noVisible');   // 스터디참여하기버튼 - 로그인하지 않아도 보이게
+    }
 }
 
 /**
@@ -225,7 +231,10 @@ function btnVisibleYn(allNoVisible, regUserYn) {
  */
 function createMember(study) {
     axios.post(`/recruit/member`, study)
-        .then(() => getRecruitDetail(study.sgId))
+        .then(async () => {
+            const detail = await common.getDetail(study.sgId);
+            gridDetail(detail);
+        })
         .catch(err => {
             console.error(err);
         });
@@ -257,8 +266,9 @@ function getStudyBkmYn(sgId) {
  */
 function createStudyBkm(sgId) {
     axios.post(`/recruit/studyBkm`, {sgId})
-        .then(() => {
-            getRecruitDetail(sgId);
+        .then(async () => {
+            const study = await common.getDetail(sgId);
+            gridDetail(study);
             getStudyBkmYn(sgId);
         })
         .catch(err => {
@@ -271,8 +281,9 @@ function createStudyBkm(sgId) {
  */
 function modifyStudyBkm(sgId) {
     axios.put(`/recruit/studyBkm`, {sgId})
-        .then(() => {
-            getRecruitDetail(sgId);
+        .then(async () => {
+            const study = await common.getDetail(sgId);
+            gridDetail(study);
             getStudyBkmYn(sgId);
         })
         .catch(err => {
