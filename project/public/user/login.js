@@ -20,14 +20,14 @@ function setEventListener() {
     /**
      * 로그인 버튼(->) 클릭시
      */
-    document.getElementById('loginSubmit').addEventListener('click', (e) => {
+    document.getElementById('loginSubmit').addEventListener('click', () => {
         login();
     });
 
     /**
      * 회원가입 버튼(->) 클릭시
      */
-    document.getElementById('joinSubmit').addEventListener('click', (e) => {
+    document.getElementById('joinSubmit').addEventListener('click', () => {
         join();
     });
 }

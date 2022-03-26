@@ -13,7 +13,7 @@
 <div class="login-content">
     <!-- 로그인 -->
     <div class="nk-block toggled" id="l-login">
-        <div class="nk-form">
+        <div class="nk-form" style="padding: 30px;">
             <div class="input-group">
                 <span class="input-group-addon nk-ic-st-pro"><i class="notika-icon notika-support"></i></span>
                 <div class="nk-int-st">
@@ -29,18 +29,20 @@
             <div class="input-group mg-t-15">
                 <span id="loginMessageBox" class="noVisible" style="margin-left: 40px; font-weight: bold;">이메일 또는 비밀번호를 확인하세요.</span>
             </div>
-            <button id="loginSubmit" class="btn btn-login btn-success btn-float"><i class="notika-icon notika-right-arrow right-arrow-ant"></i></button>
+            <div>
+                <a href="javascript:;" id="loginSubmit" class="btn btn-success notika-btn-success">로그인</a>
+            </div>
         </div>
         <div class="nk-navigation nk-lg-ic">
-            <a href="/auth/kakao" class="text-center" style="width: 140px; text-align: center; padding-top: 4px;">카카오로그인</a>
-            <a href="#" data-ma-action="nk-login-switch" data-ma-block="#l-register"><i class="notika-icon notika-plus-symbol"></i> <span>회원가입</span></a>
+            <a href="/auth/kakao" style="all: unset; cursor:pointer;"><img id="kakaoLogin" src="images/kakao_login_small.png" alt="" /></a>
+            <a href="#" data-ma-action="nk-login-switch" data-ma-block="#l-register" class="text-center" style="width: 90px; text-align: center; padding-top: 4px; border-radius: 5px;">회원가입</a>
         </div>
     </div>
     <!-- /로그인 -->
 
     <!-- 회원가입 -->
     <div class="nk-block" id="l-register">
-        <div class="nk-form">
+        <div class="nk-form" style="padding: 30px;">
             <div class="input-group">
                 <span class="input-group-addon nk-ic-st-pro"><i class="notika-icon notika-mail"></i></span>
                 <div class="nk-int-st">
@@ -68,11 +70,12 @@
             <div class="input-group mg-t-15">
                 <span id="joinMessageBox" class="noVisible" style="margin-left: 40px; font-weight: bold;"></span>
             </div>
-            <button id="joinSubmit" class="btn btn-login btn-success btn-float"><i class="notika-icon notika-right-arrow right-arrow-ant"></i></button>
+            <div>
+                <a href="javascript:;" id="joinSubmit" class="btn btn-success notika-btn-success">회원가입</a>
+            </div>
         </div>
-
         <div class="nk-navigation rg-ic-stl">
-            <a href="#" data-ma-action="nk-login-switch" data-ma-block="#l-login"><i class="notika-icon notika-right-arrow"></i> <span>로그인</span></a>
+            <a href="#" data-ma-action="nk-login-switch" data-ma-block="#l-login" class="text-center" style="width: 110px; text-align: center; padding-top: 4px; border-radius: 5px;"><i class="notika-icon notika-left-arrow" style="line-height: 20px;"></i>로그인</a>
         </div>
     </div>
     <!-- /회원가입 -->
