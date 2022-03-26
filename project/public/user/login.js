@@ -30,6 +30,26 @@ function setEventListener() {
     document.getElementById('joinSubmit').addEventListener('click', () => {
         join();
     });
+
+    /**
+     * 로그인화면 - 회원가입 버튼 클릭시
+     */
+    document.getElementById('goJoin').addEventListener('click', () => {
+        // 회원가입 입력 내용 초기화
+        document.getElementById('joinEmail').value = '';
+        document.getElementById('joinPassword').value = '';
+        document.getElementById('joinPasswordOk').value = '';
+        document.getElementById('joinNickname').value = '';
+    });
+
+    /**
+     * 회원가입화면 - 로그인 버튼 클릭시
+     */
+    document.getElementById('goLogin').addEventListener('click', () => {
+        // 로그인 입력 내용 초기화
+        document.getElementById('loginEmail').value = '';
+        document.getElementById('loginPwd').value = '';
+    });
 }
 
 /**
