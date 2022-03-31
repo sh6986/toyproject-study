@@ -22,25 +22,25 @@
 
 ### 1. 메인화면 - 스터디 모집글 목록
 
-![Untitled](./README-upload/1.png)
+<img src="./README-upload/1.png" width="400"/>
 
 - 토글버튼 사용해서 모집중인 글만 보기 / 모집중, 모집완료 된 글 모두 보기 선택 가능
 - 공부, 프로젝트, 알고리즘, 모각코, 기타 별로 카테고리를 나누어, 원하는 종류의 글만 볼수 있게 선택 가능
 
 ### 2. 스터디 모집글 상세
 
-![Untitled](./README-upload/2.png)
+<img src="./README-upload/2.png" width="400"/>
 
 - 스터디 등록, 수정, 모집완료, 북마크 기능
 - 댓글 등록, 수정, 삭제 기능
 
 ### 3. 내 북마크 / 내 스터디 목록
 
-![Untitled](./README-upload/3.png)
+<img src="./README-upload/3.png" width="400"/>
 
 - 사용자가 참여중인 스터디 목록 조회
 
-![Untitled](./README-upload/4.png)
+<img src="./README-upload/4.png" width="400"/>
 
 - 사용자가 북마크한 스터디 모집글 목록 조회
 - 해당 스터디 클릭시 스터디 관리 페이지 대시보드로 이동
@@ -49,7 +49,7 @@
 
 ### 1. 대시보드 화면
 
-![Untitled](./README-upload/5.png)
+<img src="./README-upload/5.png" width="400"/>
 
 - 스터디 규칙 조회
 - 해당 사용자 권한이 팀장일시 스터디 규칙 등록, 수정, 삭제 가능
@@ -59,7 +59,7 @@
 
 ### 2. 일정
 
-![Untitled](./README-upload/6.png)
+<img src="./README-upload/6.png" width="400"/>
 
 - 지난 일정 포함 일정 목록 조회
 - 일정 상세내용 조회 및 투표 기능
@@ -68,7 +68,7 @@
 
 ### 3. 게시판
 
-![Untitled](./README-upload/7.png)
+<img src="./README-upload/7.png" width="400"/>
 
 - 게시판 글 목록 조회
 - 게시판 글 등록 / 수정 / 삭제 기능
@@ -76,7 +76,7 @@
 
 ### 4. 팀원 상세
 
-![Untitled](./README-upload/8.png)
+<img src="./README-upload/8.png" width="400"/>
 
 - 팀원 정보, 출결상태 상세하게 조회
 - 해당 사용자 권한이 팀장일시 팀장 변경, 스터디 수정, 폐쇄 가능
