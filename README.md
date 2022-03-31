@@ -1,4 +1,4 @@
-# 프로젝트 소개
+## 프로젝트 소개
 
 ### ***[code with me 보러가기](http://codewithme.site/)***
 
