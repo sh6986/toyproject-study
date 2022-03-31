@@ -1,8 +1,6 @@
-# README
-
 # 프로젝트 소개
 
-### ***[code with me 보러가기](http://3.36.99.16/)***
+### ***[code with me 보러가기](http://codewithme.site/)***
 
 ![banner.png](./README-upload/banner.png)
 
@@ -14,13 +12,13 @@
 - 2022.02.16 ~ 2022.03.18
 - 계속해서 기능 추가 예정
 
-# 주요 기술 스택
+## 주요 기술 스택
 
 - Node.js, Express, MySQL, AWS Light sail, Git 사용
 
-# 주요 기능 소개
+## 주요 기능 소개
 
-## [스터디 모집]
+### [스터디 모집]
 
 ### 1. 메인화면 - 스터디 모집글 목록
 
@@ -47,7 +45,7 @@
 - 사용자가 북마크한 스터디 모집글 목록 조회
 - 해당 스터디 클릭시 스터디 관리 페이지 대시보드로 이동
 
-## [스터디 관리]
+### [스터디 관리]
 
 ### 1. 대시보드 화면
 
@@ -84,7 +82,7 @@
 - 해당 사용자 권한이 팀장일시 팀장 변경, 스터디 수정, 폐쇄 가능
 - 해당 사용자 권한이 팀원일시 스터디 탈퇴 가능
 
-# 저작권 및 사용권 정보
+## 저작권 및 사용권 정보
 
 부트스트랩 템플릿 - [https://themewagon.com/themes/free-bootstrap-admin-dashboard-template-notika/](https://themewagon.com/themes/free-bootstrap-admin-dashboard-template-notika/)
 
