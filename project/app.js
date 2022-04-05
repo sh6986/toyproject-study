@@ -57,7 +57,10 @@ if (process.env.NODE_ENV === 'production') {
 app.use(session(sessionOption));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cors());
+app.use(cors({
+    origin: 'https://codewithme.site',
+    credentials: true,
+}));
 
 app.use('/', pageRouter);
 app.use('/user', userRouter);
