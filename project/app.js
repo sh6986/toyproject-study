@@ -35,6 +35,7 @@ if (process.env.NODE_ENV === 'production') {
     app.use(morgan('dev'));
 }
 
+app.use(cors({}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -57,10 +58,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use(session(sessionOption));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cors({
-    origin: true,
-    credentials: true,
-}));
+
 
 app.use('/', pageRouter);
 app.use('/user', userRouter);
