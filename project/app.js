@@ -15,6 +15,7 @@ const recruitRouter = require('./routes/recruitRouter');
 const manageRouter = require('./routes/manageRouter');
 const authRouter = require('./routes/authRouter');
 const passportConfig = require('./passport/index');
+const cors = require('cors');
 const app = express();
 dotenv.config();
 passportConfig();
@@ -56,6 +57,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use(session(sessionOption));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cors());
 
 app.use('/', pageRouter);
 app.use('/user', userRouter);
