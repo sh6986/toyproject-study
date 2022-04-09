@@ -51,12 +51,13 @@ const sessionOption = {
     secret: process.env.COOKIE_SECRET,
     cookie: {
         httpOnly: true,
-        secure: true,
+        secure: false,
     },
 };
 
 if (process.env.NODE_ENV === 'production') {
     sessionOption.proxy = true; // nginx 같은 프록시서버 사용할 때 필요. 여기서는 사용하지 않지만 붙여줘도 문제x
+    sessionOption.cookie.secure = true;
 }
 
 app.use(session(sessionOption));
