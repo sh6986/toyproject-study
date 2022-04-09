@@ -310,7 +310,7 @@ function getRecruitComment(sgId, srcId) {
                                 <button class="btn btn-default btn-icon-notika waves-effect btn-xs commentRemoveBtn" data-toggle="modal" data-target="#removeCommentModal">삭제</button>
                             </span> 
                             <br>
-                            <span class="whiteSpace">${item.SRC_CONTENT}</span>
+                            <span class="whiteSpace" ${Number(srcId) !== item.SRC_ID ? '' : 'style="display:none;"'}>${item.SRC_CONTENT}</span>
                         </p>
                         <div class="commentModifyForm" ${Number(srcId) === item.SRC_ID ? '' : 'style="display:none;"'}>
                             <div class="nk-int-st mg-b-15">
